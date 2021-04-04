@@ -39,12 +39,21 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'https://api.nuxtjs.dev'
+
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
   server: {
     port: 8000
+  },
+  loading: {
+    color: 'DodgerBlue',
+    height: '10px',
+    continuous: true,
+    duration: 3000
   }
 }
