@@ -361,20 +361,11 @@ export default {
       url: null,
     };
   },
-  computed: {},
   methods: {
-    clear() {
-      this.bookName = "";
-      this.bookDate = "";
-      this.bookDescription = "";
-      this.bookPrice = "";
-      this.bookAmount = "";
-      this.bookpopular = false;
-      this.bookAuthor = [{ name: "", error: false }];
-      this.bookType = [{ name: "", error: false }];
-    },
     btnBook() {
-      console.log(this.url);
+      if (this.chackForm()) {
+        // get Api init
+      }
     },
     addInput(status) {
       if (status == "author") {
@@ -394,9 +385,67 @@ export default {
       const file = e.target.files[0];
       this.url = URL.createObjectURL(file);
     },
+    clear() {
+      this.bookName = "";
+      this.bookDate = "";
+      this.bookDescription = "";
+      this.bookPrice = "";
+      this.bookAmount = "";
+      this.bookpopular = false;
+      this.bookAuthor = [{ name: "", error: false }];
+      this.bookType = [{ name: "", error: false }];
+    },
+    chackForm() {
+      const author = this.bookAuthor.filter((val) => !!val.name);
+      const type = this.bookType.filter((val) => !!val.name);
+      if (
+        !!this.bookName &&
+        !!this.bookDate &&
+        !!this.bookDescription &&
+        !!this.bookPrice &&
+        !!this.bookAmount
+      ) {
+        if (
+          author.length === this.bookAuthor.length &&
+          type.length === this.bookType.length
+        ) {
+          return true;
+        } else if (author.length === this.bookAuthor.length) {
+          this.bookType.forEach((val) => {
+            if (!val.name) {
+              val.error = true;
+            }
+          });
+          return false;
+        } else {
+          this.bookAuthor.forEach((val) => {
+            if (!val.name) {
+              val.error = true;
+            }
+          });
+          return false;
+        }
+      } else {
+        this.errorName = !this.bookName ? true : false;
+        this.errorDate = !this.bookDate ? true : false;
+        this.errorDescription = !this.bookDescription ? true : false;
+        this.errorPrice = !this.bookPrice ? true : false;
+        this.errorAmount = !this.bookAmount ? true : false;
+        this.bookType.forEach((val) => {
+          if (!val.name) {
+            val.error = true;
+          }
+        });
+        this.bookAuthor.forEach((val) => {
+          if (!val.name) {
+            val.error = true;
+          }
+        });
+      }
+      return false;
+    },
   },
 };
 </script>
- 
-<style>
-</style>
+
+<style></style>
