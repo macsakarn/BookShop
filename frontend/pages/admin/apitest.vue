@@ -1,17 +1,18 @@
 <template>
   <section>
     <!-- <adminNav :isLogin="false" /> -->
-    <li v-for="(mountain, index) in mountains" :key="index.id">
-      {{ mountain.title }}
-    </li>
+
+    {{addStatus.massage}}
+ 
   </section>
 </template>
 
 <script>
 export default {
   async asyncData({ $axios, $config }) {
-    const mountains = await $axios.$get(`/mountains`);
-    return { mountains };
+    const addStatus = await $axios.$get(`http://localhost:3000/admin/addBook`);
+    console.log(addStatus)
+    return { addStatus };
   },
 };
 </script>

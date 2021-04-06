@@ -30,7 +30,7 @@
           </div>
           <!--body-->
           <div class="relative p-6 flex-auto">
-            <form class="w-full max-w-lg">
+            <form class="w-full max-w-lg"> 
               <div class="flex flex-wrap -mx-3 mb-2">
                 <div class="w-full md:w-8/12 px-3 mb-6 md:mb-0">
                   <label
@@ -238,7 +238,7 @@
             </button>
             <button
               class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-              type="button"
+              type="submit"
               @click="btnBook()"
             >
               Save Changes
@@ -338,7 +338,11 @@
 </template>
 
 <script>
+
+import axios from 'axios'
+
 export default {
+
   data() {
     return {
       //Error form
@@ -359,22 +363,21 @@ export default {
       bookAmount: "",
       bookpopular: false,
       url: null,
+      
     };
   },
   methods: {
+    //Add Book to database method (need module axios)
+    async addBook(book)
+      {
+         const addBook = await axios.post('http://localhost:3000/admin/addBook', book);
+         console.log(addBook.statusText = "Add book success");
+         return { addBook };
+      },
+
     btnBook() {
       if (this.chackForm()) {
         //table book
-        const book = {
-          book_name: this.bookName,
-          pb_year: this.bookDate,
-          price: this.bookPrice,
-          book_amount: this.bookAmount,
-          description: this.bookDescription,
-          popular: this.bookpopular,
-          // book_image: "", //Testing
-        };
-
         /* table author
         ต้องเอาเป็นเช็คก็ว่ามีชื่อนักเขียนคนนี้หรือไม่
         - ถ้าไม่มีให้ add เลย ลง Table'AUTHOR'
@@ -390,14 +393,7 @@ export default {
             author_lname: name[1] === undefined ? "" : name[1],
           });
         });
-
-        /* table author
-        ต้องเอาเป็นเช็คก็ว่ามีชื่อนักเขียนคนนี้หรือไม่
-        - ถ้าไม่มีให้ add เลย ลง Table'BOOK_TYPE'
-        - ถ้ามีก็ไม่ให้ add
-        - ทำการเก็บ 'book_id','BOOK_TYPE_id' 
-        - add ลง Table'Book_BOOK_TYPE' ให้ครบทุก BOOK_TYPE
-        */
+   
         const type = [];
         this.bookType.forEach((value) => {
           type.push({
@@ -405,12 +401,19 @@ export default {
           });
         });
 
-        console.log("BOOK : ");
-        console.log(book);
-        console.log("AUTHOR : ");
-        console.log(author);
-        console.log("TYPE : ");
-        console.log(type);
+        var book = {
+          book_name: this.bookName,
+          pb_year: this.bookDate,
+          price: this.bookPrice,
+          book_amount: this.bookAmount,
+          description: this.bookDescription,
+          popular: this.bookpopular,
+          author : author,
+          type : type
+          // book_image: "", //Testing
+        };
+        
+        this.addBook(book)
       }
     },
     addInput(status) {
