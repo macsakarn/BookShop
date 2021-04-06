@@ -364,7 +364,53 @@ export default {
   methods: {
     btnBook() {
       if (this.chackForm()) {
-        // get Api init
+        //table book
+        const book = {
+          book_name: this.bookName,
+          pb_year: this.bookDate,
+          price: this.bookPrice,
+          book_amount: this.bookAmount,
+          description: this.bookDescription,
+          popular: this.bookpopular,
+          // book_image: "", //Testing
+        };
+
+        /* table author
+        ต้องเอาเป็นเช็คก็ว่ามีชื่อนักเขียนคนนี้หรือไม่
+        - ถ้าไม่มีให้ add เลย ลง Table'AUTHOR'
+        - ถ้ามีก็ไม่ให้ add
+        - ทำการเก็บ 'book_id','author_id' 
+        - add ลง Table'BOOK_AUTHOR' ให้ครบทุก author
+        */
+        const author = [];
+        this.bookAuthor.forEach((value) => {
+          const name = value.name.split(" ");
+          author.push({
+            author_fname: name[0],
+            author_lname: name[1] === undefined ? "" : name[1],
+          });
+        });
+
+        /* table author
+        ต้องเอาเป็นเช็คก็ว่ามีชื่อนักเขียนคนนี้หรือไม่
+        - ถ้าไม่มีให้ add เลย ลง Table'BOOK_TYPE'
+        - ถ้ามีก็ไม่ให้ add
+        - ทำการเก็บ 'book_id','BOOK_TYPE_id' 
+        - add ลง Table'Book_BOOK_TYPE' ให้ครบทุก BOOK_TYPE
+        */
+        const type = [];
+        this.bookType.forEach((value) => {
+          type.push({
+            type_name: value.name,
+          });
+        });
+
+        console.log("BOOK : ");
+        console.log(book);
+        console.log("AUTHOR : ");
+        console.log(author);
+        console.log("TYPE : ");
+        console.log(type);
       }
     },
     addInput(status) {
