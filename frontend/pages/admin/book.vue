@@ -30,7 +30,7 @@
           </div>
           <!--body-->
           <div class="relative p-6 flex-auto">
-            <form class="w-full max-w-lg"> 
+            <form class="w-full max-w-lg">
               <div class="flex flex-wrap -mx-3 mb-2">
                 <div class="w-full md:w-8/12 px-3 mb-6 md:mb-0">
                   <label
@@ -338,11 +338,7 @@
 </template>
 
 <script>
-
-import axios from 'axios'
-
 export default {
-
   data() {
     return {
       //Error form
@@ -363,28 +359,21 @@ export default {
       bookAmount: "",
       bookpopular: false,
       url: null,
-      
     };
   },
   methods: {
     //Add Book to database method (need module axios)
-    async addBook(book)
-      {
-         const addBook = await axios.post('http://localhost:3000/admin/addBook', book);
-         console.log(addBook.statusText = "Add book success");
-         return { addBook };
-      },
+    async addBook(book) {
+      const status = await this.$axios.post(
+        "http://localhost:3000/admin/addBook",
+        book
+      );
+      console.log((status.statusText = "Add book success"));
+      return { status };
+    },
 
     btnBook() {
       if (this.chackForm()) {
-        //table book
-        /* table author
-        ต้องเอาเป็นเช็คก็ว่ามีชื่อนักเขียนคนนี้หรือไม่
-        - ถ้าไม่มีให้ add เลย ลง Table'AUTHOR'
-        - ถ้ามีก็ไม่ให้ add
-        - ทำการเก็บ 'book_id','author_id' 
-        - add ลง Table'BOOK_AUTHOR' ให้ครบทุก author
-        */
         const author = [];
         this.bookAuthor.forEach((value) => {
           const name = value.name.split(" ");
@@ -393,7 +382,7 @@ export default {
             author_lname: name[1] === undefined ? "" : name[1],
           });
         });
-   
+
         const type = [];
         this.bookType.forEach((value) => {
           type.push({
@@ -408,12 +397,12 @@ export default {
           book_amount: this.bookAmount,
           description: this.bookDescription,
           popular: this.bookpopular,
-          author : author,
-          type : type
+          author: author,
+          type: type,
           // book_image: "", //Testing
         };
-        
-        this.addBook(book)
+
+        this.addBook(book);
       }
     },
     addInput(status) {
