@@ -373,8 +373,8 @@ export default {
         "http://localhost:3000/admin/addBook",
         book
       );
-      console.log((status.statusText = "Add book success"));
-      return { status };
+      console.log(addBook.data.massage);
+      return { addBook };
     },
 
     btnBook() {
