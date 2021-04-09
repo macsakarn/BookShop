@@ -369,12 +369,9 @@ export default {
   methods: {
     //Add Book to database method (need module axios)
     async addBook(book) {
-      const status = await this.$axios.post(
-        "http://localhost:3000/admin/addBook",
-        book
-      );
-      console.log(addBook.data.massage);
-      return { addBook };
+      const status = await this.$axios.post("admin/addBook", book);
+      console.log(status.data.massage);
+      return { status };
     },
 
     btnBook() {
