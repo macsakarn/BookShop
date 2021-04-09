@@ -4,11 +4,12 @@ const poolData = require("../configDatabase");
 
 const router = express.Router();
 
-router.post('/admin/addBook', async (req,res)=>{
+router.post('/admin/addBook', async (req,res,next)=>{
     const connection = await poolData.getConnection(); 
     await connection.beginTransaction();
-    // await connection.query('SELECT * FROM BOOK;SELECT * FROM AUTHOR')
-    await connection.query(`
+
+    try {
+        await connection.query(`
         INSERT INTO AUTHOR SELECT 0, ?, ? FROM DUAL
         WHERE NOT EXISTS(
             SELECT author_fname FROM AUTHOR
@@ -41,21 +42,16 @@ router.post('/admin/addBook', async (req,res)=>{
         req.body.type[0].type_name,
         req.body.author[0].author_fname, req.body.author[0].author_lname
     ])
-    // await connection.query(`
-    //     INSERT IGNORE INTO BOOK
-    //     VALUES (?,?,?,?,?,?,?,?);
-    // `,[0,req.body.book_name,req.body.pb_year,req.body.price,req.body.book_amount,null,req.body.description,req.body.popular])
-    // await connection.query(`
-    //    INSERT INTO BOOK_AUTHOR (BOOK_book_id)
-    //    SELECT MAX(book_id) FROM BOOK`)
-    // await connection.query(`
-    //     INSERT INTO BOOK_AUTHOR (AUTHOR_author_id)
-    //     SELECT author_id FROM AUTHOR WHERE author_fname=? AND author_lname=?
-    //     `,[req.body.author[0].author_fname, req.body.author[0].author_lname])
-    connection.commit();
-    res.json({massage : "add book success"});
-    connection.release();
+    await connection.commit()
+    res.json({massage : "Success"})
+    } catch(err){
+        await connection.rollback();
+        res.json({massage : "Something Went Wrong !!!"});
+        return next(err);
+    } finally {
+        console.log('End Process')
+        connection.release()
+    }
 })
-
 
 exports.router = router
