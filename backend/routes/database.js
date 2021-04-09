@@ -49,7 +49,7 @@ router.post('/admin/addBook', async (req,res,next)=>{
         res.json({massage : "Something Went Wrong !!!"});
         return next(err);
     } finally {
-        console.log('End Process')
+         console.log('ServerLog : Book Added')
         connection.release()
     }
 })
