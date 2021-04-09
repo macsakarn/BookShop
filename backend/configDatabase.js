@@ -5,6 +5,7 @@ const poolData = mysql.createPool({
     user: 'freedbtech_takai',
     password: '12345',
     database: 'freedbtech_BookStore',
+    multipleStatements : true,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
