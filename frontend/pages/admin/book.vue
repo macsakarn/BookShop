@@ -250,7 +250,7 @@
     <adminNav :isLogin="true" />
     <main class="flex flex-wrap relative">
       <adminSide :isLogin="true" />
-      <section class="mt-48 w-5/6">
+      <section class="mt-10 w-5/6">
         <div class="hero bg-white mx-auto w-11/12">
           <div class="top-bar flex justify-between">
             <form class="w-full max-w-sm">
