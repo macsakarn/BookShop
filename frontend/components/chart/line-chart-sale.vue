@@ -1,7 +1,7 @@
  <template>
-  <div class="">
-    <line-chart-sale />
-  </div>
+  <client-only>
+    <bar-chart :data="chartData"></bar-chart>
+  </client-only>
 </template>
 
   <script>
