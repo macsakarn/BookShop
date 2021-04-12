@@ -1,6 +1,6 @@
- <template>
+  <template>
   <client-only>
-    <bar-chart :data="chartData"></bar-chart>
+    <line-chart :data="chartData"></line-chart>
   </client-only>
 </template>
 
@@ -12,7 +12,7 @@ export default {
         datasets: [
           {
             label: "Title",
-            data: [45, 55, 48, 35, 12],
+            data: [10, 25, 18, 2, 13],
           },
         ],
       },
