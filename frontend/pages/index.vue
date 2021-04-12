@@ -1,22 +1,8 @@
  <template>
   <div class="">
-    <line-chart-sale />
+    <test />
   </div>
 </template>
 
   <script>
-export default {
-  data() {
-    return {
-      chartData: {
-        datasets: [
-          {
-            label: "Title",
-            data: [45, 55, 48, 35, 12],
-          },
-        ],
-      },
-    };
-  },
-};
 </script>

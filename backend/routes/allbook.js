@@ -14,6 +14,14 @@ router.get('/allbook', async (req,res,next)=>{
         GROUP BY BOOK.book_id
     `)
     await connection.commit()
+        //add arry
+    allBook[0].forEach(val => {
+        const author =  val.author_name.split(', ')
+        const type =  val.type.split(', ')
+        val.author_name = author
+        val.type = type
+    });
+
     console.log(allBook[0])
     res.json(allBook[0])
     }catch(err){

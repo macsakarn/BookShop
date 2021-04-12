@@ -279,7 +279,7 @@
             </div>
           </div>
           <div class="tableBook">
-            <table class="table-fixed w-full">
+            <table class="table-fixed w-full mb-12">
               <thead>
                 <tr>
                   <th class="px-4 py-2 w-1/12">Book ID</th>
@@ -295,29 +295,46 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(i, index) in 20" :key="index">
-                  <td class="border px-4 py-2">1</td>
-                  <td class="border px-4 py-2">Annette Black</td>
-                  <td class="border px-4 py-2">2020</td>
+                <tr v-for="(book, index) in bookAll" :key="index">
+                  <td class="border px-4 py-2">{{ book.book_id }}</td>
+                  <td class="border px-4 py-2 truncate">
+                    {{ book.book_name }}
+                  </td>
+                  <td class="border px-4 py-2">{{ book.pb_year }}</td>
                   <td class="border px-4 py-2">
-                    <p>mac</p>
-                    <p>mac</p>
+                    <p
+                      v-for="(author, index) in book.author_name"
+                      :key="index"
+                      class="truncate"
+                    >
+                      <span>
+                        {{ author }}
+                      </span>
+                    </p>
                   </td>
                   <td class="border px-4 py-2">
-                    <p>Sex</p>
-                    <p>Porn</p>
+                    <p
+                      v-for="(type, index) in book.type"
+                      :key="index"
+                      class="truncate"
+                    >
+                      <span class="">
+                        {{ type }}
+                      </span>
+                    </p>
                   </td>
                   <td class="border px-4 py-2 truncate">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
-                    aut exercitationem officiis eaque! Maxime qui officiis in
-                    eum! Rem eum facere animi maiores culpa fuga beatae
-                    veritatis harum quos velit?
+                    {{ book.description }}
                   </td>
-                  <td class="border px-4 py-2">125</td>
-                  <td class="border px-4 py-2">25</td>
+                  <td class="border px-4 py-2">{{ book.price }}</td>
+                  <td class="border px-4 py-2">{{ book.book_amount }}</td>
                   <td class="border px-4 py-2">
-                    <span class="text-green-600"> Yes </span>
-                    <span class="text-red-600"> No </span>
+                    <span class="text-green-600" v-show="book.popular">
+                      Yes
+                    </span>
+                    <span class="text-red-600" v-show="!book.popular">
+                      No
+                    </span>
                   </td>
                   <td class="border px-4 py-2">
                     <div class="icon text-center">
@@ -345,6 +362,12 @@
 
 <script>
 export default {
+  async asyncData({ $axios }) {
+    const bookAll = await $axios.$get("/allbook");
+
+    console.log(bookAll);
+    return { bookAll };
+  },
   data() {
     return {
       //Error form
@@ -370,13 +393,16 @@ export default {
   methods: {
     //Add Book to database method (need module axios)
     async addBook(book) {
-      const status = await this.$axios.post("admin/addBook", book);
-      console.log(status.data.massage);
-      return { status };
+      // const status = await this.$axios.post("admin/addBook", book);
+      // console.log(status.data.massage);
+      this.$axios.post("admin/addBook", book);
+      this.clear();
+      // return { status };
     },
 
     btnBook() {
       if (this.chackForm()) {
+        const addAutor = [];
         const author = [];
         this.bookAuthor.forEach((value) => {
           const name = value.name.split(" ");
@@ -384,13 +410,16 @@ export default {
             author_fname: name[0],
             author_lname: name[1] === undefined ? "" : name[1],
           });
+          addAutor.push(value.name);
         });
 
+        const addType = [];
         const type = [];
         this.bookType.forEach((value) => {
           type.push({
             type_name: value.name,
           });
+          addType.push(value.name);
         });
 
         var book = {
@@ -405,6 +434,18 @@ export default {
           // book_image: "", //Testing
         };
 
+        this.bookAll.push({
+          book_id: this.bookAll.length + 1,
+          book_name: this.bookName,
+          pb_year: this.bookDate,
+          price: this.bookPrice,
+          book_amount: this.bookAmount,
+          description: this.bookDescription,
+          popular: this.bookpopular,
+          author: addAutor,
+          type: addType,
+          // book_image: "", //Testing
+        });
         this.addBook(book);
       }
     },
@@ -446,6 +487,11 @@ export default {
         !!this.bookPrice &&
         !!this.bookAmount
       ) {
+        if (this.bookPrice <= 0 || this.bookAmount <= 0) {
+          this.errorPrice = true;
+          this.errorAmount = true;
+          return false;
+        }
         if (
           author.length === this.bookAuthor.length &&
           type.length === this.bookType.length
