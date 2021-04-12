@@ -261,6 +261,7 @@
                   class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                   type="text"
                   placeholder="Search"
+                  v-model="search"
                 />
                 <img
                   src="~/assets/ADMIN/Filter.svg"
@@ -295,7 +296,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(book, index) in bookAll" :key="index">
+                <tr v-for="(book, index) in books" :key="index">
                   <td class="border px-4 py-2">{{ book.book_id }}</td>
                   <td class="border px-4 py-2 truncate">
                     {{ book.book_name }}
@@ -364,8 +365,6 @@
 export default {
   async asyncData({ $axios }) {
     const bookAll = await $axios.$get("/allbook");
-
-    console.log(bookAll);
     return { bookAll };
   },
   data() {
@@ -388,7 +387,17 @@ export default {
       bookAmount: "",
       bookpopular: false,
       url: null,
+      //
+      search: "",
     };
+  },
+  computed: {
+    books() {
+      const books = this.bookAll.filter((val) =>
+        val.book_name.includes(this.search)
+      );
+      return books;
+    },
   },
   methods: {
     //Add Book to database method (need module axios)
@@ -435,7 +444,7 @@ export default {
         };
 
         this.bookAll.push({
-          book_id: this.bookAll.length + 1,
+          book_id: this.bookAll[this.bookAll.length - 1].book_id + 1,
           book_name: this.bookName,
           pb_year: this.bookDate,
           price: this.bookPrice,

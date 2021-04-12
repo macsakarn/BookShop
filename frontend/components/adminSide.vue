@@ -1,6 +1,6 @@
 <template>
   <aside class="z-30 bg-gray-900 text-white w-1/6 relative">
-    <div class="fixed h-auto max-h-screen-16 lg:pl-20 mb:pl-0">
+    <div class="fixed h-full pl-20">
       <ul class="pt-48 text-gray-600">
         <li class="">
           <NuxtLink to="home">

@@ -9,7 +9,7 @@
       </p>
       <p class="mx-4 h-10 text-center">
         <span class="align-middle text-gray-500"
-          >Update 01/01/2000 10:30 PM</span
+          >Update {{ updateRevenue }}</span
         >
       </p>
     </div>
@@ -21,9 +21,7 @@
         <span class="align-middle text-pink-600">{{ Sales }} ฿</span>
       </p>
       <p class="mx-4 h-10 text-center">
-        <span class="align-middle text-gray-500"
-          >Update 01/01/2000 10:30 PM</span
-        >
+        <span class="align-middle text-gray-500">Update {{ updateSales }}</span>
       </p>
     </div>
     <div class="w-1/4 h-40 mx-2 bg-white rounded-xl">
@@ -34,9 +32,7 @@
         <span class="align-middle text-green-600">{{ Book }} Books</span>
       </p>
       <p class="mx-4 h-10 text-center">
-        <span class="align-middle text-gray-500"
-          >Update 01/01/2000 10:30 PM</span
-        >
+        <span class="align-middle text-gray-500">Update {{ updateBook }}</span>
       </p>
     </div>
     <div class="w-1/4 h-40 mx-2 bg-white rounded-xl">
@@ -47,23 +43,23 @@
         <span class="align-middle text-yellow-600">{{ Order }} Order</span>
       </p>
       <p class="mx-4 h-10 text-center">
-        <span class="align-middle text-gray-500"
-          >Update 01/01/2000 10:30 PM</span
-        >
+        <span class="align-middle text-gray-500">Update {{ updateOrder }}</span>
       </p>
     </div>
   </div>
 </template>
 
 <script>
+const dateFormat = require("dateformat");
+const now = new Date();
 export default {
   data() {
     return {
       //update date
-      updateRevenue: "01/01/2000 10:30 PM",
-      updateSales: "01/01/2000 10:30 PM",
-      updateBook: "01/01/2000 10:30 PM",
-      updateOrder: "01/01/2000 10:30 PM",
+      updateRevenue: dateFormat(now, "dd/mm/yyyy h:MM TT"),
+      updateSales: dateFormat(now, "dd/mm/yyyy h:MM TT"),
+      updateBook: dateFormat(now, "dd/mm/yyyy h:MM TT"),
+      updateOrder: dateFormat(now, "dd/mm/yyyy h:MM TT"),
       // value
       Revenue: 1,
       Sales: 1,
