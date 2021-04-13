@@ -1,6 +1,6 @@
   <template>
   <client-only>
-    <highchart :options="chartOptions" class="" />
+    <highchart :options="chartOptions" />
   </client-only>
 </template>
 
@@ -10,7 +10,7 @@ export default {
     return {
       chartOptions: {
         chart: {
-          type: "areaspline",
+          type: "area",
         },
         title: {
           text: "Revenue",
@@ -31,13 +31,15 @@ export default {
             name: "This year",
             data: [3, 4, 3, 5, 4, 10, 12],
           },
-          {
-            name: "last year",
-            data: [1, 3, 4, 3, 3, 5, 4],
-          },
         ],
       },
     };
   },
 };
 </script>
+<style scoped>
+.highcharts-container {
+  height: 528px;
+  width: 296px;
+}
+</style>

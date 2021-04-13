@@ -10,7 +10,7 @@ export default {
     return {
       chartOptions: {
         chart: {
-          type: "areaspline",
+          type: "pie",
         },
         title: {
           text: "Revenue",
@@ -30,10 +30,6 @@ export default {
           {
             name: "This year",
             data: [3, 4, 3, 5, 4, 10, 12],
-          },
-          {
-            name: "last year",
-            data: [1, 3, 4, 3, 3, 5, 4],
           },
         ],
       },
