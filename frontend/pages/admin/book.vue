@@ -363,6 +363,7 @@
 
 <script>
 export default {
+  layout: "admin",
   async asyncData({ $axios }) {
     const bookAll = await $axios.$get("/allbook");
     return { bookAll };
