@@ -80,5 +80,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
+html {
+  background-color: #dbdbdb;
+}
 </style>

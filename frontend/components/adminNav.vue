@@ -23,9 +23,5 @@ export default {
 </script>
 
 <style>
-html {
-  background-color: #dbdbdb;
-}
-
 /* exact link will show the primary color for only the exact matching link */
 </style>
