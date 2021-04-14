@@ -59,6 +59,101 @@
           />
         </div>
       </section>
+      <section class="mt-40">
+        <div class="genre flex">
+          <p class="text-2xl font-bold pt-4 w-3/4">Genre</p>
+          <p class="text-xl font-semibold pt-5 text-blue-500 w-1/4">See all</p>
+        </div>
+        <ul class="genre-order flex justify-between mt-5">
+          <li class="relative cursor-pointer">
+            <div class="rounded-lg">
+              <img
+                src="~/assets/USER/genre/Genre_horror.png"
+                alt="genre"
+                width="150"
+                class="transform"
+              />
+            </div>
+            <p class="text-gray-300 text-lg">Horror</p>
+          </li>
+          <li class="relative cursor-pointer">
+            <div class="rounded-lg">
+              <img
+                src="~/assets/USER/genre/Genre_romance.png"
+                alt="genre"
+                width="150"
+                class="transform"
+              />
+            </div>
+            <p class="text-gray-300 text-lg">Romance</p>
+          </li>
+          <li class="relative cursor-pointer">
+            <div class="rounded-lg">
+              <img
+                src="~/assets/USER/genre/Genre_fantasy.png"
+                alt="genre"
+                width="150"
+                class="transform"
+              />
+            </div>
+            <p class="text-gray-300 text-lg">Fantasy</p>
+          </li>
+          <li class="relative cursor-pointer">
+            <div class="rounded-lg">
+              <img
+                src="~/assets/USER/genre/Genre_religion.png"
+                alt="genre"
+                width="150"
+                class="transform"
+              />
+            </div>
+            <p class="text-gray-300 text-lg">Religion</p>
+          </li>
+          <li class="relative cursor-pointer">
+            <div class="rounded-lg">
+              <img
+                src="~/assets/USER/genre/Genre_history.png"
+                alt="genre"
+                width="150"
+                class="transform"
+              />
+            </div>
+            <p class="text-gray-300 text-lg">History</p>
+          </li>
+          <li class="relative cursor-pointer">
+            <div class="rounded-lg">
+              <img
+                src="~/assets/USER/genre/Genre_family.png"
+                alt="genre"
+                width="150"
+                class="transform"
+              />
+            </div>
+            <p class="text-gray-300 text-lg">Family</p>
+          </li>
+          <li class="relative cursor-pointer">
+            <div class="rounded-lg">
+              <img
+                src="~/assets/USER/genre/Genre_other.png"
+                alt="genre"
+                width="150"
+                class="transform"
+                style="filter: brightness(0.25)"
+              />
+            </div>
+            <p class="text-gray-300 text-lg">See All</p>
+          </li>
+        </ul>
+      </section>
+      <section class="mt-40">
+        <div class="genre flex">
+          <div class="w-3/4">
+            <p class="text-2xl font-bold pt-4">Popular Books</p>
+            <p class="text-2xl font-bold pt-4">This Year</p>
+          </div>
+          <p class="text-xl font-semibold pt-16 text-blue-500 w-1/4">See all</p>
+        </div>
+      </section>
     </div>
   </main>
 </template>
@@ -91,5 +186,36 @@ main {
   z-index: 2;
   left: 420px;
   top: 50px;
+}
+.genre:before {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: url("~/assets/USER/genre/Dot.svg") no-repeat;
+  left: 6em;
+  z-index: -10;
+}
+.genre-order li div {
+  width: 150px;
+  height: 230px;
+  overflow: hidden;
+}
+.genre-order li div img {
+  transition: all 0.5s 0s ease;
+}
+.genre-order li p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+.genre-order li:hover div img {
+  --transform-scale-x: 1.25;
+  --transform-scale-y: 1.25;
+}
+.genre-order li:hover p {
+  color: rgb(255, 255, 255);
 }
 </style>
