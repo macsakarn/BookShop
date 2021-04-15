@@ -1,6 +1,6 @@
  <template>
   <main :style="{ backgroundImage: `url(${image})` }">
-    <div class="container mx-auto">
+    <div class="container px-16 mx-auto">
       <section class="flex pt-40">
         <div class="w-1/2 mt-16">
           <form class="w-3/4 mx-auto mb-4">
@@ -62,7 +62,9 @@
       <section class="mt-40">
         <div class="genre flex">
           <p class="text-2xl font-bold pt-4 w-3/4">Genre</p>
-          <p class="text-xl font-semibold pt-5 text-blue-500 w-1/4">See all</p>
+          <p class="text-xl font-semibold pt-5 text-blue-500 w-1/4 text-right">
+            See all
+          </p>
         </div>
         <ul class="genre-order flex justify-between mt-5">
           <li class="relative cursor-pointer">
@@ -151,7 +153,32 @@
             <p class="text-2xl font-bold pt-4">Popular Books</p>
             <p class="text-2xl font-bold pt-4">This Year</p>
           </div>
-          <p class="text-xl font-semibold pt-16 text-blue-500 w-1/4">See all</p>
+          <p class="text-xl font-semibold pt-16 text-blue-500 w-1/4 text-right">
+            See all
+          </p>
+        </div>
+        <div class="flex justify-between mt-6">
+          <div
+            class="w-40 rounded overflow-hidden hover:shadow-lg"
+            v-for="(popbook, index) in 6"
+            :key="index"
+          >
+            <img
+              width="w-full"
+              src="~/assets/USER/ExBook/01.png"
+              alt="Sunset in the mountains"
+            />
+            <div class="py-4">
+              <div class="text-sm mb-2">SONYA HARTNETT</div>
+              <p class="text-gray-500 text-xs mb-2">sakarn bantadjun</p>
+              <p>199 Bath</p>
+            </div>
+            <button
+              class="bg-yellow-400 hover:bg-yellow-500 py-2 px-2 rounded-md w-full"
+            >
+              Add to Cart
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -193,7 +220,7 @@ main {
   width: 60px;
   height: 60px;
   background: url("~/assets/USER/genre/Dot.svg") no-repeat;
-  left: 6em;
+  left: 10em;
   z-index: -10;
 }
 .genre-order li div {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="fixed inset-0 w-full max-w-full h-12">
-      <div class="container mx-auto flex justify-between items-center">
+      <div class="container px-16 mx-auto flex justify-between items-center">
         <img
           src="~/assets/USER/nav/logoShop.png"
           alt="logo"
