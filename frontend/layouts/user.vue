@@ -9,7 +9,7 @@
           class="cursor-pointer"
         />
         <div class="flex items-center">
-          <div class="mx-3 flex justify-between">
+          <div class="mx-3 flex justify-between search-bar " >
             <form class="w-full max-w-sm">
               <div class="flex items-center py-1 px-3 bg-white rounded-3xl">
                 <input
@@ -82,10 +82,23 @@
   </div>
 </template>
 
+
+
+
 <style scoped>
 nav,
 footer {
   background-color: #a1bdd0;
   z-index: 9999;
+}
+
+.search-bar {
+  transition: all 0.5s ease-out;
+  opacity: 1;
+}
+
+.search-bar-hide {
+  opacity: 0;
+  pointer-events: none;
 }
 </style>
