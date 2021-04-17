@@ -1,6 +1,6 @@
 <template>
   <main :style="{ backgroundImage: `url(${image})` }">
-    <div class="container px-16 mx-auto">
+    <div class="container px-16 mx-auto z-0">
       <section class="flex pt-48">
         <div class="w-1/2 mt-16">
           <form class="w-3/4 mx-auto mb-4">
