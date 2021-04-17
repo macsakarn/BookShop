@@ -113,8 +113,4 @@ footer {
   opacity: 0;
   pointer-events: none;
 }
-
-a:hover {
-  color: #fff;
-}
 </style>
