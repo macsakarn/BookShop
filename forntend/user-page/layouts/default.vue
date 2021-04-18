@@ -137,7 +137,16 @@
         class="container px-16 mt-3 pt-1 mx-auto flex justify-between items-center border-t-2 border-gray-400"
       >
         <li class="text-md text-gray-300">
-          <NuxtLink to="/"> Book </NuxtLink>
+          <NuxtLink to="/"> Home </NuxtLink>
+        </li>
+        <li class="text-md text-gray-300">
+          <a class="cursor-pointer" @click="showModal = true"> Login </a>
+        </li>
+        <li class="text-md text-gray-300">
+          <NuxtLink to="/register"> Register </NuxtLink>
+        </li>
+        <li class="text-md text-gray-300">
+          <NuxtLink to="/books"> Books </NuxtLink>
         </li>
       </ul>
     </nav>
