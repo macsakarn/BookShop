@@ -127,7 +127,7 @@
 export default {
   data() {
     return {
-      sec1: 2,
+      sec1: 1,
       errorUsername: false,
       errorPassword: false,
       errorPasswordRepeat: false,

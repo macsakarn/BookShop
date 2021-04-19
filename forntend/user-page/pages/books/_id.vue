@@ -1,6 +1,7 @@
 <template>
   <div class="container px-16 mx-auto pt-32">
-    {{ $route.params }}
+    <p class="text-4xl">{{ $route.params }}</p>
+
     <main class="flex">
       <div class="w-1/4">
         <img src="~/assets/USER/ExBook/01.png" alt="book-img" width="250" />

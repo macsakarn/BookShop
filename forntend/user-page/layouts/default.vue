@@ -148,6 +148,9 @@
         <li class="text-md text-gray-300">
           <NuxtLink to="/books"> Books </NuxtLink>
         </li>
+        <li class="text-md text-gray-300">
+          <NuxtLink to="/cart"> Cart </NuxtLink>
+        </li>
       </ul>
     </nav>
     <Nuxt />
