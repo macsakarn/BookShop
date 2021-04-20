@@ -102,6 +102,64 @@
                 @click="errorPhone = false"
               />
             </div>
+            <div class="my-4 flex">
+              <div class="w-1/3 mx-1">
+                <label class="block mb-1 font-bold text-gray-500">County</label>
+                <input
+                  v-model="county"
+                  type="name"
+                  class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
+                  :class="{ 'border-red-500': errorcounty }"
+                  @click="errorcounty = false"
+                />
+              </div>
+              <div class="w-1/3 mx-1">
+                <label class="block mb-1 font-bold text-gray-500"
+                  >District</label
+                >
+                <input
+                  v-model="district"
+                  type="name"
+                  class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
+                  :class="{ 'border-red-500': errordistrict }"
+                  @click="errordistrict = false"
+                />
+              </div>
+              <div class="w-1/3 mx-1">
+                <label class="block mb-1 font-bold text-gray-500">City</label>
+                <input
+                  v-model="city"
+                  type="name"
+                  class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
+                  :class="{ 'border-red-500': errorcity }"
+                  @click="errorcity = false"
+                />
+              </div>
+            </div>
+            <div class="my-4 flex">
+              <div class="w-1/2 mx-1">
+                <label class="block mb-1 font-bold text-gray-500"
+                  >Street Address</label
+                >
+                <input
+                  v-model="street"
+                  type="name"
+                  class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
+                  :class="{ 'border-red-500': errorstreet }"
+                  @click="errorstreet = false"
+                />
+              </div>
+              <div class="w-1/2 mx-1">
+                <label class="block mb-1 font-bold text-gray-500">Zip</label>
+                <input
+                  v-model="zip"
+                  type="name"
+                  class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
+                  :class="{ 'border-red-500': errorzip }"
+                  @click="errorzip = false"
+                />
+              </div>
+            </div>
             <div class="flex">
               <div
                 @click="sec1 = 1"
@@ -110,12 +168,21 @@
                 <p class="text-white mx-auto">Back</p>
               </div>
               <div
-                @click="nextRegister()"
+                @click="
+                  willRegister()
+                  sec1 = 3
+                "
                 class="bg-yellow-500 hover:bg-yellow-600 py-3 px-3 rounded-md flex w-40 cursor-pointer my-4 mx-auto"
               >
                 <p class="text-white mx-auto">Next</p>
               </div>
             </div>
+          </section>
+          <section v-else-if="sec1 === 3">
+            <p class="text-3xl text-center mt-32">You can now login.</p>
+            <p class="text-gray-500 text-center pt-4">
+              if you can't login Please wait 1 minute.
+            </p>
           </section>
         </div>
       </div>
@@ -135,6 +202,11 @@ export default {
       errorFirstName: false,
       errorLastname: false,
       errorPhone: false,
+      errorcounty: false,
+      errordistrict: false,
+      errorcity: false,
+      errorstreet: false,
+      errorzip: false,
 
       username: null,
       password: null,
@@ -144,9 +216,35 @@ export default {
       firstName: null,
       lastname: null,
       phone: null,
+
+      county: null,
+      district: null,
+      city: null,
+      street: null,
+      zip: null,
     }
   },
   methods: {
+    register() {
+      // code ......
+      const address = `${this.county} ${this.district} ${this.city} ${this.street} ${this.zip}`
+
+      const data = {
+        customer: {
+          customer_fname: this.firstName,
+          customer_lname: this.lastname,
+          customer_address: address,
+          customer_email: this.email,
+          customer_tel: this.phone,
+        },
+        account: {
+          username: this.username,
+          password: this.password,
+        },
+      }
+
+      console.log(data)
+    },
     nextRegister() {
       if (
         !!this.email &&
@@ -167,6 +265,30 @@ export default {
         this.errorPassword = !this.password ? true : false
         this.errorPasswordRepeat = !this.passwordRepeat ? true : false
         this.errorEmail = !this.email ? true : false
+      }
+    },
+    willRegister() {
+      if (
+        !!this.firstName &&
+        !!this.lastname &&
+        !!this.phone &&
+        !!this.county &&
+        !!this.district &&
+        !!this.city &&
+        !!this.street &&
+        !!this.zip
+      ) {
+        console.log('Registering')
+        this.register()
+      } else {
+        this.errorFirstName = !this.firstName ? true : false
+        this.errorLastname = !this.lastname ? true : false
+        this.errorPhone = !this.phone ? true : false
+        this.errorcounty = !this.county ? true : false
+        this.errordistrict = !this.district ? true : false
+        this.errorcity = !this.city ? true : false
+        this.errorstreet = !this.street ? true : false
+        this.errorzip = !this.zip ? true : false
       }
     },
     validateEmail(email) {
