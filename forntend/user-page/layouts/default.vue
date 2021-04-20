@@ -203,8 +203,10 @@ export default {
   },
   methods: {
     login() {
-      console.log(this.userLogin)
-      console.log(this.userPassword)
+      const data = {
+        username: this.userLogin,
+        password: this.userPassword,
+      }
     },
   },
 }
