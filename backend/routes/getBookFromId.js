@@ -20,27 +20,26 @@ router.get('/getbook/:bookid', async (req, res, next) => {
         GROUP BY ?
     `
     await connection.beginTransaction();
-    try
-    {
-        const findBook = await connection.query(findBookScript, [req.params.bookid,`B.book_id`])
+    try {
+        const findBook = await connection.query(findBookScript, [req.params.bookid, `B.book_id`])
         console.log("try to send book data :" + req.params.bookid)
-        if(findBook[0].length===0){
-            res.json({massage: "Don't have this book in database"})
+        if (findBook[0].length === 0) {
+            res.json({ massage: "Don't have this book in database" })
         }
         findBook[0].forEach(val => {
-            const author =  val.author_name.split(', ')
-            const type =  val.type.split(', ')
+            const author = val.author_name.split(', ')
+            const type = val.type.split(', ')
             val.author_name = author
             val.type = type
         });
         await connection.commit()
-        console.log("send book id "+req.params.bookid+" success")
-        res.json(findBook[0])
-    }catch(err){
+        console.log("send book id " + req.params.bookid + " success")
+        res.json(findBook[0][0])
+    } catch (err) {
         await connection.rollback();
-        res.json({massage : "Something Went Wrong !!!"});
+        res.json({ massage: "Something Went Wrong !!!" });
         next(err);
-    }finally{
+    } finally {
         console.log('ServerLog : End Process Send a book data ')
         connection.release()
     }
