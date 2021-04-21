@@ -116,21 +116,28 @@
             </form>
           </div>
           <p class="mx-3 cursor-pointer text-gray-100 hover:text-gray-400">
-            FIND A BOOKSTORE BROWSE
+            <NuxtLink to="/books"> FIND A BOOKSTORE BROWSE </NuxtLink>
           </p>
-          <img
-            class="mx-3 cursor-pointer"
-            src="~/assets/USER/nav/account_circle_black_24dp.svg"
-            alt="logo"
-            width="30"
-            @click="showModal = true"
-          />
-          <img
-            class="mx-3 cursor-pointer"
-            src="~/assets/USER/nav/local_mall_black_24dp.svg"
-            alt="logo"
-            width="30"
-          />
+          <div class="w-8 mx-3 cursor-pointer">
+            <img
+              class="w-full"
+              src="~/assets/USER/nav/account_circle_black_24dp.svg"
+              alt="logo"
+              @click="showModal = true"
+            />
+          </div>
+          <div class="w-8 mx-3 cursor-pointer cart relative">
+            <NuxtLink to="/cart">
+              <img
+                class="w-full"
+                src="~/assets/USER/nav/local_mall_black_24dp.svg"
+                alt="logo"
+              />
+              <span v-show="$store.state.cart.countCart !== 0">{{
+                $store.state.cart.countCart
+              }}</span>
+            </NuxtLink>
+          </div>
         </div>
       </div>
       <ul
@@ -233,5 +240,17 @@ footer {
 .search-bar-hide {
   opacity: 0;
   pointer-events: none;
+}
+.cart span {
+  background: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  height: 18px;
+  position: absolute;
+  right: -5px;
+  text-align: center;
+  top: -5px;
+  width: 18px;
+  text-indent: initial;
 }
 </style>
