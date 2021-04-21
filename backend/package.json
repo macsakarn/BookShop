@@ -4,8 +4,7 @@
   "description": "backend Webpro สำหรับส่งข้อมูลและรับข้อมูล",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "s" : "nodemon index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",

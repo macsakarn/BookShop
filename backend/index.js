@@ -7,7 +7,6 @@ const port = 3000
 
 const bookRouter = require('./routes/database')
 const sendAllbookRouter = require('./routes/allbook')
-const sendSpecificData = require('./routes/sendSpecificData')
 
 
 app.use(express.json())
@@ -16,7 +15,6 @@ app.use(cors())
 
 app.use(bookRouter.router)
 app.use(sendAllbookRouter.router)
-app.use(sendSpecificData.router)
 
 app.listen(port, () => {
     console.log(`Backend app listening at http://localhost:${port}`)
