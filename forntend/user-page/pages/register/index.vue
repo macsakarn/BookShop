@@ -226,24 +226,30 @@ export default {
   },
   methods: {
     register() {
-      // code ......
-      const address = `${this.county} ${this.district} ${this.city} ${this.street} ${this.zip}`
+       const address = `${this.county} ${this.district} ${this.city} ${this.street} ${this.zip}`
 
       const data = {
         customer: {
-          customer_fname: this.firstName,
-          customer_lname: this.lastname,
-          customer_address: address,
-          customer_email: this.email,
-          customer_tel: this.phone,
+          fname: this.firstName,
+          lname: this.lastname,
+          address: address,
+          email: this.email,
+          tel: this.phone,
+          address : address
         },
         account: {
           username: this.username,
           password: this.password,
         },
+       
       }
-
       console.log(data)
+      this.sendData(data)
+    },
+    async sendData(userdata) {
+      //  const regisUser = await this.$axios.$post('/register', data)
+      //  return { regisUser }
+      await this.$axios.post('/register', userdata)
     },
     nextRegister() {
       if (
