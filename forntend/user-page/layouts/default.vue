@@ -225,6 +225,7 @@ html {
   font-size: 16px;
   word-spacing: 1px;
   box-sizing: border-box;
+  background: #fafafa;
 }
 nav,
 footer {
