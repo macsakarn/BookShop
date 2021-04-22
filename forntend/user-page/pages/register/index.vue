@@ -168,10 +168,7 @@
                 <p class="text-white mx-auto">Back</p>
               </div>
               <div
-                @click="
-                  willRegister()
-                  sec1 = 3
-                "
+                @click="willRegister()"
                 class="bg-yellow-500 hover:bg-yellow-600 py-3 px-3 rounded-md flex w-40 cursor-pointer my-4 mx-auto"
               >
                 <p class="text-white mx-auto">Next</p>
@@ -194,7 +191,7 @@
 export default {
   data() {
     return {
-      sec1: 1,
+      sec1: 2,
       errorUsername: false,
       errorPassword: false,
       errorPasswordRepeat: false,
@@ -225,8 +222,13 @@ export default {
     }
   },
   methods: {
+    async sendData(userdata) {
+      //  const regisUser = await this.$axios.$post('/register', data)
+      //  return { regisUser }
+      await this.$axios.post('/register', userdata)
+    },
     register() {
-       const address = `${this.county} ${this.district} ${this.city} ${this.street} ${this.zip}`
+      const address = `${this.county} ${this.district} ${this.city} ${this.street} ${this.zip}`
 
       const data = {
         customer: {
@@ -235,21 +237,15 @@ export default {
           address: address,
           email: this.email,
           tel: this.phone,
-          address : address
+          address: address,
         },
         account: {
           username: this.username,
           password: this.password,
         },
-       
       }
       console.log(data)
       this.sendData(data)
-    },
-    async sendData(userdata) {
-      //  const regisUser = await this.$axios.$post('/register', data)
-      //  return { regisUser }
-      await this.$axios.post('/register', userdata)
     },
     nextRegister() {
       if (
@@ -284,8 +280,13 @@ export default {
         !!this.street &&
         !!this.zip
       ) {
-        console.log('Registering')
-        this.register()
+        if (this.validateTal(this.phone)) {
+          console.log('Registering')
+          this.sec1 = 3
+          this.register()
+        } else {
+          this.errorPhone = true
+        }
       } else {
         this.errorFirstName = !this.firstName ? true : false
         this.errorLastname = !this.lastname ? true : false
@@ -300,6 +301,10 @@ export default {
     validateEmail(email) {
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(String(email).toLowerCase())
+    },
+    validateTal(tal) {
+      const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+      return re.test(tal)
     },
   },
 }
