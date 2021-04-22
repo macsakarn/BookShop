@@ -4,7 +4,7 @@
       <section class="flex justify-between pb-10">
           
         <p class="text-2xl font-bold">Shopping Cart </p>
-        <NuxtLink to='cart/checkout'> 
+        <NuxtLink :to='{name:"cart-checkout"}'> 
          <div
           class="bg-yellow-500 hover:bg-yellow-600 py-3 px-3 rounded-md flex w-auto cursor-pointer my-4 mt-20"
         >

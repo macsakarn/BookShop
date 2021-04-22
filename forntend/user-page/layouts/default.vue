@@ -90,7 +90,7 @@
     </div>
     <nav class="fixed inset-0 w-full max-w-full h-24">
       <div class="container px-16 mx-auto flex justify-between items-center">
-        <NuxtLink to="/">
+        <NuxtLink :to="{ name: 'index' }">
           <img
             src="~/assets/USER/nav/logoShop.png"
             alt="logo"
@@ -116,7 +116,9 @@
             </form>
           </div>
           <p class="mx-3 cursor-pointer text-gray-100 hover:text-gray-400">
-            <NuxtLink to="/books"> FIND A BOOKSTORE BROWSE </NuxtLink>
+            <NuxtLink :to="{ name: 'books' }">
+              FIND A BOOKSTORE BROWSE
+            </NuxtLink>
           </p>
           <div class="w-8 mx-3 cursor-pointer">
             <img

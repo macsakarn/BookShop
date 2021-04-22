@@ -27,16 +27,21 @@
           iure, vitae unde.
         </div>
         <div class="flex flex-row-reverse">
-          <div
-            class="bg-yellow-500 hover:bg-yellow-600 py-3 px-3 rounded-md flex w-auto cursor-pointer mx-4 mt-20"
-          >
-            <p class="text-white mx-auto">Checkout</p>
-          </div>
-          <div
-            class="bg-gray-500 hover:bg-gray-600 py-3 px-3 rounded-md flex w-auto cursor-pointer mx-4 mt-20"
-          >
-            <p class="text-white mx-auto">back</p>
-          </div>
+          <NuxtLink :to="{ name: 'cart' }">
+            <div
+              class="bg-yellow-500 hover:bg-yellow-600 py-3 px-3 rounded-md flex w-auto cursor-pointer mx-4 mt-20"
+            >
+              <p class="text-white mx-auto">Checkout</p>
+            </div>
+          </NuxtLink>
+
+          <NuxtLink :to="{ name: 'cart' }">
+            <div
+              class="bg-gray-500 hover:bg-gray-600 py-3 px-3 rounded-md flex w-auto cursor-pointer mx-4 mt-20"
+            >
+              <p class="text-white mx-auto">back</p>
+            </div>
+          </NuxtLink>
         </div>
       </section>
     </main>
