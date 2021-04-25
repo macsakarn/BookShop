@@ -74,7 +74,7 @@
               Detail
             </button>
           </div>
-          <div class="overflow-hidden w-full mt-4">
+          <div class="overflow-hidden relative w-full mt-4">
             <button
               class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 w-full inline-flex items-center"
             >
@@ -91,9 +91,8 @@
               <span class="ml-2">Uplord Payment </span>
             </button>
             <input
-              class="cursor-pointer absolute block opacity-0 pin-r pin-t"
+              class="cursor-pointer absolute block opacity-0 right-0 top-0"
               type="file"
-              name="vacancyImageFiles"
             />
           </div>
         </div>
