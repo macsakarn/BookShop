@@ -16,93 +16,44 @@
             <div class="my-4">
               <label class="block mb-1 font-bold text-gray-500">UserName</label>
               <input
-                v-model="$v.form1.username.$model"
+                v-model="username"
                 type="text"
                 class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                :class="{ 'border-red-500': $v.form1.username.$error }"
+                :class="{ 'border-red-500': errorUsername }"
+                @click="errorUsername = false"
               />
-              <div v-show="$v.form1.username.$error">
-                <p
-                  class="text-red-500 text-sm"
-                  v-show="!$v.form1.username.required"
-                >
-                  This field is required
-                </p>
-                <p
-                  class="text-red-500 text-sm"
-                  v-show="!$v.form1.username.minLength"
-                >
-                  Use at least 8 characters
-                </p>
-              </div>
             </div>
             <div class="my-4">
               <label class="block mb-1 font-bold text-gray-500">Password</label>
               <input
-                v-model="$v.form1.password.$model"
+                v-model="password"
                 type="password"
                 class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                :class="{ 'border-red-500': $v.form1.password.$error }"
+                :class="{ 'border-red-500': errorPassword }"
+                @click="errorPassword = false"
               />
-              <div v-show="$v.form1.password.$error">
-                <p
-                  class="text-red-500 text-sm"
-                  v-show="!$v.form1.password.required"
-                >
-                  This field is required
-                </p>
-                <p
-                  class="text-red-500 text-sm"
-                  v-show="!$v.form1.password.minLength"
-                >
-                  Use at least 8 characters
-                </p>
-                <p
-                  class="text-red-500 text-sm"
-                  v-show="!$v.form1.password.complex"
-                >
-                  At least 1 UPPER CASE and 1 number
-                </p>
-              </div>
             </div>
             <div class="my-4">
               <label class="block mb-1 font-bold text-gray-500"
                 >Repeat Password</label
               >
               <input
-                v-model="$v.form1.passwordRepeat.$model"
+                v-model="passwordRepeat"
                 type="password"
                 class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                :class="{ 'border-red-500': $v.form1.passwordRepeat.$error }"
+                :class="{ 'border-red-500': errorPasswordRepeat }"
+                @click="errorPasswordRepeat = false"
               />
-              <div v-show="$v.form1.passwordRepeat.$error">
-                <p
-                  class="text-red-500 text-sm"
-                  v-show="!$v.form1.passwordRepeat.sameAsPassword"
-                >
-                  Incorrect password confirmation
-                </p>
-              </div>
             </div>
             <div class="my-4">
               <label class="block mb-1 font-bold text-gray-500">Email</label>
               <input
-                v-model="$v.form1.email.$model"
+                v-model="email"
                 type="mail"
                 class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                :class="{ 'border-red-500': $v.form1.email.$error }"
+                :class="{ 'border-red-500': errorEmail }"
+                @click="errorEmail = false"
               />
-              <div v-show="$v.form1.email.$error">
-                <p
-                  class="text-red-500 text-sm"
-                  v-show="!$v.form1.email.required"
-                >
-                  This field is required
-                </p>
-                <p class="text-red-500 text-sm" v-show="!$v.form1.email.email">
-                  Invalid email specified
-                </p>
-              </div>
             </div>
             <div
               @click="nextRegister()"
@@ -119,38 +70,24 @@
                   >FirstName</label
                 >
                 <input
-                  v-model="$v.form2.firstName.$model"
+                  v-model="firstName"
                   type="name"
                   class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                  :class="{ 'border-red-500': $v.form2.firstName.$error }"
+                  :class="{ 'border-red-500': errorFirstName }"
+                  @click="errorFirstName = false"
                 />
-                <div v-show="$v.form2.firstName.$error">
-                  <p
-                    class="text-red-500 text-sm"
-                    v-show="!$v.form2.firstName.required"
-                  >
-                    This field is required
-                  </p>
-                </div>
               </div>
               <div class="w-1/2 mx-1">
                 <label class="block mb-1 font-bold text-gray-500"
                   >LastName</label
                 >
                 <input
-                  v-model="$v.form2.lastname.$model"
+                  v-model="lastname"
                   type="name"
                   class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                  :class="{ 'border-red-500': $v.form2.lastname.$error }"
+                  :class="{ 'border-red-500': errorLastname }"
+                  @click="errorLastname = false"
                 />
-                <div v-show="$v.form2.lastname.$error">
-                  <p
-                    class="text-red-500 text-sm"
-                    v-show="!$v.form2.lastname.required"
-                  >
-                    This field is required
-                  </p>
-                </div>
               </div>
             </div>
             <div class="my-4">
@@ -158,76 +95,45 @@
                 >Phone Number</label
               >
               <input
-                v-model="$v.form2.phone.$model"
+                v-model="phone"
                 type="tel"
                 class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                :class="{ 'border-red-500': $v.form2.phone.$error }"
+                :class="{ 'border-red-500': errorPhone }"
+                @click="errorPhone = false"
               />
-              <div v-show="$v.form2.phone.$error">
-                <p
-                  class="text-red-500 text-sm"
-                  v-show="!$v.form2.phone.required"
-                >
-                  This field is required
-                </p>
-                <p class="text-red-500 text-sm" v-show="!$v.form2.phone.mobile">
-                  Invalid Mobile Number
-                </p>
-              </div>
             </div>
             <div class="my-4 flex">
               <div class="w-1/3 mx-1">
                 <label class="block mb-1 font-bold text-gray-500">County</label>
                 <input
-                  v-model="$v.form2.county.$model"
+                  v-model="county"
                   type="name"
                   class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                  :class="{ 'border-red-500': $v.form2.county.$error }"
+                  :class="{ 'border-red-500': errorcounty }"
+                  @click="errorcounty = false"
                 />
-                <div v-show="$v.form2.county.$error">
-                  <p
-                    class="text-red-500 text-sm"
-                    v-show="!$v.form2.county.required"
-                  >
-                    This field is required
-                  </p>
-                </div>
               </div>
               <div class="w-1/3 mx-1">
                 <label class="block mb-1 font-bold text-gray-500"
                   >District</label
                 >
                 <input
-                  v-model="$v.form2.district.$model"
+                  v-model="district"
                   type="name"
                   class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                  :class="{ 'border-red-500': $v.form2.district.$error }"
+                  :class="{ 'border-red-500': errordistrict }"
+                  @click="errordistrict = false"
                 />
-                <div v-show="$v.form2.district.$error">
-                  <p
-                    class="text-red-500 text-sm"
-                    v-show="!$v.form2.district.required"
-                  >
-                    This field is required
-                  </p>
-                </div>
               </div>
               <div class="w-1/3 mx-1">
                 <label class="block mb-1 font-bold text-gray-500">City</label>
                 <input
-                  v-model="$v.form2.city.$model"
+                  v-model="city"
                   type="name"
                   class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                  :class="{ 'border-red-500': $v.form2.city.$error }"
+                  :class="{ 'border-red-500': errorcity }"
+                  @click="errorcity = false"
                 />
-                <div v-show="$v.form2.city.$error">
-                  <p
-                    class="text-red-500 text-sm"
-                    v-show="!$v.form2.city.required"
-                  >
-                    This field is required
-                  </p>
-                </div>
               </div>
             </div>
             <div class="my-4 flex">
@@ -236,36 +142,22 @@
                   >Street Address</label
                 >
                 <input
-                  v-model="$v.form2.street.$model"
+                  v-model="street"
                   type="name"
                   class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                  :class="{ 'border-red-500': $v.form2.street.$error }"
+                  :class="{ 'border-red-500': errorstreet }"
+                  @click="errorstreet = false"
                 />
-                <div v-show="$v.form2.street.$error">
-                  <p
-                    class="text-red-500 text-sm"
-                    v-show="!$v.form2.street.required"
-                  >
-                    This field is required
-                  </p>
-                </div>
               </div>
               <div class="w-1/2 mx-1">
                 <label class="block mb-1 font-bold text-gray-500">Zip</label>
                 <input
-                  v-model="$v.form2.zip.$model"
+                  v-model="zip"
                   type="name"
                   class="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
-                  :class="{ 'border-red-500': $v.form2.zip.$error }"
+                  :class="{ 'border-red-500': errorzip }"
+                  @click="errorzip = false"
                 />
-                <div v-show="$v.form2.zip.$error">
-                  <p
-                    class="text-red-500 text-sm"
-                    v-show="!$v.form2.zip.required"
-                  >
-                    This field is required
-                  </p>
-                </div>
               </div>
             </div>
             <div class="flex">
@@ -296,91 +188,38 @@
 </template>
 
 <script>
-import { required, sameAs, minLength, email } from 'vuelidate/lib/validators'
-
 export default {
   data() {
     return {
-      sec1: 1,
+      sec1: 2,
+      errorUsername: false,
+      errorPassword: false,
+      errorPasswordRepeat: false,
+      errorEmail: false,
+      errorFirstName: false,
+      errorLastname: false,
+      errorPhone: false,
+      errorcounty: false,
+      errordistrict: false,
+      errorcity: false,
+      errorstreet: false,
+      errorzip: false,
 
-      form1: {
-        username: null,
-        password: null,
-        passwordRepeat: null,
-        email: null,
-      },
+      username: null,
+      password: null,
+      passwordRepeat: null,
+      email: null,
 
-      form2: {
-        firstName: '',
-        lastname: '',
-        phone: '',
-        county: '',
-        district: '',
-        city: '',
-        street: '',
-        zip: '',
-      },
+      firstName: null,
+      lastname: null,
+      phone: null,
+
+      county: null,
+      district: null,
+      city: null,
+      street: null,
+      zip: null,
     }
-  },
-  validations: {
-    form1: {
-      username: {
-        required,
-        minLength: minLength(8),
-      },
-      password: {
-        required,
-        minLength: minLength(8),
-        complexPassword(value) {
-          if (
-            !(
-              value.match(/[a-z]/) &&
-              value.match(/[A-Z]/) &&
-              value.match(/[0-9]/)
-            )
-          ) {
-            return false
-          }
-          return true
-        },
-      },
-      passwordRepeat: {
-        sameAsPassword: sameAs('password'),
-      },
-      email: {
-        required,
-        email,
-      },
-    },
-    form2: {
-      firstName: {
-        required,
-      },
-      lastname: {
-        required,
-      },
-      phone: {
-        required,
-        mobile(value) {
-          return !!value.match(/0[0-9]{9}/)
-        },
-      },
-      county: {
-        required,
-      },
-      district: {
-        required,
-      },
-      city: {
-        required,
-      },
-      street: {
-        required,
-      },
-      zip: {
-        required,
-      },
-    },
   },
   methods: {
     async sendData(userdata) {
@@ -388,34 +227,84 @@ export default {
       //  return { regisUser }
       await this.$axios.post('/register', userdata)
     },
+    register() {
+      const address = `${this.county} ${this.district} ${this.city} ${this.street} ${this.zip}`
+
+      const data = {
+        customer: {
+          fname: this.firstName,
+          lname: this.lastname,
+          address: address,
+          email: this.email,
+          tel: this.phone,
+          address: address,
+        },
+        account: {
+          username: this.username,
+          password: this.password,
+        },
+      }
+      console.log(data)
+      this.sendData(data)
+    },
     nextRegister() {
-      this.$v.form1.$touch()
-      if (!this.$v.form1.$invalid) {
-        this.sec1 = 2
+      if (
+        !!this.email &&
+        !!this.username &&
+        !!this.password &&
+        !!this.passwordRepeat
+      ) {
+        if (this.password != this.passwordRepeat) {
+          this.errorPassword = true
+          this.errorPasswordRepeat = true
+        } else if (!this.validateEmail(this.email)) {
+          this.errorEmail = true
+        } else {
+          this.sec1 = 2
+        }
+      } else {
+        this.errorUsername = !this.username ? true : false
+        this.errorPassword = !this.password ? true : false
+        this.errorPasswordRepeat = !this.passwordRepeat ? true : false
+        this.errorEmail = !this.email ? true : false
       }
     },
     willRegister() {
-      this.$v.form2.$touch()
-      if (!this.$v.form1.$invalid) {
-        this.sec1 = 3
-        const address = `${this.form2.county} ${this.form2.district} ${this.form2.city} ${this.form2.street} ${this.form2.zip}`
-
-        const data = {
-          customer: {
-            fname: this.form2.firstName,
-            lname: this.form2.lastname,
-            email: this.form1.email,
-            tel: this.form2.phone,
-            address: address,
-          },
-          account: {
-            username: this.form1.username,
-            password: this.form1.password,
-          },
+      if (
+        !!this.firstName &&
+        !!this.lastname &&
+        !!this.phone &&
+        !!this.county &&
+        !!this.district &&
+        !!this.city &&
+        !!this.street &&
+        !!this.zip
+      ) {
+        if (this.validateTal(this.phone)) {
+          console.log('Registering')
+          this.sec1 = 3
+          this.register()
+        } else {
+          this.errorPhone = true
         }
-        console.log(data)
-        this.sendData(data)
+      } else {
+        this.errorFirstName = !this.firstName ? true : false
+        this.errorLastname = !this.lastname ? true : false
+        this.errorPhone = !this.phone ? true : false
+        this.errorcounty = !this.county ? true : false
+        this.errordistrict = !this.district ? true : false
+        this.errorcity = !this.city ? true : false
+        this.errorstreet = !this.street ? true : false
+        this.errorzip = !this.zip ? true : false
       }
+    },
+    validateEmail(email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(String(email).toLowerCase())
+    },
+    validateTal(tal) {
+      const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+      return re.test(tal)
     },
   },
 }

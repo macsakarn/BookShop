@@ -178,7 +178,6 @@
           </div>
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-12 border border-blue-700 rounded text-xl"
-            @click="$router.push({ name: 'register' })"
           >
             Sign up
           </button>

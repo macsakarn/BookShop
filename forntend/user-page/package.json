@@ -11,8 +11,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.5",
     "core-js": "^3.8.3",
-    "nuxt": "^2.14.12",
-    "vuelidate": "^0.7.6"
+    "nuxt": "^2.14.12"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^3.4.2",

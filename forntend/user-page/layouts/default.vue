@@ -129,7 +129,7 @@
             />
           </div>
           <div class="w-8 mx-3 cursor-pointer cart relative">
-            <NuxtLink :to="{ name: 'cart' }">
+            <NuxtLink to="/cart">
               <img
                 class="w-full"
                 src="~/assets/USER/nav/local_mall_black_24dp.svg"
@@ -146,19 +146,19 @@
         class="container px-16 mt-3 pt-1 mx-auto flex justify-between items-center border-t-2 border-gray-400"
       >
         <li class="text-md text-gray-300">
-          <NuxtLink :to="{ name: 'index' }"> Home </NuxtLink>
+          <NuxtLink to="/"> Home </NuxtLink>
         </li>
         <li class="text-md text-gray-300">
           <a class="cursor-pointer" @click="showModal = true"> Login </a>
         </li>
         <li class="text-md text-gray-300">
-          <NuxtLink :to="{ name: 'register' }"> Register </NuxtLink>
+          <NuxtLink to="/register"> Register </NuxtLink>
         </li>
         <li class="text-md text-gray-300">
-          <NuxtLink :to="{ name: 'books' }"> Books </NuxtLink>
+          <NuxtLink to="/books"> Books </NuxtLink>
         </li>
         <li class="text-md text-gray-300">
-          <NuxtLink :to="{ name: 'cart' }"> Cart </NuxtLink>
+          <NuxtLink to="/cart"> Cart </NuxtLink>
         </li>
       </ul>
     </nav>
@@ -227,7 +227,7 @@ html {
   font-size: 16px;
   word-spacing: 1px;
   box-sizing: border-box;
-  background: #f9f9f9;
+  background: #fafafa;
 }
 nav,
 footer {
