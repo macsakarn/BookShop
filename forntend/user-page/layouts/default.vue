@@ -153,7 +153,7 @@
           <NuxtLink :to="{ name: 'index' }"> Home </NuxtLink>
         </li>
         <li class="text-md text-gray-300">
-          <a class="cursor-pointer" @click="showModal = true"> Login </a>
+          <a class="cursor-pointer" @click="showModal = !showModal"> Login </a>
         </li>
         <li class="text-md text-gray-300">
           <NuxtLink :to="{ name: 'register' }"> Register </NuxtLink>

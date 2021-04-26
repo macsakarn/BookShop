@@ -3,7 +3,7 @@
     <div class="container px-16 mx-auto z-0">
       <section class="flex pt-48">
         <div class="w-1/2 mt-16">
-          <form class="w-3/4 mx-auto mb-4">
+          <form class="w-3/4 mx-auto mb-4" @submit.prevent>
             <div
               class="flex items-center py-1 px-3 bg-white rounded-xl border border-indigo-600"
             >
@@ -11,6 +11,8 @@
                 class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 leading-tight focus:outline-none"
                 type="text"
                 placeholder="Search"
+                v-model="searchBook"
+                @keyup.enter="search"
               />
               <img
                 src="~/assets/USER/nav/search_black_24dp.svg"
@@ -32,6 +34,7 @@
               Buy Now
             </button>
             <button
+              @click="$router.push({ name: 'books', query: { p: 1 } })"
               class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
             >
               See Details
@@ -225,7 +228,14 @@ export default {
   data() {
     return {
       image: img,
+      searchBook: '',
     }
+  },
+  methods: {
+    search() {
+      this.$router.push({ name: 'books', query: { s: this.searchBook } })
+      this.searchBook = ''
+    },
   },
 }
 </script>

@@ -105,6 +105,14 @@ export default {
   computed: {
     finallyBook() {
       var finallyBook = []
+      if (
+        this.$route.query.s === undefined &&
+        this.$route.query.a === undefined &&
+        this.$route.query.t === undefined &&
+        this.$route.query.p === undefined
+      ) {
+        return this.books
+      }
       if (this.$route.query.s !== undefined) {
         finallyBook = this.books.filter((val) => {
           return val.book_name.includes(this.$route.query.s)
@@ -126,7 +134,7 @@ export default {
         })
       }
 
-      return finallyBook.length == 0 ? this.books : finallyBook
+      return finallyBook
     },
   },
   methods: {
