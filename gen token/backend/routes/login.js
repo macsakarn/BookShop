@@ -18,7 +18,7 @@ router.post('/login', (req,res,next) => {
                httpOnly : true
            })
            
-        //    res.json(token) 
+           res.json(token) 
         //    return res.json({status:true})
        }
        else {
