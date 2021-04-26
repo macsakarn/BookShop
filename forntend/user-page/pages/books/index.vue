@@ -74,7 +74,11 @@
 export default {
   async asyncData({ $axios }) {
     const books = await $axios.$get('/allbook')
-    return { books }
+    const authors = await $axios.$get('/getauthor')
+    const types = await $axios.$get('/gettype')
+    console.log(authors)
+    console.log(types)
+    return { books, authors, types }
   },
   methods: {
     addCarts(book) {
