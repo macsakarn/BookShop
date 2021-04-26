@@ -12,11 +12,11 @@ router.post('/login', (req,res,next) => {
            const expiration = 10000
            const token = jwt.sign({username : user.customer_email}, '12345') //{expiresIn: expiration}
            console.log(token)
-           return res.cookie('token' , token, {
-               expires: new Date(Date.now()+expiration),
-               secure: true,
-               httpOnly : true
-           })
+        //    return res.cookie('token' , token, {
+        //        expires: new Date(Date.now()+expiration),
+        //        secure: true,
+        //        httpOnly : true
+        //    })
            
            res.json(token) 
         //    return res.json({status:true})
