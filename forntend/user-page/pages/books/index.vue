@@ -4,30 +4,46 @@
       <aside class="w-1/6 border-r-2 border-fuchsia-600">
         <ul class="my-10">
           <li class="text-xl text-blue-800 font-medium pb-4">Recommend</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
+          <li
+            class="cursor-pointer text-gray-700 hover:text-gray-900"
+            @click="
+              $router
+                .replace({ name: 'books', query: { p: 1 } })
+                .catch(() => {})
+            "
+          >
+            recommended books
+          </li>
         </ul>
         <ul class="my-10">
           <li class="text-xl text-blue-800 font-medium pb-4">Type</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
+          <li
+            v-for="(type, index) in sidebar.types"
+            :key="index"
+            class="cursor-pointer text-gray-700 hover:text-gray-900"
+            @click="
+              $router
+                .replace({ name: 'books', query: { t: type } })
+                .catch(() => {})
+            "
+          >
+            {{ type }}
+          </li>
         </ul>
         <ul class="my-10">
           <li class="text-xl text-blue-800 font-medium pb-4">Author</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
+          <li
+            v-for="(author, index) in sidebar.authors"
+            :key="index"
+            class="cursor-pointer text-gray-700 hover:text-gray-900"
+            @click="
+              $router
+                .replace({ name: 'books', query: { a: author } })
+                .catch(() => {})
+            "
+          >
+            {{ author }}
+          </li>
         </ul>
       </aside>
       <section class="w-5/6">
@@ -74,16 +90,20 @@
 export default {
   async asyncData({ $axios }) {
     const books = await $axios.$get('/allbook')
-    const authors = await $axios.$get('/getauthor')
-    const types = await $axios.$get('/gettype')
-    console.log(authors)
-    console.log(types)
-    return { books, authors, types }
+    const sidebar = await $axios.$get('/sidebar')
+
+    return { books, sidebar }
   },
   methods: {
     addCarts(book) {
       this.$store.commit('cart/add', book)
     },
+  },
+  mounted() {
+    console.log('s : ' + this.$route.query.s)
+    console.log('a : ' + this.$route.query.a)
+    console.log('t : ' + this.$route.query.t)
+    console.log('p : ' + this.$route.query.p)
   },
 }
 </script>

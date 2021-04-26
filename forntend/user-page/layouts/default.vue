@@ -101,16 +101,20 @@
 
         <div class="flex items-center">
           <div class="mx-3 flex justify-between search-bar">
-            <form class="w-full max-w-sm">
+            <form class="w-full max-w-sm" @submit.prevent>
               <div class="flex items-center py-1 px-3 bg-white rounded-3xl">
                 <input
                   class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 leading-tight focus:outline-none"
                   type="text"
                   placeholder="Search"
+                  v-model="searchBook"
+                  @keyup.enter="search"
                 />
                 <img
                   src="~/assets/USER/nav/search_black_24dp.svg"
                   alt="icon search"
+                  class="cursor-pointer"
+                  @click="search()"
                 />
               </div>
             </form>
@@ -208,6 +212,7 @@ export default {
       showModal: false,
       userLogin: null,
       userPassword: null,
+      searchBook: '',
     }
   },
   methods: {
@@ -216,6 +221,10 @@ export default {
         username: this.userLogin,
         password: this.userPassword,
       }
+    },
+    search() {
+      this.$router.push({ name: 'books', query: { s: this.searchBook } })
+      this.searchBook = ''
     },
   },
 }
