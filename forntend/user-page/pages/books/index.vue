@@ -6,6 +6,12 @@
           <li class="text-xl text-blue-800 font-medium pb-4">Recommend</li>
           <li
             class="cursor-pointer text-gray-700 hover:text-gray-900"
+            @click="$router.replace({ name: 'books' }).catch(() => {})"
+          >
+            All
+          </li>
+          <li
+            class="cursor-pointer text-gray-700 hover:text-gray-900"
             @click="
               $router
                 .replace({ name: 'books', query: { p: 1 } })
@@ -50,13 +56,15 @@
         <div
           class="mx-4 mb-4 pb-2 border-b-2 border-fuchsia-600 flex justify-between text-xl"
         >
-          <p>Search For "..."</p>
+          <p v-show="$route.query.s !== undefined && $route.query.s !== ''">
+            Search For "{{ $route.query.s }}"
+          </p>
           <p>All</p>
         </div>
         <div class="books flex flex-wrap">
           <div
             class="w-40 rounded overflow-hidden hover:shadow-lg m-4"
-            v-for="book in books"
+            v-for="book in finallyBook"
             :key="book.book_id"
           >
             <NuxtLink :to="{ name: 'books-id', params: { id: book.book_id } }">
@@ -94,16 +102,37 @@ export default {
 
     return { books, sidebar }
   },
+  computed: {
+    finallyBook() {
+      var finallyBook = []
+      if (this.$route.query.s !== undefined) {
+        finallyBook = this.books.filter((val) => {
+          return val.book_name.includes(this.$route.query.s)
+        })
+      }
+      if (this.$route.query.a !== undefined) {
+        finallyBook = this.books.filter((val) => {
+          return val.author_name.includes(this.$route.query.a)
+        })
+      }
+      if (this.$route.query.t !== undefined) {
+        finallyBook = this.books.filter((val) => {
+          return val.type.includes(this.$route.query.t)
+        })
+      }
+      if (this.$route.query.p !== undefined) {
+        finallyBook = this.books.filter((val) => {
+          return val.popular == this.$route.query.p
+        })
+      }
+
+      return finallyBook.length == 0 ? this.books : finallyBook
+    },
+  },
   methods: {
     addCarts(book) {
       this.$store.commit('cart/add', book)
     },
-  },
-  mounted() {
-    console.log('s : ' + this.$route.query.s)
-    console.log('a : ' + this.$route.query.a)
-    console.log('t : ' + this.$route.query.t)
-    console.log('p : ' + this.$route.query.p)
   },
 }
 </script>
