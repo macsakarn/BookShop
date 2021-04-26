@@ -4,43 +4,67 @@
       <aside class="w-1/6 border-r-2 border-fuchsia-600">
         <ul class="my-10">
           <li class="text-xl text-blue-800 font-medium pb-4">Recommend</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
+          <li
+            class="cursor-pointer text-gray-700 hover:text-gray-900"
+            @click="$router.replace({ name: 'books' }).catch(() => {})"
+          >
+            All
+          </li>
+          <li
+            class="cursor-pointer text-gray-700 hover:text-gray-900"
+            @click="
+              $router
+                .replace({ name: 'books', query: { p: 1 } })
+                .catch(() => {})
+            "
+          >
+            recommended books
+          </li>
         </ul>
         <ul class="my-10">
           <li class="text-xl text-blue-800 font-medium pb-4">Type</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
+          <li
+            v-for="(type, index) in sidebar.types"
+            :key="index"
+            class="cursor-pointer text-gray-700 hover:text-gray-900"
+            @click="
+              $router
+                .replace({ name: 'books', query: { t: type } })
+                .catch(() => {})
+            "
+          >
+            {{ type }}
+          </li>
         </ul>
         <ul class="my-10">
           <li class="text-xl text-blue-800 font-medium pb-4">Author</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
-          <li>mac</li>
+          <li
+            v-for="(author, index) in sidebar.authors"
+            :key="index"
+            class="cursor-pointer text-gray-700 hover:text-gray-900"
+            @click="
+              $router
+                .replace({ name: 'books', query: { a: author } })
+                .catch(() => {})
+            "
+          >
+            {{ author }}
+          </li>
         </ul>
       </aside>
       <section class="w-5/6">
         <div
           class="mx-4 mb-4 pb-2 border-b-2 border-fuchsia-600 flex justify-between text-xl"
         >
-          <p>Search For "..."</p>
+          <p v-show="$route.query.s !== undefined && $route.query.s !== ''">
+            Search For "{{ $route.query.s }}"
+          </p>
           <p>All</p>
         </div>
         <div class="books flex flex-wrap">
           <div
             class="w-40 rounded overflow-hidden hover:shadow-lg m-4"
-            v-for="book in books"
+            v-for="book in finallyBook"
             :key="book.book_id"
           >
             <NuxtLink :to="{ name: 'books-id', params: { id: book.book_id } }">
@@ -74,7 +98,44 @@
 export default {
   async asyncData({ $axios }) {
     const books = await $axios.$get('/allbook')
-    return { books }
+    const sidebar = await $axios.$get('/sidebar')
+
+    return { books, sidebar }
+  },
+  computed: {
+    finallyBook() {
+      var finallyBook = []
+      if (
+        this.$route.query.s === undefined &&
+        this.$route.query.a === undefined &&
+        this.$route.query.t === undefined &&
+        this.$route.query.p === undefined
+      ) {
+        return this.books
+      }
+      if (this.$route.query.s !== undefined) {
+        finallyBook = this.books.filter((val) => {
+          return val.book_name.includes(this.$route.query.s)
+        })
+      }
+      if (this.$route.query.a !== undefined) {
+        finallyBook = this.books.filter((val) => {
+          return val.author_name.includes(this.$route.query.a)
+        })
+      }
+      if (this.$route.query.t !== undefined) {
+        finallyBook = this.books.filter((val) => {
+          return val.type.includes(this.$route.query.t)
+        })
+      }
+      if (this.$route.query.p !== undefined) {
+        finallyBook = this.books.filter((val) => {
+          return val.popular == this.$route.query.p
+        })
+      }
+
+      return finallyBook
+    },
   },
   methods: {
     addCarts(book) {
