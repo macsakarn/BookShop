@@ -203,7 +203,6 @@
 </template>
 <script>
 export default {
-
   data() {
     return {
       showModal: false,
@@ -220,12 +219,15 @@ export default {
       this.sendData(data)
     },
 
-    async sendData(data){
-    await this.$axios.post('/login', data)
+    async sendData(data) {
+      try {
+        let response = await this.$auth.loginWith('local', { data: data })
+        console.log(response)
+      } catch (err) {
+        console.log(err)
+      }
     },
   },
-
-  
 }
 </script>
 <style>

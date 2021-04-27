@@ -35,7 +35,29 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
+  auth: {
+
+    redirect: {
+      login: '/',
+      logout: '/',
+      callback: '/',
+      home: '/'
+    },
+    strategies: {
+      local: {
+        token: {
+          required: false,
+        },
+        endpoints: {
+          login: { url: 'http://localhost:3000/login', method: 'post', propertyName: 'token' },
+          logout: false,
+          user: false
+        }
+      }
+    }
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
