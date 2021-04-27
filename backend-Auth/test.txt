@@ -1,0 +1,18 @@
+{
+    "customer": {
+            "fname": "takai",
+            "lname": "takoi",
+            "email": "1@email.com",
+            "tel": "023215560",
+            "address": "fef"
+          },
+    "account": {
+            "username": "1",
+            "password": "1"
+          }
+}
+
+{
+  "username" : "1@email.com",
+  "password" : "1"
+}
