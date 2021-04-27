@@ -65,12 +65,18 @@
       <section class="mt-40">
         <div class="genre flex">
           <p class="text-2xl font-bold pt-4 w-3/4">Genre</p>
-          <p class="text-xl font-semibold pt-5 text-blue-500 w-1/4 text-right">
+          <p
+            class="text-xl font-semibold pt-5 text-blue-500 w-1/4 text-right cursor-pointer"
+            @click="$router.push({ name: 'books' })"
+          >
             See all
           </p>
         </div>
         <ul class="genre-order flex justify-between mt-5">
-          <li class="relative cursor-pointer">
+          <li
+            class="relative cursor-pointer"
+            @click="$router.push({ name: 'books', query: { t: 'Horror' } })"
+          >
             <div class="rounded-lg">
               <img
                 src="~/assets/USER/genre/Genre_horror.png"
@@ -81,7 +87,10 @@
             </div>
             <p class="text-gray-300 text-lg">Horror</p>
           </li>
-          <li class="relative cursor-pointer">
+          <li
+            class="relative cursor-pointer"
+            @click="$router.push({ name: 'books', query: { t: 'Romance' } })"
+          >
             <div class="rounded-lg">
               <img
                 src="~/assets/USER/genre/Genre_romance.png"
@@ -92,7 +101,10 @@
             </div>
             <p class="text-gray-300 text-lg">Romance</p>
           </li>
-          <li class="relative cursor-pointer">
+          <li
+            class="relative cursor-pointer"
+            @click="$router.push({ name: 'books', query: { t: 'Fantasy' } })"
+          >
             <div class="rounded-lg">
               <img
                 src="~/assets/USER/genre/Genre_fantasy.png"
@@ -103,7 +115,10 @@
             </div>
             <p class="text-gray-300 text-lg">Fantasy</p>
           </li>
-          <li class="relative cursor-pointer">
+          <li
+            class="relative cursor-pointer"
+            @click="$router.push({ name: 'books', query: { t: 'Religion' } })"
+          >
             <div class="rounded-lg">
               <img
                 src="~/assets/USER/genre/Genre_religion.png"
@@ -114,7 +129,10 @@
             </div>
             <p class="text-gray-300 text-lg">Religion</p>
           </li>
-          <li class="relative cursor-pointer">
+          <li
+            class="relative cursor-pointer"
+            @click="$router.push({ name: 'books', query: { t: 'History' } })"
+          >
             <div class="rounded-lg">
               <img
                 src="~/assets/USER/genre/Genre_history.png"
@@ -125,7 +143,10 @@
             </div>
             <p class="text-gray-300 text-lg">History</p>
           </li>
-          <li class="relative cursor-pointer">
+          <li
+            class="relative cursor-pointer"
+            @click="$router.push({ name: 'books', query: { t: 'Family' } })"
+          >
             <div class="rounded-lg">
               <img
                 src="~/assets/USER/genre/Genre_family.png"
@@ -136,7 +157,10 @@
             </div>
             <p class="text-gray-300 text-lg">Family</p>
           </li>
-          <li class="relative cursor-pointer">
+          <li
+            class="relative cursor-pointer"
+            @click="$router.push({ name: 'books' })"
+          >
             <div class="rounded-lg">
               <img
                 src="~/assets/USER/genre/Genre_other.png"
@@ -156,22 +180,28 @@
             <p class="text-2xl font-bold pt-4">Popular Books</p>
             <p class="text-2xl font-bold pt-4">This Year</p>
           </div>
-          <p class="text-xl font-semibold pt-16 text-blue-500 w-1/4 text-right">
+          <p
+            class="text-xl font-semibold pt-16 text-blue-500 w-1/4 text-right cursor-pointer"
+            @click="$router.push({ name: 'books' })"
+          >
             See all
           </p>
         </div>
-        <popular />
+        <popular :status="true" />
       </section>
       <section class="mt-32">
         <div class="genre flex">
           <div class="w-3/4">
             <p class="text-2xl font-bold pt-4">For your</p>
           </div>
-          <p class="text-xl font-semibold pt-8 text-blue-500 w-1/4 text-right">
+          <p
+            class="text-xl font-semibold pt-8 text-blue-500 w-1/4 text-right cursor-pointer"
+            @click="$router.push({ name: 'books' })"
+          >
             See all
           </p>
         </div>
-        <recommended />
+        <popular :status="false" />
       </section>
       <section class="mt-32">
         <div class="mx-auto flex w-1/2">
@@ -180,6 +210,7 @@
             <p class="text-xl">Tell us what books you love.</p>
           </div>
           <button
+            @click="$router.push({ name: 'register' })"
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-12 border border-blue-700 rounded text-xl"
           >
             Sign up
@@ -221,10 +252,7 @@
 
 <script>
 import img from 'assets/USER/BG.png'
-import recommended from '../components/recommended.vue'
 export default {
-  components: { recommended },
-  layout: 'user',
   data() {
     return {
       image: img,

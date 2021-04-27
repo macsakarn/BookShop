@@ -1,93 +1,5 @@
 <template>
   <div>
-    <div
-      v-if="showModal"
-      class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
-    >
-      <div
-        class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"
-      ></div>
-      <div class="relative w-1/4 my-6 mx-auto max-w-6xl">
-        <!--content-->
-        <div
-          class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
-        >
-          <div class="my-5 mx-12">
-            <button
-              class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-              v-on:click="showModal = false"
-            >
-              <span
-                class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"
-              >
-                ×
-              </span>
-            </button>
-            <h2
-              class="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl xl:text-bold"
-            >
-              Log in
-            </h2>
-
-            <div class="mt-12">
-              <div>
-                <div class="text-sm font-bold text-gray-700 tracking-wide">
-                  Email Address
-                </div>
-                <input
-                  class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                  type="text"
-                  placeholder="book@gmail.com"
-                  v-model="userLogin"
-                />
-              </div>
-              <div class="mt-8">
-                <div class="flex justify-between items-center">
-                  <div class="text-sm font-bold text-gray-700 tracking-wide">
-                    Password
-                  </div>
-                  <div>
-                    <a
-                      class="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800 cursor-pointer"
-                    >
-                      Forgot Password?
-                    </a>
-                  </div>
-                </div>
-                <input
-                  class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                  type="password"
-                  placeholder="Enter your password"
-                  v-model="userPassword"
-                />
-              </div>
-              <div class="mt-10">
-                <button
-                  class="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg"
-                  @click="login()"
-                >
-                  Log In
-                </button>
-              </div>
-
-              <div
-                class="mt-12 text-sm font-display font-semibold text-gray-700 text-center"
-              >
-                Don't have an account ?
-                <a
-                  class="cursor-pointer text-indigo-600 hover:text-indigo-800"
-                  @click="
-                    $router.push({ name: 'register' })
-                    showModal = false
-                  "
-                  >Sign up</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <nav class="fixed inset-0 w-full max-w-full h-24">
       <div class="container px-16 mx-auto flex justify-between items-center">
         <NuxtLink :to="{ name: 'index' }">
@@ -125,12 +37,13 @@
             </NuxtLink>
           </p>
           <div class="w-8 mx-3 cursor-pointer">
-            <img
-              class="w-full"
-              src="~/assets/USER/nav/account_circle_black_24dp.svg"
-              alt="logo"
-              @click="showModal = true"
-            />
+            <NuxtLink :to="{ name: 'login' }">
+              <img
+                class="w-full"
+                src="~/assets/USER/nav/account_circle_black_24dp.svg"
+                alt="logo"
+              />
+            </NuxtLink>
           </div>
           <div class="w-8 mx-3 cursor-pointer cart relative">
             <NuxtLink :to="{ name: 'cart' }">
@@ -153,8 +66,9 @@
           <NuxtLink :to="{ name: 'index' }"> Home </NuxtLink>
         </li>
         <li class="text-md text-gray-300">
-          <a class="cursor-pointer" @click="showModal = !showModal"> Login </a>
+          <NuxtLink :to="{ name: 'login' }"> Login </NuxtLink>
         </li>
+
         <li class="text-md text-gray-300">
           <NuxtLink :to="{ name: 'register' }"> Register </NuxtLink>
         </li>
@@ -209,19 +123,10 @@
 export default {
   data() {
     return {
-      showModal: false,
-      userLogin: null,
-      userPassword: null,
       searchBook: '',
     }
   },
   methods: {
-    login() {
-      const data = {
-        username: this.userLogin,
-        password: this.userPassword,
-      }
-    },
     search() {
       this.$router.push({ name: 'books', query: { s: this.searchBook } })
       this.searchBook = ''

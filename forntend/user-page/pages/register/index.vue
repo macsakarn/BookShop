@@ -12,7 +12,12 @@
       <div class="w-1/2 bg-gray-200 rounded-lg shadow-lg ml-32">
         <div class="mx-10 my-10">
           <section v-if="sec1 === 1">
-            <p class="text-3xl text-center">Register</p>
+            <h2
+              class="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl xl:text-bold"
+            >
+              Register
+            </h2>
+
             <div class="my-4">
               <label class="block mb-1 font-bold text-gray-500">UserName</label>
               <input

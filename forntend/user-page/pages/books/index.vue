@@ -115,17 +115,23 @@ export default {
       }
       if (this.$route.query.s !== undefined) {
         finallyBook = this.books.filter((val) => {
-          return val.book_name.includes(this.$route.query.s)
+          return val.book_name
+            .toLowerCase()
+            .includes(this.$route.query.s.toLowerCase())
         })
       }
       if (this.$route.query.a !== undefined) {
         finallyBook = this.books.filter((val) => {
-          return val.author_name.includes(this.$route.query.a)
+          return val.author_name
+            .toLowerCase()
+            .includes(this.$route.query.a.toLowerCase())
         })
       }
       if (this.$route.query.t !== undefined) {
         finallyBook = this.books.filter((val) => {
-          return val.type.includes(this.$route.query.t)
+          return val.type
+            .toLowerCase()
+            .includes(this.$route.query.t.toLowerCase())
         })
       }
       if (this.$route.query.p !== undefined) {
