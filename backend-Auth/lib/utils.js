@@ -26,6 +26,7 @@ function issueJWT( user ) {
       sub: _id,
       username : _username,
       tel      : _tel,
+      role     : "customer",
       iat: Date.now()
     };
   
@@ -37,6 +38,31 @@ function issueJWT( user ) {
     }
 }
 
+function issueAdminJWT( user ) {
+  console.log(user)
+  const _sub = user.admin_id;
+  const _username = user.username;
+  const _fname = user.admin_fname;
+  const expiresIn = '1d';
+  const payload = {
+    sub : _sub,
+    username : _username,
+    fname    : _fname,
+    role     : "I'm admin",
+    padlock  : 1560320,
+    iat: Date.now()
+  };
+  console.log(payload)
+
+  const signedToken = jsonwebtoken.sign(payload, PRIV_KEY, { expiresIn: expiresIn, algorithm: 'RS256' });
+
+  return {
+    token: "Bearer " + signedToken,
+    expires: expiresIn
+  }
+}
+
 module.exports.genPassword = genPassword;
 module.exports.validPassword = validPassword;
 module.exports.issueJWT = issueJWT;
+module.exports.issueAdminJWT = issueAdminJWT;
