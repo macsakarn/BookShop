@@ -1,9 +1,9 @@
 <template>
   <div class="container px-16 mx-auto">
     <main class="flex pt-40">
-      <aside class="w-1/6 border-r-2 border-fuchsia-600">
+      <aside class="w-1/6 border-r-2 border-fuchsia-600 pr-10">
         <ul class="my-10">
-          <li class="text-xl text-blue-800 font-medium pb-4">Recommend</li>
+          <li class="text-xl text-blue-800 font-medium pb-5">Recommend</li>
           <li
             class="cursor-pointer text-gray-700 hover:text-gray-900"
             @click="$router.replace({ name: 'books' }).catch(() => {})"
@@ -22,7 +22,7 @@
           </li>
         </ul>
         <ul class="my-10">
-          <li class="text-xl text-blue-800 font-medium pb-4">Type</li>
+          <li class="text-xl text-blue-800 font-medium pb-5">Type</li>
           <li
             v-for="(type, index) in sidebar.types"
             :key="index"
@@ -37,7 +37,7 @@
           </li>
         </ul>
         <ul class="my-10">
-          <li class="text-xl text-blue-800 font-medium pb-4">Author</li>
+          <li class="text-xl text-blue-800 font-medium pb-5">Author</li>
           <li
             v-for="(author, index) in sidebar.authors"
             :key="index"
