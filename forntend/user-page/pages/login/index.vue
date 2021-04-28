@@ -122,6 +122,9 @@ export default {
     },
   },
   methods: {
+    sendlogin(data) {
+      console.log(data)
+    },
     login() {
       this.$v.$touch()
       if (!this.$v.$invalid) {
@@ -131,7 +134,7 @@ export default {
         }
         this.userLogin = ''
         this.userPassword = ''
-        console.log(data)
+        this.sendlogin(data)
         this.$router.push({ name: 'index' })
       }
     },

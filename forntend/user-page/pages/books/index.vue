@@ -67,7 +67,11 @@
             v-for="book in finallyBook"
             :key="book.book_id"
           >
-            <NuxtLink :to="{ name: 'books-id', params: { id: book.book_id } }">
+            <div
+              @click="
+                $router.push({ name: 'books-id', params: { id: book.book_id } })
+              "
+            >
               <img
                 width="w-full"
                 src="~/assets/USER/ExBook/01.png"
@@ -80,7 +84,7 @@
                 </p>
                 <p>{{ book.price }} Bath</p>
               </div>
-            </NuxtLink>
+            </div>
             <button
               @click="addCarts(book)"
               class="bg-yellow-400 hover:bg-yellow-500 py-2 px-2 rounded-md w-full"
@@ -105,6 +109,7 @@ export default {
   computed: {
     finallyBook() {
       var finallyBook = []
+      var text = ''
       if (
         this.$route.query.s === undefined &&
         this.$route.query.a === undefined &&
@@ -121,17 +126,15 @@ export default {
         })
       }
       if (this.$route.query.a !== undefined) {
+        text = this.$route.query.a
         finallyBook = this.books.filter((val) => {
-          return val.author_name
-            .toLowerCase()
-            .includes(this.$route.query.a.toLowerCase())
+          return val.author_name.includes(text)
         })
       }
       if (this.$route.query.t !== undefined) {
+        text = this.$route.query.t
         finallyBook = this.books.filter((val) => {
-          return val.type
-            .toLowerCase()
-            .includes(this.$route.query.t.toLowerCase())
+          return val.type.includes(text)
         })
       }
       if (this.$route.query.p !== undefined) {

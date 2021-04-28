@@ -392,6 +392,9 @@ export default {
       //  const regisUser = await this.$axios.$post('/register', data)
       //  return { regisUser }
       await this.$axios.post('/register', userdata)
+      setTimeout(() => {
+        this.$router.push({ name: 'login' })
+      }, 1000)
     },
     nextRegister() {
       this.$v.form1.$touch()

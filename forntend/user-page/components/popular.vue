@@ -6,7 +6,11 @@
         v-for="(popbook, index) in books"
         :key="index"
       >
-        <NuxtLink :to="{ name: 'books-id', params: { id: popbook.book_id } }">
+        <div
+          @click="
+            $router.push({ name: 'books-id', params: { id: popbook.book_id } })
+          "
+        >
           <img
             width="w-full"
             src="~/assets/USER/ExBook/01.png"
@@ -17,7 +21,7 @@
             <p class="text-gray-500 text-xs mb-2">{{ popbook.author_name }}</p>
             <p>{{ popbook.price }}</p>
           </div>
-        </NuxtLink>
+        </div>
         <button
           class="bg-yellow-400 hover:bg-yellow-500 py-2 px-2 rounded-md w-full"
           @click="addCarts(popbook)"

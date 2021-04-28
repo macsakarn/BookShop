@@ -31,10 +31,11 @@
               </div>
             </form>
           </div>
-          <p class="mx-3 cursor-pointer text-gray-100 hover:text-gray-400">
-            <NuxtLink :to="{ name: 'books' }">
-              FIND A BOOKSTORE BROWSE
-            </NuxtLink>
+          <p
+            class="mx-3 cursor-pointer text-gray-100 hover:text-gray-400"
+            @click="$router.push({ name: 'books' })"
+          >
+            FIND A BOOKSTORE BROWSE
           </p>
           <div class="w-8 mx-3 cursor-pointer">
             <NuxtLink :to="{ name: 'login' }">
@@ -66,17 +67,16 @@
           <NuxtLink :to="{ name: 'index' }"> Home </NuxtLink>
         </li>
         <li class="text-md text-gray-300">
-          <NuxtLink :to="{ name: 'login' }"> Login </NuxtLink>
-        </li>
-
-        <li class="text-md text-gray-300">
-          <NuxtLink :to="{ name: 'register' }"> Register </NuxtLink>
-        </li>
-        <li class="text-md text-gray-300">
           <NuxtLink :to="{ name: 'books' }"> Books </NuxtLink>
         </li>
         <li class="text-md text-gray-300">
           <NuxtLink :to="{ name: 'cart' }"> Cart </NuxtLink>
+        </li>
+        <li class="text-md text-gray-300">
+          <NuxtLink :to="{ name: 'login' }"> Login </NuxtLink>
+        </li>
+        <li class="text-md text-gray-300">
+          <NuxtLink :to="{ name: 'register' }"> Register </NuxtLink>
         </li>
       </ul>
     </nav>
@@ -169,5 +169,21 @@ footer {
   top: -5px;
   width: 18px;
   text-indent: initial;
+}
+
+a.nuxt-link-exact-active {
+  color: #fff;
+}
+a:hover {
+  color: #fff;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.3s;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
 }
 </style>
