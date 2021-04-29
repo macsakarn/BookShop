@@ -17,6 +17,7 @@ router.get('/protected', passport.authenticate('jwt', { session: false }), async
     else {
         res.status(401).json({ massage: "Get Out" })
     }
+
 })
 
 router.post('/register', async (req, res, next) => {
