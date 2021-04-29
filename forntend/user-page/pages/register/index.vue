@@ -386,7 +386,7 @@ export default {
     async sendData(userdata) {
       //  const regisUser = await this.$axios.$post('/register', data)
       //  return { regisUser }
-      await this.$axios.post('/register', userdata)
+      await this.$axios.post('user/register', userdata)
     },
     nextRegister() {
       this.$v.form1.$touch()

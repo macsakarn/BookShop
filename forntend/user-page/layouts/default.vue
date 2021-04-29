@@ -216,10 +216,17 @@ export default {
     }
   },
   methods: {
-    login() {
+    async login() {
       const data = {
         username: this.userLogin,
         password: this.userPassword,
+      }
+      console.log(data)
+      try {
+        let response = await this.$auth.loginWith('local', { data: data })
+        console.log(response)
+      } catch (err) {
+        console.log(err)
       }
     },
     search() {
