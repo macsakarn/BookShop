@@ -11,7 +11,13 @@ router.get('/protected', passport.authenticate('jwt', {session:false}), async (r
     const token = authHeader.split(' ');
     var jwt_payload = decode(token[1]);
     console.log(jwt_payload)
-    res.status(200).json({status : true, msg: 'you are authorized', SomeData : { adminId : jwt_payload.sub ,adminUsername : jwt_payload.username }}) 
+    if(jwt_payload.role === "I'm admin") {
+            res.status(200).json({status : true, msg: 'you are authorized', SomeData : { adminId : jwt_payload.sub ,adminUsername : jwt_payload.username }}) 
+    }
+    else {
+        res.status(401).json({massage : "Get Out"})
+    }
+    
 })
 
 router.post('/register', async (req, res, next) => {
