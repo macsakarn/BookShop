@@ -17,6 +17,7 @@
             <button
               class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
               v-on:click="
+                $v.$reset()
                 showModal = false
                 clear()
               "
@@ -41,13 +42,17 @@
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white"
                     type="text"
-                    :class="{ 'border-red-500': errorName }"
-                    @click="errorName = false"
-                    v-model="bookName"
+                    :class="{ 'border-red-500': $v.bookName.$error }"
+                    v-model="$v.bookName.$model"
                   />
-                  <p class="text-red-500 text-xs italic" v-show="errorName">
-                    Please fill out this field.
-                  </p>
+                  <div
+                    class="text-red-500 text-xs italic"
+                    v-show="$v.bookName.$error"
+                  >
+                    <p v-show="!$v.bookName.required">
+                      Please fill out this field.
+                    </p>
+                  </div>
                 </div>
                 <div class="w-full md:w-4/12 px-3">
                   <label
@@ -58,14 +63,19 @@
                   </label>
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    v-model="bookDate"
+                    v-model="$v.bookDate.$model"
                     type="text"
-                    :class="{ 'border-red-500': errorDate }"
-                    @click="errorDate = false"
+                    :class="{ 'border-red-500': $v.bookDate.$error }"
                   />
-                  <p class="text-red-500 text-xs italic" v-show="errorDate">
-                    Please fill out this field.
-                  </p>
+                  <div
+                    class="text-red-500 text-xs italic"
+                    v-show="$v.bookDate.$error"
+                  >
+                    <p v-show="!$v.bookDate.required">
+                      Please fill out this field.
+                    </p>
+                    <p v-show="!$v.bookDate.year">Year only</p>
+                  </div>
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-2">
@@ -77,18 +87,19 @@
                     Description
                   </label>
                   <textarea
-                    v-model="bookDescription"
+                    v-model="$v.bookDescription.$model"
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    :class="{ 'border-red-500': errorDescription }"
-                    @click="errorDescription = false"
+                    :class="{ 'border-red-500': $v.bookDescription.$error }"
                   >
                   </textarea>
-                  <p
+                  <div
                     class="text-red-500 text-xs italic"
-                    v-show="errorDescription"
+                    v-show="$v.bookDescription.$error"
                   >
-                    Please fill out this field.
-                  </p>
+                    <p v-show="!$v.bookDescription.required">
+                      Please fill out this field.
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-2">
@@ -102,13 +113,19 @@
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     type="text"
-                    v-model="bookAmount"
-                    :class="{ 'border-red-500': errorAmount }"
-                    @click="errorAmount = false"
+                    v-model="$v.bookAmount.$model"
+                    :class="{ 'border-red-500': $v.bookAmount.$error }"
                   />
-                  <p class="text-red-500 text-xs italic" v-show="errorAmount">
-                    Please fill out this field.
-                  </p>
+                  <div
+                    class="text-red-500 text-xs italic"
+                    v-show="$v.bookAmount.$error"
+                  >
+                    <p v-show="!$v.bookAmount.required">
+                      Please fill out this field.
+                    </p>
+                    <p v-show="!$v.bookAmount.min">Must be greater than 0</p>
+                    <p v-show="!$v.bookAmount.num">number only</p>
+                  </div>
                 </div>
                 <div class="w-full md:w-3/12 px-3 mb-6 md:mb-0">
                   <label
@@ -120,13 +137,19 @@
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     type="text"
-                    v-model="bookPrice"
-                    :class="{ 'border-red-500': errorPrice }"
-                    @click="errorPrice = false"
+                    v-model="$v.bookPrice.$model"
+                    :class="{ 'border-red-500': $v.bookPrice.$error }"
                   />
-                  <p class="text-red-500 text-xs italic" v-show="errorPrice">
-                    Please fill out this field.
-                  </p>
+                  <div
+                    class="text-red-500 text-xs italic"
+                    v-show="$v.bookPrice.$error"
+                  >
+                    <p v-show="!$v.bookPrice.required">
+                      Please fill out this field.
+                    </p>
+                    <p v-show="!$v.bookPrice.min">Must be greater than 0</p>
+                    <p v-show="!$v.bookPrice.num">number only</p>
+                  </div>
                 </div>
                 <div class="w-full md:w-6/12 px-3 mb-6 md:mb-0">
                   <label class="items-center">
@@ -141,7 +164,7 @@
                     type="file"
                     accept="image/*"
                     class="w-full mt-2"
-                    @change="onFileChange"
+                    @change="selectImages"
                   />
                 </div>
               </div>
@@ -155,27 +178,23 @@
                   </label>
                   <div
                     class="flex my-2"
-                    v-for="(inputAuthor, index) in bookAuthor"
+                    v-for="(inputAuthor, index) in $v.bookAuthor.$each.$iter"
                     :key="index"
                   >
                     <input
                       class="py-2 appearance-none block w-4/6 bg-gray-200 text-gray-700 border border-gray-200 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       type="text"
-                      v-model="inputAuthor.name"
-                      :class="{ 'border-red-500': inputAuthor.error }"
-                      @click="inputAuthor.error = false"
+                      v-model="inputAuthor.name.$model"
+                      :class="{ 'border-red-500': inputAuthor.name.$error }"
                     />
-                    <span @click="addInput('author')">
+                    <span @click="bookAuthor.push({ name: '' })">
                       <img
                         src="~/assets/ADMIN/add_black_24dp.svg"
                         alt=""
                         class="inline mx-1"
                       />
                     </span>
-                    <span
-                      @click="deleteInput(index, 'author')"
-                      v-show="index > 0"
-                    >
+                    <span @click="bookAuthor.pop()" v-show="index > 0">
                       <img
                         src="~/assets/ADMIN/Group.svg"
                         alt=""
@@ -193,27 +212,23 @@
                   </label>
                   <div
                     class="flex my-2"
-                    v-for="(inputType, index) in bookType"
+                    v-for="(inputType, index) in $v.bookType.$each.$iter"
                     :key="index"
                   >
                     <input
                       class="py-2 appearance-none block w-4/6 bg-gray-200 text-gray-700 border border-gray-200 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       type="text"
-                      v-model="inputType.name"
-                      :class="{ 'border-red-500': inputType.error }"
-                      @click="inputType.error = false"
+                      v-model="inputType.name.$model"
+                      :class="{ 'border-red-500': inputType.name.$error }"
                     />
-                    <span @click="addInput('type')">
+                    <span @click="bookType.push({ name: '' })">
                       <img
                         src="~/assets/ADMIN/add_black_24dp.svg"
                         alt=""
                         class="inline mx-1"
                       />
                     </span>
-                    <span
-                      @click="deleteInput(index, 'type')"
-                      v-show="index > 0"
-                    >
+                    <span @click="bookType.pop()" v-show="index > 0">
                       <img
                         src="~/assets/ADMIN/Group.svg"
                         alt=""
@@ -232,7 +247,10 @@
             <button
               class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button"
-              @click="showModal = false"
+              @click="
+                showModal = false
+                $v.$reset()
+              "
             >
               Close
             </button>
@@ -361,35 +379,79 @@
 </template>
 
 <script>
+import { required, minValue, minLength } from 'vuelidate/lib/validators'
+
 export default {
-  layout: 'admin',
   async asyncData({ $axios }) {
     const bookAll = await $axios.$get('/allbook')
     return { bookAll }
   },
   data() {
     return {
-      //Error form
-      errorName: false,
-      errorDate: false,
-      errorDescription: false,
-      errorPrice: false,
-      errorAmount: false,
       //models
       showModal: false,
       // Data Books
       bookName: '',
       bookDate: '',
-      bookAuthor: [{ name: '', error: false }],
-      bookType: [{ name: '', error: false }],
+      bookAuthor: [{ name: '' }],
+      bookType: [{ name: '' }],
       bookDescription: '',
       bookPrice: '',
       bookAmount: '',
       bookpopular: false,
-      url: null,
+      images: null,
       //
       search: '',
     }
+  },
+  validations: {
+    bookName: {
+      required,
+    },
+    bookDate: {
+      required,
+      year(value) {
+        const re = /^\d+$/
+        return re.test(value)
+      },
+    },
+    bookDescription: {
+      required,
+    },
+    bookAmount: {
+      required,
+      min: minValue(1),
+      num(value) {
+        const re = /^\d+$/
+        return re.test(value)
+      },
+    },
+    bookPrice: {
+      required,
+      min: minValue(1),
+      num(value) {
+        const re = /^\d+$/
+        return re.test(value)
+      },
+    },
+    bookAuthor: {
+      required,
+      minLength: minLength(1),
+      $each: {
+        name: {
+          required,
+        },
+      },
+    },
+    bookType: {
+      required,
+      minLength: minLength(1),
+      $each: {
+        name: {
+          required,
+        },
+      },
+    },
   },
   computed: {
     books() {
@@ -408,9 +470,15 @@ export default {
       this.clear()
       // return { status };
     },
+    selectImages(event) {
+      console.log(this.images)
 
+      this.images = event.target.files
+      console.log(this.images)
+    },
     btnBook() {
-      if (this.chackForm()) {
+      this.$v.$touch()
+      if (!this.$v.$invalid && this.images !== null) {
         const addAutor = []
         const author = []
         this.bookAuthor.forEach((value) => {
@@ -431,17 +499,19 @@ export default {
           addType.push(value.name)
         })
 
-        var book = {
-          book_name: this.bookName,
-          pb_year: this.bookDate,
-          price: this.bookPrice,
-          book_amount: this.bookAmount,
-          description: this.bookDescription,
-          popular: this.bookpopular,
-          author: author,
-          type: type,
-          // book_image: "", //Testing
-        }
+        const JSON_author = JSON.stringify(author)
+        const JSON_type = JSON.stringify(type)
+
+        let formData = new FormData()
+        formData.append('book_name', this.bookName)
+        formData.append('pb_year', this.bookDate)
+        formData.append('price', this.bookPrice)
+        formData.append('book_amount', this.bookAmount)
+        formData.append('description', this.bookDescription)
+        formData.append('popular', this.bookpopular ? 1 : 0)
+        formData.append('author', JSON_author)
+        formData.append('type', JSON_type)
+        formData.append('bookImage', this.images[0])
 
         this.bookAll.push({
           book_id: this.bookAll[this.bookAll.length - 1].book_id + 1,
@@ -455,90 +525,22 @@ export default {
           type: addType,
           // book_image: "", //Testing
         })
-        this.addBook(book)
+        this.addBook(formData)
+      } else {
+        alert('input image')
       }
-    },
-    addInput(status) {
-      if (status == 'author') {
-        this.bookAuthor.push({ name: '', error: false })
-      } else if (status == 'type') {
-        this.bookType.push({ name: '', error: false })
-      }
-    },
-    deleteInput(index, status) {
-      if (status == 'author') {
-        this.bookAuthor.splice(index, 1)
-      } else if (status == 'type') {
-        this.bookType.splice(index, 1)
-      }
-    },
-    onFileChange(e) {
-      const file = e.target.files[0]
-      this.url = URL.createObjectURL(file)
     },
     clear() {
+      this.$v.$reset()
       this.bookName = ''
       this.bookDate = ''
       this.bookDescription = ''
       this.bookPrice = ''
       this.bookAmount = ''
       this.bookpopular = false
-      this.bookAuthor = [{ name: '', error: false }]
-      this.bookType = [{ name: '', error: false }]
-    },
-    chackForm() {
-      const author = this.bookAuthor.filter((val) => !!val.name)
-      const type = this.bookType.filter((val) => !!val.name)
-      if (
-        !!this.bookName &&
-        !!this.bookDate &&
-        !!this.bookDescription &&
-        !!this.bookPrice &&
-        !!this.bookAmount
-      ) {
-        if (this.bookPrice <= 0 || this.bookAmount <= 0) {
-          this.errorPrice = true
-          this.errorAmount = true
-          return false
-        }
-        if (
-          author.length === this.bookAuthor.length &&
-          type.length === this.bookType.length
-        ) {
-          return true
-        } else if (author.length === this.bookAuthor.length) {
-          this.bookType.forEach((val) => {
-            if (!val.name) {
-              val.error = true
-            }
-          })
-          return false
-        } else {
-          this.bookAuthor.forEach((val) => {
-            if (!val.name) {
-              val.error = true
-            }
-          })
-          return false
-        }
-      } else {
-        this.errorName = !this.bookName ? true : false
-        this.errorDate = !this.bookDate ? true : false
-        this.errorDescription = !this.bookDescription ? true : false
-        this.errorPrice = !this.bookPrice ? true : false
-        this.errorAmount = !this.bookAmount ? true : false
-        this.bookType.forEach((val) => {
-          if (!val.name) {
-            val.error = true
-          }
-        })
-        this.bookAuthor.forEach((val) => {
-          if (!val.name) {
-            val.error = true
-          }
-        })
-      }
-      return false
+      this.bookAuthor = [{ name: '' }]
+      this.bookType = [{ name: '' }]
+      this.images = null
     },
   },
 }

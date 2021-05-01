@@ -10,9 +10,11 @@ const sendAllbookRouter = require('./routes/allbook')
 const getBookFromId = require('./routes/getBookFromId')
 const getAuthor_Type_REC = require('./routes/getAuthor_TYPE_REC')
 const authRegis = require('./controller/register')
+const testUpload = require('./routes/testUploadImage')
 
 
 app.use(express.json())
+app.use(express.static('static'))
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
@@ -21,6 +23,7 @@ app.use(sendAllbookRouter.router)
 app.use(getBookFromId.router)
 app.use(getAuthor_Type_REC.router)
 app.use(authRegis.router)
+app.use(testUpload.router)
 
 app.listen(port, () => {
     console.log(`Backend app listening at http://localhost:${port}`)

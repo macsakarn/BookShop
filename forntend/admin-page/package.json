@@ -13,7 +13,8 @@
     "core-js": "^3.8.3",
     "dateformat": "^4.5.1",
     "nuxt": "^2.14.12",
-    "nuxt-highcharts": "^1.0.7"
+    "nuxt-highcharts": "^1.0.7",
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^3.4.2",
