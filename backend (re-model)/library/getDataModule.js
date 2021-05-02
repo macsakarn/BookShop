@@ -18,7 +18,6 @@ async function getSomethings ( sqlScript, params ) {
 
     finally {
         database.release();
-        // console.log("End getSomethings Process")
     }
 
     

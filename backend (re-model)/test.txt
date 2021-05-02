@@ -1,0 +1,13 @@
+
+
+
+{
+  "books" : [
+      {"book_id" : 9, "book_price" : 50, "book_amount" : 2},
+      {"book_id" : 10, "book_price" : 100, "book_amount" : 5},
+      {"book_id" : 20, "book_price" : 200, "book_amount" : 1}
+  ],
+  "customerId" : 3,
+  "totalPrice" : 800,
+  "amount"     : 8
+}

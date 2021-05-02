@@ -2,7 +2,16 @@ const router    =   require('express').Router();
 const passport  =   require('passport');
 const poolData = require('../../config/database');
 const { Register, Login, ExtractToken } = require('../../library/authModule');
+const { MakeOrder } = require('../../library/orderModule');
 const { loginSQL } = require('../../library/SqlScript');
+const { validateOrder } = require('../../library/validateModule');
+
+router.post('/test', async (req, res, next) => {
+    console.log(req.body)
+    const a = validateOrder (req.body)
+    res.json({status : a});
+    
+})
 
 router.get('/protected', passport.authenticate('jwt', {session : false}), async (req, res, next)=> { 
     const jwt_payload = ExtractToken( req.headers.authorization );
@@ -62,5 +71,18 @@ router.post ('/login', async (req, res, next) => {
     }
     
 })
+
+
+router.post ('/order',passport.authenticate('jwt', {session : false}) , async (req, res, next) => {
+    const dataObject = req.body;
+    // const jwt_payload = ExtractToken( req.headers.authorization );
+    if ( validateOrder(dataObject) ) {
+        const order = await MakeOrder(dataObject, jwt_payload.sub);
+        res.json(order);
+    }
+   
+})
+
+
 
 module.exports = router;

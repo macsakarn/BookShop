@@ -1,7 +1,9 @@
 const router    =   require('express').Router();
 const { decode } = require('jsonwebtoken');
-const { Register, Login } = require('../../library/authModule');
+const { Register, Login, ExtractToken } = require('../../library/authModule');
 const passport = require('passport');
+
+
 
 router.get('/protected', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const jwt_payload = ExtractToken( req.headers.authorization );

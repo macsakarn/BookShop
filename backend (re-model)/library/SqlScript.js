@@ -74,3 +74,22 @@ const fetchBookById = {
 }
 
 module.exports.fetchBookById = fetchBookById;
+
+const OrderSQL = {
+    make_order          :  `INSERT INTO \`ORDER\` VALUES (0,CURRENT_DATE , 0, null, null, ?, ?, null, ?);
+                            SET @last_id_in_ORDER = LAST_INSERT_ID();
+                            SELECT @last_id_in_ORDER;
+                           `,
+    make_order_book     :  `INSERT INTO ORDER_BOOK VALUES (0, ?, ?, ?, ?, ?)`,
+    orderDetailById     :  ``,
+}
+
+module.exports.OrderSQL = OrderSQL;
+
+const OrderParams = {
+    make_order          :   `[data.totalPrice, data.amount, data.customerId]`, //sub
+    make_order_book     :   `[data.book_amount*data.book_price ,data.book_amount, data.book_price, data.book_id, OrderId[0][0].insertId]`,
+    orderDetailById     :   ``,
+}
+
+module.exports.OrderParams = OrderParams;
