@@ -579,6 +579,69 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="showDelete"
+      class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+    >
+      <div class="relative w-auto my-6 mx-auto max-w-6xl">
+        <!--content-->
+        <div
+          class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+        >
+          <!--header-->
+          <div
+            class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t"
+          >
+            <h3 class="text-3xl font-semibold">Delete book</h3>
+            <button
+              class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+              @click="showDelete = false"
+            >
+              <span
+                class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"
+              >
+                ×
+              </span>
+            </button>
+          </div>
+          <div class="relative p-6 flex-auto">
+            <p class="text-blueGray-500 text-lg leading-relaxed">
+              คุณลบหนังสือ ID : <span class="text-red-700">{{ deleteID }}</span>
+            </p>
+            <p class="text-lg leading-relaxed">
+              คุณลบหนังสือ Name :
+              <span class="text-red-700">{{ deleteText }}</span>
+            </p>
+            <p class="my-4 text-gray-600 leading-relaxed">
+              * หนังสือที่ลบแล้วจะหายไปจากข้อมูล ไม่สามารถนำกลับมาได้อีกต่อไป
+            </p>
+          </div>
+          <!--footer-->
+          <div
+            class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b"
+          >
+            <button
+              class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+              @click="showDelete = false"
+            >
+              Cencel
+            </button>
+            <button
+              class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+              v-on:click="deleteBook(deleteID)"
+            >
+              Delete Book
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="showDelete || showEdit || showModal"
+      class="opacity-75 fixed inset-0 z-40 bg-black"
+    ></div>
     <main class="flex flex-wrap relative">
       <adminSide :isLogin="true" />
       <section class="mt-10 w-5/6">
@@ -680,6 +743,7 @@
                         src="~/assets/ADMIN/Group.svg"
                         alt="delete"
                         class="inline mx-3 cursor-pointer"
+                        @click="btnDelete(book.book_id, book.book_name)"
                       />
                     </div>
                   </td>
@@ -706,6 +770,7 @@ export default {
       //models
       showModal: false,
       showEdit: false,
+      showDelete: false,
       // Data Books
       bookName: '',
       bookDate: '',
@@ -718,6 +783,9 @@ export default {
       images: null,
       //
       search: '',
+      //
+      deleteText: '',
+      deleteID: 0,
     }
   },
   validations: {
@@ -805,10 +873,13 @@ export default {
     },
     //Update Book to database method (need module axios)
     async updateBook(book) {
-      for (var pair of book.entries()) {
-        console.log(pair[0] + ' : ' + pair[1])
-      }
       // this.$axios.put('admin/addBook', book)
+      this.clear()
+    },
+    //DELETE Book to database method (need module axios)
+    async deleteBook(id) {
+      const url = `admin/..../${id}`
+      // this.$axios.delete(url)
       this.clear()
     },
     selectImages(event) {
@@ -879,6 +950,8 @@ export default {
       this.bookAuthor = [{ name: '' }]
       this.bookType = [{ name: '' }]
       this.images = null
+      this.deleteText = ''
+      this.deleteID = 0
     },
     edit(book) {
       this.bookAuthor = []
@@ -937,6 +1010,12 @@ export default {
       } else {
         alert('Error something')
       }
+    },
+    btnDelete(id, name) {
+      this.showDelete = true
+      this.deleteText = name
+      this.deleteID = id
+      console.log(id)
     },
   },
 }
