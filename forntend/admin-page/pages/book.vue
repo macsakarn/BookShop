@@ -103,56 +103,56 @@
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-2">
-                <div class="w-full md:w-3/12 px-3 mb-6 md:mb-0">
-                  <label
-                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-city"
-                  >
-                    Amount
-                  </label>
-                  <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text"
-                    v-model="$v.bookAmount.$model"
-                    :class="{ 'border-red-500': $v.bookAmount.$error }"
-                  />
-                  <div
-                    class="text-red-500 text-xs italic"
-                    v-show="$v.bookAmount.$error"
-                  >
-                    <p v-show="!$v.bookAmount.required">
-                      Please fill out this field.
-                    </p>
-                    <p v-show="!$v.bookAmount.min">Must be greater than 0</p>
-                    <p v-show="!$v.bookAmount.num">number only</p>
+                <div class="w-1/2">
+                  <div class="w-4/5 px-3 mb-6 md:mb-0">
+                    <label
+                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      for="grid-city"
+                    >
+                      Amount
+                    </label>
+                    <input
+                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      type="text"
+                      v-model="$v.bookAmount.$model"
+                      :class="{ 'border-red-500': $v.bookAmount.$error }"
+                    />
+                    <div
+                      class="text-red-500 text-xs italic"
+                      v-show="$v.bookAmount.$error"
+                    >
+                      <p v-show="!$v.bookAmount.required">
+                        Please fill out this field.
+                      </p>
+                      <p v-show="!$v.bookAmount.min">Must be greater than 0</p>
+                      <p v-show="!$v.bookAmount.num">number only</p>
+                    </div>
                   </div>
-                </div>
-                <div class="w-full md:w-3/12 px-3 mb-6 md:mb-0">
-                  <label
-                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-city"
-                  >
-                    price
-                  </label>
-                  <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text"
-                    v-model="$v.bookPrice.$model"
-                    :class="{ 'border-red-500': $v.bookPrice.$error }"
-                  />
-                  <div
-                    class="text-red-500 text-xs italic"
-                    v-show="$v.bookPrice.$error"
-                  >
-                    <p v-show="!$v.bookPrice.required">
-                      Please fill out this field.
-                    </p>
-                    <p v-show="!$v.bookPrice.min">Must be greater than 0</p>
-                    <p v-show="!$v.bookPrice.num">number only</p>
+                  <div class="w-4/5 px-3 mb-6 md:mb-0">
+                    <label
+                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      for="grid-city"
+                    >
+                      price
+                    </label>
+                    <input
+                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      type="text"
+                      v-model="$v.bookPrice.$model"
+                      :class="{ 'border-red-500': $v.bookPrice.$error }"
+                    />
+                    <div
+                      class="text-red-500 text-xs italic"
+                      v-show="$v.bookPrice.$error"
+                    >
+                      <p v-show="!$v.bookPrice.required">
+                        Please fill out this field.
+                      </p>
+                      <p v-show="!$v.bookPrice.min">Must be greater than 0</p>
+                      <p v-show="!$v.bookPrice.num">number only</p>
+                    </div>
                   </div>
-                </div>
-                <div class="w-full md:w-6/12 px-3 mb-6 md:mb-0">
-                  <label class="items-center">
+                  <label class="w-4/5 px-3 mb-6 md:mb-0">
                     <input
                       type="checkbox"
                       class="form-checkbox"
@@ -160,14 +160,39 @@
                     />
                     <span class="ml-2">Popular</span>
                   </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    class="w-full mt-2"
-                    @change="selectImages"
-                  />
+                </div>
+
+                <div class="w-1/2 md:w-6/12 px-3 mb-6 md:mb-0">
+                  <img :src="urlImage" alt="Book image" width="150" />
+
+                  <div
+                    class="overflow-hidden relative w-full rounded-lg mt-4 cursor-pointer"
+                  >
+                    <div
+                      class="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 w-full inline-flex items-center"
+                    >
+                      <svg
+                        fill="#FFF"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        width="18"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+                      </svg>
+                      <span class="ml-2">Uplord Image</span>
+                    </div>
+                    <input
+                      class="absolute block opacity-0 right-0 top-0"
+                      type="file"
+                      accept="image/*"
+                      @change="selectImages"
+                    />
+                  </div>
                 </div>
               </div>
+
               <div class="flex flex-wrap -mx-3 mb-2">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <label
@@ -245,7 +270,7 @@
             class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b"
           >
             <button
-              class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              class="text-green-500 bg-transparent border border-solid border-green-500 hover:bg-green-500 hover:text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button"
               @click="
                 showModal = false
@@ -255,11 +280,300 @@
               Close
             </button>
             <button
-              class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              class="text-green-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="submit"
               @click="btnBook()"
             >
               Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="showEdit"
+      class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+    >
+      <div class="relative w-auto my-6 mx-auto max-w-6xl">
+        <!--content-->
+        <div
+          class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+        >
+          <!--header-->
+          <div
+            class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t"
+          >
+            <h3 class="text-3xl font-semibold">Edit Book</h3>
+            <button
+              class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+              v-on:click="
+                $v.$reset()
+                showEdit = false
+                clear()
+              "
+            >
+              <span
+                class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"
+              >
+                ×
+              </span>
+            </button>
+          </div>
+          <!--body-->
+          <div class="relative p-6 flex-auto">
+            <form class="w-full max-w-lg">
+              <div class="flex flex-wrap -mx-3 mb-2">
+                <div class="w-full md:w-8/12 px-3 mb-6 md:mb-0">
+                  <label
+                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  >
+                    Book Name
+                  </label>
+                  <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white"
+                    type="text"
+                    :class="{ 'border-red-500': $v.bookName.$error }"
+                    v-model="$v.bookName.$model"
+                  />
+                  <div
+                    class="text-red-500 text-xs italic"
+                    v-show="$v.bookName.$error"
+                  >
+                    <p v-show="!$v.bookName.required">
+                      Please fill out this field.
+                    </p>
+                  </div>
+                </div>
+                <div class="w-full md:w-4/12 px-3">
+                  <label
+                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    for="grid-last-name"
+                  >
+                    Year
+                  </label>
+                  <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    v-model="$v.bookDate.$model"
+                    type="text"
+                    :class="{ 'border-red-500': $v.bookDate.$error }"
+                  />
+                  <div
+                    class="text-red-500 text-xs italic"
+                    v-show="$v.bookDate.$error"
+                  >
+                    <p v-show="!$v.bookDate.required">
+                      Please fill out this field.
+                    </p>
+                    <p v-show="!$v.bookDate.year">Year only</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-wrap -mx-3 mb-2">
+                <div class="w-full px-3">
+                  <label
+                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    for="grid-password"
+                  >
+                    Description
+                  </label>
+                  <textarea
+                    v-model="$v.bookDescription.$model"
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    :class="{ 'border-red-500': $v.bookDescription.$error }"
+                  >
+                  </textarea>
+                  <div
+                    class="text-red-500 text-xs italic"
+                    v-show="$v.bookDescription.$error"
+                  >
+                    <p v-show="!$v.bookDescription.required">
+                      Please fill out this field.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-wrap -mx-3 mb-2">
+                <div class="w-1/2">
+                  <div class="w-4/5 px-3 mb-6 md:mb-0">
+                    <label
+                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      for="grid-city"
+                    >
+                      Amount
+                    </label>
+                    <input
+                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      type="text"
+                      v-model="$v.bookAmount.$model"
+                      :class="{ 'border-red-500': $v.bookAmount.$error }"
+                    />
+                    <div
+                      class="text-red-500 text-xs italic"
+                      v-show="$v.bookAmount.$error"
+                    >
+                      <p v-show="!$v.bookAmount.required">
+                        Please fill out this field.
+                      </p>
+                      <p v-show="!$v.bookAmount.min">Must be greater than 0</p>
+                      <p v-show="!$v.bookAmount.num">number only</p>
+                    </div>
+                  </div>
+                  <div class="w-4/5 px-3 mb-6 md:mb-0">
+                    <label
+                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      for="grid-city"
+                    >
+                      price
+                    </label>
+                    <input
+                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      type="text"
+                      v-model="$v.bookPrice.$model"
+                      :class="{ 'border-red-500': $v.bookPrice.$error }"
+                    />
+                    <div
+                      class="text-red-500 text-xs italic"
+                      v-show="$v.bookPrice.$error"
+                    >
+                      <p v-show="!$v.bookPrice.required">
+                        Please fill out this field.
+                      </p>
+                      <p v-show="!$v.bookPrice.min">Must be greater than 0</p>
+                      <p v-show="!$v.bookPrice.num">number only</p>
+                    </div>
+                  </div>
+                  <label class="w-4/5 px-3 mb-6 md:mb-0">
+                    <input
+                      type="checkbox"
+                      class="form-checkbox"
+                      v-model="bookpopular"
+                    />
+                    <span class="ml-2">Popular</span>
+                  </label>
+                </div>
+
+                <div class="w-1/2 md:w-6/12 px-3 mb-6 md:mb-0">
+                  <img :src="urlImage" alt="Book image" width="150" />
+
+                  <div class="overflow-hidden relative w-full rounded-lg mt-4">
+                    <button
+                      class="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 w-full inline-flex items-center"
+                    >
+                      <svg
+                        fill="#FFF"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        width="18"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+                      </svg>
+                      <span class="ml-2">Uplord Image</span>
+                    </button>
+                    <input
+                      class="cursor-pointer absolute block opacity-0 right-0 top-0"
+                      type="file"
+                      accept="image/*"
+                      @change="selectImages"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap -mx-3 mb-2">
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label
+                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    for="grid-city"
+                  >
+                    Author
+                  </label>
+                  <div
+                    class="flex my-2"
+                    v-for="(inputAuthor, index) in $v.bookAuthor.$each.$iter"
+                    :key="index"
+                  >
+                    <input
+                      class="py-2 appearance-none block w-4/6 bg-gray-200 text-gray-700 border border-gray-200 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      type="text"
+                      v-model="inputAuthor.name.$model"
+                      :class="{ 'border-red-500': inputAuthor.name.$error }"
+                    />
+                    <span @click="bookAuthor.push({ name: '' })">
+                      <img
+                        src="~/assets/ADMIN/add_black_24dp.svg"
+                        alt=""
+                        class="inline mx-1"
+                      />
+                    </span>
+                    <span @click="bookAuthor.pop()" v-show="index > 0">
+                      <img
+                        src="~/assets/ADMIN/Group.svg"
+                        alt=""
+                        class="inline mx-1"
+                      />
+                    </span>
+                  </div>
+                </div>
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label
+                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    for="grid-city"
+                  >
+                    Type
+                  </label>
+                  <div
+                    class="flex my-2"
+                    v-for="(inputType, index) in $v.bookType.$each.$iter"
+                    :key="index"
+                  >
+                    <input
+                      class="py-2 appearance-none block w-4/6 bg-gray-200 text-gray-700 border border-gray-200 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      type="text"
+                      v-model="inputType.name.$model"
+                      :class="{ 'border-red-500': inputType.name.$error }"
+                    />
+                    <span @click="bookType.push({ name: '' })">
+                      <img
+                        src="~/assets/ADMIN/add_black_24dp.svg"
+                        alt=""
+                        class="inline mx-1"
+                      />
+                    </span>
+                    <span @click="bookType.pop()" v-show="index > 0">
+                      <img
+                        src="~/assets/ADMIN/Group.svg"
+                        alt=""
+                        class="inline mx-1"
+                      />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!--footer-->
+          <div
+            class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b"
+          >
+            <button
+              class="text-yellow-500 bg-transparent border border-solid border-yellow-500 hover:bg-yellow-500 hover:text-white active:bg-yellow-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+              @click="
+                showEdit = false
+                $v.$reset()
+                clear()
+              "
+            >
+              Close
+            </button>
+            <button
+              class="text-yellow-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="submit"
+              @click="btnEdit()"
+            >
+              Edit book
             </button>
           </div>
         </div>
@@ -358,13 +672,14 @@
                     <div class="icon text-center">
                       <img
                         src="~/assets/ADMIN/Edit.svg"
-                        alt=""
-                        class="inline mx-3"
+                        alt="edit"
+                        class="inline mx-3 cursor-pointer"
+                        @click="edit(book)"
                       />
                       <img
                         src="~/assets/ADMIN/Group.svg"
-                        alt=""
-                        class="inline mx-3"
+                        alt="delete"
+                        class="inline mx-3 cursor-pointer"
                       />
                     </div>
                   </td>
@@ -390,6 +705,7 @@ export default {
     return {
       //models
       showModal: false,
+      showEdit: false,
       // Data Books
       bookName: '',
       bookDate: '',
@@ -460,6 +776,23 @@ export default {
       )
       return books
     },
+    urlImage() {
+      if (this.images === null) {
+        return '#'
+      }
+      var url = '#'
+      if (this.showModal === true && typeof this.images === 'object') {
+        console.log('wow')
+        url = URL.createObjectURL(this.images[0])
+      } else if (this.showEdit === true) {
+        if (typeof this.images === 'object') {
+          url = URL.createObjectURL(this.images[0])
+        } else if (typeof this.images === 'string') {
+          url = 'http://localhost:3000' + this.images
+        }
+      }
+      return url
+    },
   },
   methods: {
     //Add Book to database method (need module axios)
@@ -470,11 +803,16 @@ export default {
       this.clear()
       // return { status };
     },
+    //Update Book to database method (need module axios)
+    async updateBook(book) {
+      for (var pair of book.entries()) {
+        console.log(pair[0] + ' : ' + pair[1])
+      }
+      // this.$axios.put('admin/addBook', book)
+      this.clear()
+    },
     selectImages(event) {
-      console.log(this.images)
-
       this.images = event.target.files
-      console.log(this.images)
     },
     btnBook() {
       this.$v.$touch()
@@ -526,7 +864,7 @@ export default {
           // book_image: "", //Testing
         })
         this.addBook(formData)
-      } else {
+      } else if (this.images === null) {
         alert('input image')
       }
     },
@@ -541,6 +879,64 @@ export default {
       this.bookAuthor = [{ name: '' }]
       this.bookType = [{ name: '' }]
       this.images = null
+    },
+    edit(book) {
+      this.bookAuthor = []
+      this.bookType = []
+      this.showEdit = true
+      this.bookName = book.book_name
+      this.bookDate = book.pb_year
+      this.bookDescription = book.description
+      this.bookPrice = book.price
+      this.bookAmount = book.book_amount
+      this.bookpopular = book.popular
+      this.images = book.book_image
+      book.author_name.forEach((val) => {
+        this.bookAuthor.push({ name: val })
+      })
+      book.type.forEach((val) => {
+        this.bookType.push({ name: val })
+      })
+    },
+    btnEdit() {
+      if (!this.$v.$invalid) {
+        const author = []
+        this.bookAuthor.forEach((value) => {
+          const name = value.name.split(' ')
+          author.push({
+            author_fname: name[0],
+            author_lname: name[1] === undefined ? '' : name[1],
+          })
+        })
+
+        const type = []
+        this.bookType.forEach((value) => {
+          type.push({
+            type_name: value.name,
+          })
+        })
+
+        const JSON_author = JSON.stringify(author)
+        const JSON_type = JSON.stringify(type)
+
+        let formData = new FormData()
+        formData.append('book_name', this.bookName)
+        formData.append('pb_year', this.bookDate)
+        formData.append('price', this.bookPrice)
+        formData.append('book_amount', this.bookAmount)
+        formData.append('description', this.bookDescription)
+        formData.append('popular', this.bookpopular ? 1 : 0)
+        formData.append('author', JSON_author)
+        formData.append('type', JSON_type)
+        if (typeof this.images === 'object') {
+          console.log('New image')
+          formData.append('bookImage', this.images[0])
+        }
+        this.showEdit = false
+        this.updateBook(formData)
+      } else {
+        alert('Error something')
+      }
     },
   },
 }
