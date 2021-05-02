@@ -53,13 +53,28 @@
                   <td class="border px-4 py-2">
                     <div class="icon text-center">
                       <img
+                        src="~/assets/done_black_24dp.svg"
+                        alt="check order"
+                        class="inline mx-3"
+                      />
+                      <img
                         src="~/assets/ADMIN/Edit.svg"
-                        alt=""
+                        alt="Edit order"
+                        class="inline mx-3"
+                      />
+                      <img
+                        src="~/assets/local_shipping_black_24dp.svg"
+                        alt="delivery order"
+                        class="inline mx-3"
+                      />
+                      <img
+                        src="~/assets/receipt_long_black_24dp.svg"
+                        alt="detail order"
                         class="inline mx-3"
                       />
                       <img
                         src="~/assets/ADMIN/Group.svg"
-                        alt=""
+                        alt="delete order"
                         class="inline mx-3"
                       />
                     </div>
