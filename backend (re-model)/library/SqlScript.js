@@ -85,7 +85,9 @@ const OrderSQL = {
     update_order        :  `update \`ORDER\`
                             set payment_status = ?, payment_image = null, delivery_date = ?
                             , ADMIN_admin_id= ? 
-                            where order_id = ?;`
+                            where order_id = ?;`,
+    fetchAllOrder       :  `SELECT * FROM \`ORDER\``
+    // o JOIN ORDER_BOOK ob ON o.order_id = ob.ORDER_order_id
 }
 
 module.exports.OrderSQL = OrderSQL;

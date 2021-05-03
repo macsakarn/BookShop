@@ -76,3 +76,25 @@ async function CusEditOrder (data) {
 
 
 module.exports.CusEditOrder = CusEditOrder;
+
+async function FetchAllBooks(  ) {
+    console.log("Begin fetch All Order process....");
+    const database = await poolData.getConnection();
+    database.beginTransaction();
+    try {
+        const allOrder = await database.query(OrderSQL.fetchAllOrder);
+        return  {status : true, massage : "Order Success", allOrder : allOrder[0]};
+
+    }
+    catch (err) {
+        console.log("Detect Some bug....");
+        console.log(err);
+        return {status : false, massage : "Somethings went wrong", error : err};
+    }
+    finally {
+        console.log("End fetch All order process");
+        database.release();
+    }
+}
+
+module.exports.FetchAllBooks = FetchAllBooks;
