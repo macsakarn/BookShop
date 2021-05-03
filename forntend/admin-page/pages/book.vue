@@ -163,7 +163,12 @@
                 </div>
 
                 <div class="w-1/2 md:w-6/12 px-3 mb-6 md:mb-0">
-                  <img :src="urlImage" alt="Book image" width="150" />
+                  <img
+                    :src="urlImage"
+                    v-show="urlImage !== '#'"
+                    alt="Book image"
+                    width="150"
+                  />
 
                   <div
                     class="overflow-hidden relative w-full rounded-lg mt-4 cursor-pointer"
@@ -883,6 +888,7 @@ export default {
       this.clear()
     },
     selectImages(event) {
+      this.images = null
       this.images = event.target.files
     },
     btnBook() {
