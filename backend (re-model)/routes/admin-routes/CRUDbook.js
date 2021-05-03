@@ -2,9 +2,30 @@ const router = require('express').Router();
 const poolData = require("../../config/database");
 const passport = require("passport");
 const { ExtractToken } = require('../../library/authModule');
+const multer = require('multer')
 
 
-router.post('/addBook', passport.authenticate('jwt', { session: false }),async (req,res,next)=>{
+var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './static/uploads') // path to save file
+    },
+    filename: function (req, file, callback) {
+        // set file name
+        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+})
+
+const upload = multer({ storage: storage })
+
+router.post('/addBook', passport.authenticate('jwt', { session: false }), upload.single('bookImage'), async (req,res,next)=>{
+    const file = req.file;
+
+    if (!file) {
+        return res.status(400).json({ message: "Please upload a file" });
+    }
+
+    const book_image = file.path.substr(6)
+    
     const connection = await poolData.getConnection();
     await connection.beginTransaction();
     const jwt_payload = ExtractToken( req.headers.authorization );
@@ -16,8 +37,10 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }),async (
             const amount = req.body.book_amount
             const des   = req.body.description
             const pop = req.body.popular
-            const author = req.body.author
-            const type = req.body.type
+            
+            const author = JSON.parse(req.body.author)
+            const type = JSON.parse(req.body.type)
+            
             let findBook = await connection.query('SELECT book_name, pb_year FROM BOOK WHERE book_name=? AND pb_year=?', [name, year]) 
             console.log(findBook)
             if(findBook[0].length > 0){
@@ -25,7 +48,7 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }),async (
             }
             else{
               const insertBook = " INSERT INTO BOOK SELECT 0, ?, ?, ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS(  SELECT book_name FROM BOOK WHERE book_name=? LIMIT 1 );"
-              await connection.query(insertBook,[name, year, price, amount, null, des, pop, name])
+              await connection.query(insertBook,[name, year, price, amount, book_image, des, pop, name])
               
               const insertBooktype = " INSERT INTO BOOK_TYPE SELECT 0,? FROM DUAL WHERE NOT EXISTS( SELECT type_name FROM BOOK_TYPE WHERE type_name=? LIMIT 1 );"
               await req.body.type.map(

@@ -23,7 +23,7 @@ router.get('/sidebar', async (req, res, next) => {
     console.log("Begin sidebar Process");
     const author = await getSomethings(sidebar.author_Script);
     const type  = await getSomethings(sidebar.type_Script);
-    // const pop = await getSomethings(sidebar.pop_Script);
+    const pop = await getSomethings(sidebar.pop_Script);
 
     const authors = author[0].map(data => data.author_name);
     const types = type[0].map(data => data.type_name);
@@ -36,6 +36,19 @@ router.get('/sidebar', async (req, res, next) => {
     console.log("send sidebar result : ");
     console.log(!!(data));
     res.json(data);
+})
+
+router.get('/popbook', async (req, res, next) => {
+    try {
+        const pop = await getSomethings(sidebar.pop_Script)
+        res.json(pop[0])
+    } catch (err) {
+        res.json({ massage: "Something Went Wrong !!!" });
+        next(err);
+    } finally {
+        console.log("End Process send author data")
+        connection.release()
+    }
 })
 
 router.get('/fetchBook/:bookId', async (req, res, next) => {

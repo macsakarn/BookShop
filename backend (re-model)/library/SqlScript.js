@@ -4,7 +4,7 @@ const regisSQL = {
     find_admin           :    `SELECT * FROM ADMIN WHERE username = ? OR (admin_fname=? AND admin_lname=?)`, 
     insert_user          :    `INSERT INTO CUSTOMER(customer_fname, customer_lname, customer_address, customer_email, customer_tel) VALUES (?, ?, ?, ?, ?);`,
     insert_account       :    `INSERT INTO ACCOUNTS (username, password, CUSTOMER_customer_id) VALUES (?, ?, ?)`,
-    insert_admin         :    `INSERT INTO ADMIN (admin_fname, admin_lname, username, password) VALUES (?, ?, ?, ?) `,
+    insert_admin         :    `INSERT INTO ADMIN (admin_fname, admin_lname, username, password) VALUES (?, ?, ?, ?) ;`,
 };
 
 module.exports.regisSQL = regisSQL;
@@ -82,6 +82,10 @@ const OrderSQL = {
                            `,
     make_order_book     :  `INSERT INTO ORDER_BOOK VALUES (0, ?, ?, ?, ?, ?)`,
     orderDetailById     :  ``,
+    update_order        :  `update \`ORDER\`
+                            set payment_status = ?, payment_image = null, delivery_date = ?
+                            , ADMIN_admin_id= ? 
+                            where order_id = ?;`
 }
 
 module.exports.OrderSQL = OrderSQL;
@@ -90,6 +94,7 @@ const OrderParams = {
     make_order          :   `[data.totalPrice, data.amount, data.customerId]`, //sub
     make_order_book     :   `[data.book_amount*data.book_price ,data.book_amount, data.book_price, data.book_id, OrderId[0][0].insertId]`,
     orderDetailById     :   ``,
+    update_order        :   `[data.payment_status, data.delivery_date, jwt_payload.sub, data.order_id]`
 }
 
 module.exports.OrderParams = OrderParams;

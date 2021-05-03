@@ -9,6 +9,8 @@ router.use('/admin', require('./admin-routes/admin'));
 
 router.use('/admin/book', require('./admin-routes/CRUDbook'));
 
+router.use('/admin/order', require('./admin-routes/manageOrders'));
+
 router.use('/public', require('./public-routes/public'));
 
 module.exports = router;

@@ -38,7 +38,8 @@ async function Register ( role, data ) {
 
             else {
                 await database.query ( regisSQL.insert_admin, eval ( regisParamsSQL.insert_admin ) );
-                const jwtToken = issueAdminJWT( data );
+                const findAdmin = await database.query( loginSQL.find_admin, eval ( loginParams.find_admin ) );
+                const jwtToken = issueAdminJWT( findAdmin[0][0] );
                 await database.commit();
                 return {status : true, admin : "Now you are admin !",token : jwtToken}
             }

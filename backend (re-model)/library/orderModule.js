@@ -1,5 +1,6 @@
 const poolData = require("../config/database");
 const { OrderSQL, OrderParams } = require("./SqlScript");
+const multer = require('multer');
 
 
 
@@ -34,3 +35,44 @@ async function MakeOrder ( data , sub ) {
 }
 
 module.exports.MakeOrder = MakeOrder;
+
+async function AdminEditOrder (data, jwt_payload) {
+    console.log("Begin admin edit order process...");
+    const database = await poolData.getConnection();
+    database.beginTransaction();
+    try {
+        await database.query(OrderSQL.update_order, eval(OrderParams.update_order));
+        await database.commit();
+        return {status : true, massage : "Edit Order Success"};
+    }
+    catch (err) {
+        console.log("Detect Some bug....");
+        console.log(err);
+        return {status : false, massage : "Somethings went wrong", error : err};
+    }
+    finally {
+        console.log("End edit order process");
+        database.release();
+    }
+}
+
+module.exports.AdminEditOrder = AdminEditOrder
+
+
+async function CusEditOrder (data) {
+    console.log("Begin customer edit order process....");
+    const database = await poolData.getConnection();
+    database.beginTransaction();
+    try{
+        
+    }
+    catch (err) {
+
+    }
+    finally {
+
+    }
+}
+
+
+module.exports.CusEditOrder = CusEditOrder;
