@@ -56,11 +56,6 @@
                       class="inline mx-3"
                     />
                     <img
-                      src="~/assets/ADMIN/Edit.svg"
-                      alt="Edit order"
-                      class="inline mx-3"
-                    />
-                    <img
                       src="~/assets/local_shipping_black_24dp.svg"
                       alt="delivery order"
                       class="inline mx-3"
@@ -68,11 +63,6 @@
                     <img
                       src="~/assets/receipt_long_black_24dp.svg"
                       alt="detail order"
-                      class="inline mx-3"
-                    />
-                    <img
-                      src="~/assets/ADMIN/Group.svg"
-                      alt="delete order"
                       class="inline mx-3"
                     />
                   </div>

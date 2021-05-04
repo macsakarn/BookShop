@@ -11,3 +11,8 @@ export function addbook(data) {
     const url = `${HOSTNAME}/admin/book/addBook`
     return require('post', url, data, true)
 }
+
+export function deletebook(id) {
+    const url = `${HOSTNAME}/admin/book//deletebook/${id}`
+    return require('delete', url, {}, true)
+}

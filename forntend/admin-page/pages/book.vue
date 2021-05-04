@@ -635,7 +635,7 @@
             <button
               class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button"
-              v-on:click="deleteBook(deleteID)"
+              v-on:click="deleteBook(deleteID, deleteIndex)"
             >
               Delete Book
             </button>
@@ -744,7 +744,7 @@
                       src="~/assets/ADMIN/Group.svg"
                       alt="delete"
                       class="inline mx-3 cursor-pointer"
-                      @click="btnDelete(book.book_id, book.book_name)"
+                      @click="btnDelete(book.book_id, book.book_name, index)"
                     />
                   </div>
                 </td>
@@ -788,6 +788,7 @@ export default {
       //
       deleteText: '',
       deleteID: 0,
+      deleteIndex: 0,
     }
   },
   validations: {
@@ -869,10 +870,7 @@ export default {
     async addBook(book) {
       this.clear()
       const res = await BookApi.addbook(book)
-      console.log('รอป่าววะ')
       alert(res.data.massage)
-
-      // return { status };
     },
     //Update Book to database method (need module axios)
     async updateBook(book) {
@@ -880,10 +878,12 @@ export default {
       this.clear()
     },
     //DELETE Book to database method (need module axios)
-    async deleteBook(id) {
-      const url = `admin/..../${id}`
-      // this.$axios.delete(url)
+    async deleteBook(id, index) {
       this.clear()
+      const res = await BookApi.deletebook(id)
+      console.log(res)
+      this.bookAll.splice(index, 1)
+      alert(res.data.massage)
     },
     selectImages(event) {
       this.images = null
@@ -956,6 +956,10 @@ export default {
       this.images = null
       this.deleteText = ''
       this.deleteID = 0
+      this.deleteIndex = 0
+      this.showDelete = false
+      this.showModal = false
+      this.showEdit = false
     },
     edit(book) {
       this.bookAuthor = []
@@ -1015,11 +1019,11 @@ export default {
         alert('Error something')
       }
     },
-    btnDelete(id, name) {
+    btnDelete(id, name, index) {
       this.showDelete = true
       this.deleteText = name
       this.deleteID = id
-      console.log(id)
+      this.deleteIndex = index
     },
   },
 }
