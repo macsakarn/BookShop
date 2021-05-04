@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+
 const getToken = function () {
     if (process.server) {
         // server side
