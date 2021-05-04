@@ -48,8 +48,9 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }), upload
                 return res.json({ massage: "Duplicate Book" })
             }
             else {
-                const insertBook = " INSERT INTO BOOK SELECT 0, ?, ?, ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS(  SELECT book_name FROM BOOK WHERE book_name=? LIMIT 1 );"
-                await connection.query(insertBook, [name, year, price, amount, book_image, des, pop, name])
+                const insertBook = `INSERT INTO BOOK SELECT 0, ?, ?, ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS(  SELECT book_name FROM BOOK WHERE book_name=? LIMIT 1 );  SET @last_id_in_BOOK = LAST_INSERT_ID();
+              SELECT @last_id_in_BOOK`
+              const book = await connection.query(insertBook,[name, year, price, amount, book_image, des, pop, name])
 
                 const insertBooktype = " INSERT INTO BOOK_TYPE SELECT 0,? FROM DUAL WHERE NOT EXISTS( SELECT type_name FROM BOOK_TYPE WHERE type_name=? LIMIT 1 );"
                 await type.map(
@@ -88,7 +89,7 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }), upload
             }
 
             await connection.commit()
-            res.json({ massage: "Success" })
+            res.json({ massage: "Success" , bookId : book})
         } catch (err) {
             await connection.rollback();
             res.json({ massage: "Something Went Wrong !!!" });
