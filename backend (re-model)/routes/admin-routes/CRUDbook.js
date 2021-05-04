@@ -48,10 +48,10 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }), upload
                 return res.json({ massage: "Duplicate Book" })
             }
             else {
-                const insertBook = `INSERT INTO BOOK SELECT 0, ?, ?, ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS(  SELECT book_name FROM BOOK WHERE book_name=? LIMIT 1 ); SELECT book_id FROM BOOK WHERE book_name=?`
+                const insertBook = `INSERT INTO BOOK SELECT 0, ?, ?, ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS(  SELECT book_name FROM BOOK WHERE book_name=? LIMIT 1 );`
 
 
-                const book = await connection.query(insertBook, [name, year, price, amount, book_image, des, pop, name, name])
+                const book = await connection.query(insertBook, [name, year, price, amount, book_image, des, pop, name])
                 console.log(book[0][0]);
                 console.log(book[0]);
                 console.log(book);
