@@ -13,6 +13,6 @@ export function addbook(data) {
 }
 
 export function deletebook(id) {
-    const url = `${HOSTNAME}/admin/book//deletebook/${id}`
+    const url = `${HOSTNAME}/admin/book/deletebook/${id}`
     return require('delete', url, {}, true)
 }

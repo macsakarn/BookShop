@@ -4,6 +4,7 @@ const passport = require("passport");
 const { ExtractToken } = require('../../library/authModule');
 const multer = require('multer')
 const path = require("path")
+const fs = require("fs");
 
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -114,11 +115,27 @@ router.delete('/deletebook/:bookid', passport.authenticate('jwt', { session: fal
     if (jwt_payload.role === "I'm admin") {
         await connection.beginTransaction();
         try {
+            //delete Image root path
+            const [images, imageFields] = await connection.query(
+                "SELECT book_image FROM BOOK WHERE book_id = ?",
+                [req.params.bookid]
+            );
+            const appDir = path.dirname(require.main.filename); // Get app root directory
+
+            console.log('Root path : ' + appDir)
+            console.log('image path : ' + images[0].book_image);
+            const p = path.join(appDir, 'static', images[0].book_image);
+            console.log('Full path ' + p);
+            fs.unlinkSync(p);
+
             await connection.query(deleteBookTypeScript, [req.params.bookid])
 
             await connection.query(deleteBookAuthorScript, [req.params.bookid])
 
             await connection.query(deleteBookScript, [req.params.bookid])
+
+
+
 
             await connection.commit()
             res.json({ massage: "Success" })

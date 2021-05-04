@@ -895,12 +895,12 @@ export default {
         const addAutor = []
         const author = []
         this.bookAuthor.forEach((value) => {
+          addAutor.push(value.name)
           const name = value.name.split(' ')
           author.push({
             author_fname: name[0],
             author_lname: name[1] === undefined ? '' : name[1],
           })
-          addAutor.push(value.name)
         })
 
         const addType = []
@@ -934,7 +934,7 @@ export default {
           book_amount: this.bookAmount,
           description: this.bookDescription,
           popular: this.bookpopular,
-          author: addAutor,
+          author_name: addAutor,
           type: addType,
           // book_image: "", //Testing
         })
