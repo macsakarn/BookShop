@@ -36,14 +36,21 @@ async function MakeOrder ( data , sub ) {
 
 module.exports.MakeOrder = MakeOrder;
 
-async function AdminEditOrder (data, jwt_payload) {
+async function AdminEditOrder (data, id ,jwt_payload) {
     console.log("Begin admin edit order process...");
     const database = await poolData.getConnection();
     database.beginTransaction();
     try {
-        await database.query(OrderSQL.update_order, eval(OrderParams.update_order));
-        await database.commit();
-        return {status : true, massage : "Edit Order Success"};
+        if (data.choice === "check"){
+            await database.query(OrderSQL.update_order_admin, eval(OrderParams.update_order_admin));
+            await database.commit();
+            return {status : true, massage : "Edit Order Success"};
+        };
+        if (data.choice === "daily"){
+            await database.query(OrderSQL.update_order_delivery, eval(OrderParams.update_order_delivery));
+            await database.commit();
+            return {status : true, massage : "Edit Order Success"};
+        };
     }
     catch (err) {
         console.log("Detect Some bug....");
@@ -64,13 +71,18 @@ async function CusEditOrder (data) {
     const database = await poolData.getConnection();
     database.beginTransaction();
     try{
-        
+        await database.query();
+        await database.commit();
+        return {status : true, massage : "Customer Edit Order Success"}
     }
     catch (err) {
-
+        console.log("Detect Some bug....");
+        console.log(err);
+        return {status : false, massage : "Something went wrong"}
     }
     finally {
-
+        console.log("End customer edit process");
+        database.release();
     }
 }
 
@@ -98,3 +110,25 @@ async function FetchAllBooks(  ) {
 }
 
 module.exports.FetchAllBooks = FetchAllBooks;
+
+
+async function FetchOrderById (data) {
+    console.log("Begin fetch Order by id process....");
+    const database = await poolData.getConnection();
+    database.beginTransaction();
+    try {
+        const order = await database.query(OrderSQL.get_order_by_id, eval(OrderParams.get_order_by_id));
+        return  {status : true, massage : "Order Success", Order : order[0][0]};
+    }
+    catch (err) {
+        console.log("Detect Some bug....");
+        console.log(err);
+        return {status : false, massage : "Somethings went wrong", error : err};
+    }
+    finally {
+        console.log("End fetch Order by id  process");
+        database.release();
+    }
+}
+
+module.exports.FetchOrderById = FetchOrderById;

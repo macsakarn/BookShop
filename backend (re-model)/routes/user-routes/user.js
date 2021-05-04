@@ -86,6 +86,10 @@ router.post('/makeorder', passport.authenticate('jwt', { session: false }), asyn
 router.post('/editorder', passport.authenticate('jwt', { session: false }), async (req,res, next) => {
     const dataObject = req.body;
     const jwt_payload = ExtractToken(req.headers.authorization);
+
+    if (jwt_payload.role === 'customer') {
+        // const order = ;
+    }
     
 })
 

@@ -19,3 +19,18 @@ admin edit order------
     "order_id" : 2
 
 }
+
+
+check------
+{
+    "choice" : "check",
+    "order_id" : 1
+}
+
+
+daily---------
+{
+    "choice" : "daily",
+    "delivery_date" : "2021-05-10",
+    "order_id" : 1
+}

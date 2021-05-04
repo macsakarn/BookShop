@@ -76,27 +76,36 @@ const fetchBookById = {
 module.exports.fetchBookById = fetchBookById;
 
 const OrderSQL = {
-    make_order          :  `INSERT INTO \`ORDER\` VALUES (0,CURRENT_DATE , 0, null, null, ?, ?, null, ?);
-                            SET @last_id_in_ORDER = LAST_INSERT_ID();
-                            SELECT @last_id_in_ORDER;
-                           `,
-    make_order_book     :  `INSERT INTO ORDER_BOOK VALUES (0, ?, ?, ?, ?, ?)`,
-    orderDetailById     :  ``,
-    update_order        :  `update \`ORDER\`
-                            set payment_status = ?, payment_image = null, delivery_date = ?
-                            , ADMIN_admin_id= ? 
-                            where order_id = ?;`,
-    fetchAllOrder       :  `SELECT * FROM \`ORDER\``
-    // o JOIN ORDER_BOOK ob ON o.order_id = ob.ORDER_order_id
+    make_order              :  `INSERT INTO \`ORDER\` VALUES (0,CURRENT_DATE , 0, null, null, ?, ?, null, ?);
+                                SET @last_id_in_ORDER = LAST_INSERT_ID();
+                                SELECT @last_id_in_ORDER;
+                                 `,
+    make_order_book         :  `INSERT INTO ORDER_BOOK VALUES (0, ?, ?, ?, ?, ?)`,
+    update_order_admin      :  `update \`ORDER\`
+                                set ADMIN_admin_id= ? 
+                                where order_id = ?;`,
+    update_order_delivery   :   `update \`ORDER\`
+                                 set delivery_date = ? 
+                                 where order_id = ?;`,
+    get_order_by_id         :   `SELECT O.order_id, O.order_date, O.payment_status, O.payment_image, O.delivery_date, O.total_price, O.amount, O.ADMIN_admin_id, O.CUSTOMER_customer_id, group_concat( OB.item_no separator ', ') as All_item_no, group_concat( OB.item_unit separator ', ' ) as All_item_unit, group_concat( OB.BOOK_book_id separator ', ') as All_Book_book_id
+                                FROM \`ORDER\`O JOIN ORDER_BOOK OB ON O.order_id = OB.ORDER_order_id WHERE O.order_id = ? GROUP BY O.order_id`,
+    fetchAllOrder           :  `SELECT * FROM \`ORDER\``,
+    cus_edit_order          :  `update ORDER
+                                set order_date = CURRENT_DATE, payment_image = ?, 
+                                ,total_price = ?
+                                where order_id = ?;
+                                `
 }
 
 module.exports.OrderSQL = OrderSQL;
 
 const OrderParams = {
-    make_order          :   `[data.totalPrice, data.amount, data.customerId]`, //sub
-    make_order_book     :   `[data.book_amount*data.book_price ,data.book_amount, data.book_price, data.book_id, OrderId[0][0].insertId]`,
-    orderDetailById     :   ``,
-    update_order        :   `[data.payment_status, data.delivery_date, jwt_payload.sub, data.order_id]`
+    make_order            :   `[data.totalPrice, data.amount, data.customerId]`, //sub
+    make_order_book       :   `[data.book_amount*data.book_price ,data.book_amount, data.book_price, data.book_id, OrderId[0][0].insertId]`,
+    update_order_admin    :   `[jwt_payload.sub, data.order_id]`,
+    update_order_delivery :   `[data.delivery_date, data.order_id]`,
+    get_order_by_id       :   `[data]`
+    // cus_edit_order      :   `[data.]`
 }
 
 module.exports.OrderParams = OrderParams;

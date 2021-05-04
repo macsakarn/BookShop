@@ -1,7 +1,7 @@
 const router    =   require('express').Router();
 const passport = require('passport');
 const { ExtractToken } = require('../../library/authModule');
-const { AdminEditOrder, FetchAllBooks } = require('../../library/orderModule');
+const { AdminEditOrder, FetchAllBooks, FetchOrderById } = require('../../library/orderModule');
 
 
 
@@ -9,7 +9,7 @@ router.post('/edit', passport.authenticate('jwt', { session: false }), async (re
     const data = req.body;
     const jwt_payload = ExtractToken( req.headers.authorization );
     if (jwt_payload.role === "I'm admin"){
-        const order = await AdminEditOrder(data, jwt_payload);
+        const order = await AdminEditOrder(data, null, jwt_payload);
         console.log("edit result : ");
         console.log(order);
         res.json(order);
@@ -18,6 +18,19 @@ router.post('/edit', passport.authenticate('jwt', { session: false }), async (re
         res.status(401).json({status : false, massage: 'Unauthorize'})
     }
   
+})
+
+router.get('/fetchOrder/:id', passport.authenticate('jwt', { session: false }), async (req, res, next)=> {
+    const id = req.params.id
+    const jwt_payload = ExtractToken( req.headers.authorization );
+    if(jwt_payload.role === "I'm admin"){
+        const order = await FetchOrderById(id)
+        console.log("order result : ");
+        res.json(order);
+    }
+    else {
+        res.status(401).json({status : false, massage: 'Unauthorize'})
+    }
 })
 
 

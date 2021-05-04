@@ -84,6 +84,7 @@ async function Login (role, data) {
 
             const isValid = await validPassword(data.password, findUser[0][0].password);
 
+
             if (isValid===true) {
                 const tokenObject = issueJWT( findUser[0][0] );
                 return { status : true, massage : "Login Success", token : tokenObject }
@@ -103,6 +104,7 @@ async function Login (role, data) {
             }
 
             const isValid  = await validPassword(data.password, findAdmin[0][0].password);
+
 
             if (isValid===true) {
                 const tokenObject = issueAdminJWT( findAdmin[0][0] );

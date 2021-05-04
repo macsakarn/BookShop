@@ -8,6 +8,7 @@ const PRIV_KEY = fs.readFileSync(pathToKey, 'utf8')
 
 async function genPassword ( password ) {
     const genHash = await argon.hash( password )
+    
     return genHash
 }
 
