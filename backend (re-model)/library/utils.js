@@ -13,7 +13,7 @@ async function genPassword ( password ) {
 
 async function validPassword ( password, hash ) {
     const hashVerify = await argon.verify(hash, password)
-    return hash === hashVerify
+    return hashVerify
 }
 
 function issueJWT( user ) {
