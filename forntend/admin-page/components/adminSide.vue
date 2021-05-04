@@ -1,5 +1,5 @@
 <template>
-  <aside class="z-30 bg-gray-900 text-white w-1/6 relative">
+  <aside class="z-30 bg-white text-gray-700 w-2/12 relative">
     <div class="fixed h-full pl-20">
       <ul class="pt-48 text-gray-600">
         <li class="">
@@ -54,15 +54,15 @@ export default {
   props: {
     isLogin: Boolean,
   },
-};
+}
 </script>
 
 <style scoped>
 a.nuxt-link-exact-active {
-  color: #fff;
+  color: #000;
 }
 a:hover {
-  color: #fff;
+  color: #000;
   font-size: 15px;
 }
 </style>

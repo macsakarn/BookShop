@@ -647,118 +647,113 @@
       v-if="showDelete || showEdit || showModal"
       class="opacity-75 fixed inset-0 z-40 bg-black"
     ></div>
-    <main class="flex flex-wrap relative">
-      <adminSide :isLogin="true" />
-      <section class="mt-10 w-5/6">
-        <adminDashBoard class="mt-2 mb-4 mx-2" />
-        <div class="hero bg-white mx-auto w-11/12">
-          <div class="top-bar flex justify-between">
-            <form class="w-full max-w-sm">
-              <div class="flex items-center py-2 px-3">
-                <img src="~/assets/ADMIN/search_black_24dp.svg" alt="" />
-                <input
-                  class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                  type="text"
-                  placeholder="Search"
-                  v-model="search"
-                />
-                <img
-                  src="~/assets/ADMIN/Filter.svg"
-                  alt=""
-                  class="mt-1 cursor-pointer"
-                />
-              </div>
-            </form>
+    <section>
+      <adminDashBoard class="mt-2 mb-4 mx-2" />
+      <div class="hero bg-white mx-auto w-11/12">
+        <div class="top-bar flex justify-between">
+          <form class="w-full max-w-sm">
             <div class="flex items-center py-2 px-3">
-              <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                @click="showModal = true"
-              >
-                Add Book
-              </button>
+              <img src="~/assets/ADMIN/search_black_24dp.svg" alt="" />
+              <input
+                class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                type="text"
+                placeholder="Search"
+                v-model="search"
+              />
+              <img
+                src="~/assets/ADMIN/Filter.svg"
+                alt=""
+                class="mt-1 cursor-pointer"
+              />
             </div>
-          </div>
-          <div class="tableBook">
-            <table class="table-fixed w-full mb-12">
-              <thead>
-                <tr>
-                  <th class="px-4 py-2 w-1/12">Book ID</th>
-                  <th class="px-4 py-2 w-2/12">Name</th>
-                  <th class="px-4 py-2 w-1/12">Date</th>
-                  <th class="px-4 py-2 w-1/12">AUTHOR</th>
-                  <th class="px-4 py-2 w-1/12">TYPE</th>
-                  <th class="px-4 py-2 w-1/12">Description</th>
-                  <th class="px-4 py-2 w-1/12">price</th>
-                  <th class="px-4 py-2 w-1/12">Amount</th>
-                  <th class="px-4 py-2 w-1/12">popular</th>
-                  <th class="px-4 py-2 w-2/12">Edit</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(book, index) in books" :key="index">
-                  <td class="border px-4 py-2">{{ book.book_id }}</td>
-                  <td class="border px-4 py-2 truncate">
-                    {{ book.book_name }}
-                  </td>
-                  <td class="border px-4 py-2">{{ book.pb_year }}</td>
-                  <td class="border px-4 py-2">
-                    <p
-                      v-for="(author, index) in book.author_name"
-                      :key="index"
-                      class="truncate"
-                    >
-                      <span>
-                        {{ author }}
-                      </span>
-                    </p>
-                  </td>
-                  <td class="border px-4 py-2">
-                    <p
-                      v-for="(type, index) in book.type"
-                      :key="index"
-                      class="truncate"
-                    >
-                      <span class="">
-                        {{ type }}
-                      </span>
-                    </p>
-                  </td>
-                  <td class="border px-4 py-2 truncate">
-                    {{ book.description }}
-                  </td>
-                  <td class="border px-4 py-2">{{ book.price }}</td>
-                  <td class="border px-4 py-2">{{ book.book_amount }}</td>
-                  <td class="border px-4 py-2">
-                    <span class="text-green-600" v-show="book.popular">
-                      Yes
-                    </span>
-                    <span class="text-red-600" v-show="!book.popular">
-                      No
-                    </span>
-                  </td>
-                  <td class="border px-4 py-2">
-                    <div class="icon text-center">
-                      <img
-                        src="~/assets/ADMIN/Edit.svg"
-                        alt="edit"
-                        class="inline mx-3 cursor-pointer"
-                        @click="edit(book)"
-                      />
-                      <img
-                        src="~/assets/ADMIN/Group.svg"
-                        alt="delete"
-                        class="inline mx-3 cursor-pointer"
-                        @click="btnDelete(book.book_id, book.book_name)"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          </form>
+          <div class="flex items-center py-2 px-3">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              @click="showModal = true"
+            >
+              Add Book
+            </button>
           </div>
         </div>
-      </section>
-    </main>
+        <div class="tableBook">
+          <table class="table-fixed w-full mb-12">
+            <thead>
+              <tr>
+                <th class="px-4 py-2 w-1/12">Book ID</th>
+                <th class="px-4 py-2 w-2/12">Name</th>
+                <th class="px-4 py-2 w-1/12">Date</th>
+                <th class="px-4 py-2 w-1/12">AUTHOR</th>
+                <th class="px-4 py-2 w-1/12">TYPE</th>
+                <th class="px-4 py-2 w-1/12">Description</th>
+                <th class="px-4 py-2 w-1/12">price</th>
+                <th class="px-4 py-2 w-1/12">Amount</th>
+                <th class="px-4 py-2 w-1/12">popular</th>
+                <th class="px-4 py-2 w-2/12">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(book, index) in books" :key="index">
+                <td class="border px-4 py-2">{{ book.book_id }}</td>
+                <td class="border px-4 py-2 truncate">
+                  {{ book.book_name }}
+                </td>
+                <td class="border px-4 py-2">{{ book.pb_year }}</td>
+                <td class="border px-4 py-2">
+                  <p
+                    v-for="(author, index) in book.author_name"
+                    :key="index"
+                    class="truncate"
+                  >
+                    <span>
+                      {{ author }}
+                    </span>
+                  </p>
+                </td>
+                <td class="border px-4 py-2">
+                  <p
+                    v-for="(type, index) in book.type"
+                    :key="index"
+                    class="truncate"
+                  >
+                    <span class="">
+                      {{ type }}
+                    </span>
+                  </p>
+                </td>
+                <td class="border px-4 py-2 truncate">
+                  {{ book.description }}
+                </td>
+                <td class="border px-4 py-2">{{ book.price }}</td>
+                <td class="border px-4 py-2">{{ book.book_amount }}</td>
+                <td class="border px-4 py-2">
+                  <span class="text-green-600" v-show="book.popular">
+                    Yes
+                  </span>
+                  <span class="text-red-600" v-show="!book.popular"> No </span>
+                </td>
+                <td class="border px-4 py-2">
+                  <div class="icon text-center">
+                    <img
+                      src="~/assets/ADMIN/Edit.svg"
+                      alt="edit"
+                      class="inline mx-3 cursor-pointer"
+                      @click="edit(book)"
+                    />
+                    <img
+                      src="~/assets/ADMIN/Group.svg"
+                      alt="delete"
+                      class="inline mx-3 cursor-pointer"
+                      @click="btnDelete(book.book_id, book.book_name)"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -766,6 +761,7 @@
 import { required, minValue, minLength } from 'vuelidate/lib/validators'
 
 export default {
+  middleware: 'auth',
   async asyncData({ $axios }) {
     const bookAll = await $axios.$get('/allbook')
     return { bookAll }

@@ -46,11 +46,34 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     'nuxt-highcharts',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://localhost:3000'
+  },
+  auth: {
+    redirect: {
+      login: '/',
+      logout: '/',
+      callback: '/',
+      home: '/home'
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'token.token',
+          // required: true,
+          // type: 'Bearer'
+        },
+        endpoints: {
+          login: { url: '/admin/login', method: 'post' },
+          logout: false,
+          user: false
+        }
+      }
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
