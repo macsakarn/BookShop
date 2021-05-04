@@ -72,7 +72,11 @@ router.get('/fetchBook/:bookId', async (req, res, next) => {
     res.json(book[0][0]);
 })
 
-
+router.get('/chart', async (req, res, next) => {
+    console.log("Begin fetch chart Process");
+    const chart = await Chart();
+    res.json(chart)
+})
 
 
 module.exports = router;

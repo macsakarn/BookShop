@@ -109,3 +109,12 @@ const OrderParams = {
 }
 
 module.exports.OrderParams = OrderParams;
+
+const ChartSQL = {
+    money : `SELECT SUM(total_price) AS revenue FROM \`ORDER\`;`,
+    amountBook : `SELECT COUNT(book_id) AS amountBook FROM BOOK;`,
+    allOrder   : `SELECT COUNT(order_id) AS allOrder FROM \`ORDER\`;`,
+    day_money : `SELECT SUM(total_price) As dailyRevenue FROM \`ORDER\` WHERE order_date = CURRENT_DATE;`,
+}
+
+module.exports.ChartSQL = ChartSQL;
