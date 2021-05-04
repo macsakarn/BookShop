@@ -50,25 +50,31 @@
 </template>
 
 <script>
-const dateFormat = require("dateformat");
-const now = new Date();
+const dateFormat = require('dateformat')
+const now = new Date()
 export default {
+  async fetch() {
+    const data = await this.$axios.$get('/public/chart')
+    this.Revenue = data.revenue === null ? 0 : data.revenue
+    this.Sales = data.dailyRevenue === null ? 0 : data.dailyRevenue
+    this.Book = data.allBook === null ? 0 : data.allBook
+    this.Order = data.allOrder === null ? 0 : data.allOrder
+  },
   data() {
     return {
       //update date
-      updateRevenue: dateFormat(now, "dd/mm/yyyy h:MM TT"),
-      updateSales: dateFormat(now, "dd/mm/yyyy h:MM TT"),
-      updateBook: dateFormat(now, "dd/mm/yyyy h:MM TT"),
-      updateOrder: dateFormat(now, "dd/mm/yyyy h:MM TT"),
+      updateRevenue: dateFormat(now, 'dd/mm/yyyy h:MM TT'),
+      updateSales: dateFormat(now, 'dd/mm/yyyy h:MM TT'),
+      updateBook: dateFormat(now, 'dd/mm/yyyy h:MM TT'),
+      updateOrder: dateFormat(now, 'dd/mm/yyyy h:MM TT'),
       // value
-      Revenue: 1,
-      Sales: 1,
-      Book: 1,
-      Order: 1,
-    };
+      Revenue: null,
+      Sales: null,
+      Book: null,
+      Order: null,
+    }
   },
-};
+}
 </script>
 
-<style>
-</style>
+<style></style>

@@ -1,15 +1,16 @@
 const { getSomethings } = require('../../library/getDataModule');
 const { fetchAllBooks, sidebar, fetchBookById } = require('../../library/SqlScript');
+const { Chart } = require('../../library/Chart');
 
-const router    =   require('express').Router();
+const router = require('express').Router();
 
 router.get('/fetchAllBooks', async (req, res, next) => {
     console.log("Begin fetchAllBooks Process...");
     const books = await getSomethings(fetchAllBooks.script)
-    
+
     books[0].forEach(val => {
-        const author =  val.author_name.split(', ')
-        const type =  val.type.split(', ')
+        const author = val.author_name.split(', ')
+        const type = val.type.split(', ')
         val.author_name = author
         val.type = type
     });
@@ -22,7 +23,7 @@ router.get('/fetchAllBooks', async (req, res, next) => {
 router.get('/sidebar', async (req, res, next) => {
     console.log("Begin sidebar Process");
     const author = await getSomethings(sidebar.author_Script);
-    const type  = await getSomethings(sidebar.type_Script);
+    const type = await getSomethings(sidebar.type_Script);
     const pop = await getSomethings(sidebar.pop_Script);
 
     const authors = author[0].map(data => data.author_name);
@@ -54,7 +55,7 @@ router.get('/popbook', async (req, res, next) => {
 router.get('/fetchBook/:bookId', async (req, res, next) => {
     console.log("Begin fetchBook by Id Process");
     const book = await getSomethings(fetchBookById.script, eval(fetchBookById.params));
-   
+
     if (book[0].length === 0) {
         res.json({ massage: "Don't have this book in database" })
     }
@@ -67,7 +68,7 @@ router.get('/fetchBook/:bookId', async (req, res, next) => {
 
     console.log("End Send Book By Id Process");
     console.log("send Book by Id result : ");
-    console.log({status : !!(book[0][0]), book : book[0][0]});
+    console.log({ status: !!(book[0][0]), book: book[0][0] });
 
     res.json(book[0][0]);
 })
