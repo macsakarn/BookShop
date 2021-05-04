@@ -789,6 +789,8 @@ export default {
       deleteText: '',
       deleteID: 0,
       deleteIndex: 0,
+
+      bookID: 0,
     }
   },
   validations: {
@@ -871,17 +873,19 @@ export default {
       this.clear()
       const res = await BookApi.addbook(book)
       alert(res.data.massage)
+      this.$router.go()
     },
     //Update Book to database method (need module axios)
     async updateBook(book) {
-      // this.$axios.put('admin/addBook', book)
+      const bookid = this.bookID
       this.clear()
+      const res = await BookApi.updatebook(bookid, book)
+      alert(res.data.massage)
     },
     //DELETE Book to database method (need module axios)
     async deleteBook(id, index) {
       this.clear()
       const res = await BookApi.deletebook(id)
-      console.log(res)
       this.bookAll.splice(index, 1)
       alert(res.data.massage)
     },
@@ -892,10 +896,8 @@ export default {
     btnBook() {
       this.$v.$touch()
       if (!this.$v.$invalid && this.images !== null) {
-        const addAutor = []
         const author = []
         this.bookAuthor.forEach((value) => {
-          addAutor.push(value.name)
           const name = value.name.split(' ')
           author.push({
             author_fname: name[0],
@@ -903,13 +905,11 @@ export default {
           })
         })
 
-        const addType = []
         const type = []
         this.bookType.forEach((value) => {
           type.push({
             type_name: value.name,
           })
-          addType.push(value.name)
         })
 
         const JSON_author = JSON.stringify(author)
@@ -926,18 +926,6 @@ export default {
         formData.append('type', JSON_type)
         formData.append('bookImage', this.images[0])
 
-        this.bookAll.push({
-          book_id: this.bookAll[this.bookAll.length - 1].book_id + 1,
-          book_name: this.bookName,
-          pb_year: this.bookDate,
-          price: this.bookPrice,
-          book_amount: this.bookAmount,
-          description: this.bookDescription,
-          popular: this.bookpopular,
-          author_name: addAutor,
-          type: addType,
-          // book_image: "", //Testing
-        })
         this.addBook(formData)
       } else if (this.images === null) {
         alert('input image')
@@ -957,6 +945,7 @@ export default {
       this.deleteText = ''
       this.deleteID = 0
       this.deleteIndex = 0
+      this.bookID = 0
       this.showDelete = false
       this.showModal = false
       this.showEdit = false
@@ -965,6 +954,7 @@ export default {
       this.bookAuthor = []
       this.bookType = []
       this.showEdit = true
+      this.bookID = book.book_id
       this.bookName = book.book_name
       this.bookDate = book.pb_year
       this.bookDescription = book.description

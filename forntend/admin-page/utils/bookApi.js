@@ -16,3 +16,8 @@ export function deletebook(id) {
     const url = `${HOSTNAME}/admin/book/deletebook/${id}`
     return require('delete', url, {}, true)
 }
+
+export function updatebook(id, data) {
+    const url = `${HOSTNAME}/admin/book/updatebook/${id}`
+    return require('put', url, data, true)
+}
