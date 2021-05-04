@@ -648,8 +648,8 @@
       class="opacity-75 fixed inset-0 z-40 bg-black"
     ></div>
     <section>
-      <adminDashBoard class="mt-2 mb-4 mx-2" />
-      <div class="hero bg-white mx-auto w-11/12">
+      <adminDashBoard class="mb-4 mx-2" />
+      <div class="hero bg-white mx-4">
         <div class="top-bar flex justify-between">
           <form class="w-full max-w-sm">
             <div class="flex items-center py-2 px-3">
@@ -759,11 +759,12 @@
 
 <script>
 import { required, minValue, minLength } from 'vuelidate/lib/validators'
+import * as BookApi from '@/utils/bookApi'
 
 export default {
   middleware: 'auth',
   async asyncData({ $axios }) {
-    const bookAll = await $axios.$get('/allbook')
+    const bookAll = await $axios.$get('/public/fetchAllBooks')
     return { bookAll }
   },
   data() {
@@ -866,10 +867,11 @@ export default {
   methods: {
     //Add Book to database method (need module axios)
     async addBook(book) {
-      // const status = await this.$axios.post("admin/addBook", book);
-      // console.log(status.data.massage);
-      this.$axios.post('admin/addBook', book)
       this.clear()
+      const res = await BookApi.addbook(book)
+      console.log('รอป่าววะ')
+      alert(res.data.massage)
+
       // return { status };
     },
     //Update Book to database method (need module axios)
