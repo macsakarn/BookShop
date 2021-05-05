@@ -132,3 +132,25 @@ async function FetchOrderById (data) {
 }
 
 module.exports.FetchOrderById = FetchOrderById;
+
+
+async function UserFetchOrder (data) {
+    console.log("Begin fetch Order by id process....");
+    const database = await poolData.getConnection();
+    database.beginTransaction();
+    try {
+        const order = await database.query(OrderSQL.user_get_order_by_id, eval(OrderParams.user_get_order_by_id));
+        return  {status : true, massage : "Order Success", Order : order[0]};
+    }
+    catch (err) {
+        console.log("Detect Some bug....");
+        console.log(err);
+        return {status : false, massage : "Somethings went wrong", error : err};
+    }
+    finally {
+        console.log("End fetch Order by id  process");
+        database.release();
+    }
+}
+
+module.exports.UserFetchOrder = UserFetchOrder;

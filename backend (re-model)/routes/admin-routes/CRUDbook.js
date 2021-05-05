@@ -3,7 +3,8 @@ const poolData = require("../../config/database");
 const passport = require("passport");
 const { ExtractToken } = require('../../library/authModule');
 const multer = require('multer')
-const path = require('path')
+const path = require('path');
+const { validateAddBook } = require('../../library/validateModule');
 
 
 var storage = multer.diskStorage({
@@ -20,7 +21,8 @@ const upload = multer({ storage: storage })
 
 router.post('/addBook', passport.authenticate('jwt', { session: false }), upload.single('bookImage'), async (req, res, next) => {
     const file = req.file;
-
+    const dataObject = req.body;
+    const valid = validateAddBook(dataObject);
     if (!file) {
         return res.status(400).json({ message: "Please upload a file" });
     }
@@ -30,17 +32,23 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }), upload
     const connection = await poolData.getConnection();
     await connection.beginTransaction();
     const jwt_payload = ExtractToken(req.headers.authorization);
-    if (jwt_payload.role === "I'm admin") {
-        try {
-            const name = req.body.book_name
-            const year = req.body.pb_year
-            const price = req.body.price
-            const amount = req.body.book_amount
-            const des = req.body.description
-            const pop = req.body.popular
 
+    if (jwt_payload.role === "I'm admin" && valid === true) {
+        try {
+            
+
+
+            const name = req.body.book_name;
+            const year = req.body.pb_year;
+            const price = req.body.price;
+            const amount = req.body.book_amount;
+            const des = req.body.description;
+            const pop = req.body.popular;
+           
             const author = JSON.parse(req.body.author)
             const type = JSON.parse(req.body.type)
+
+
 
             let findBook = await connection.query('SELECT book_name, pb_year FROM BOOK WHERE book_name=? AND pb_year=?', [name, year])
             console.log(findBook)
@@ -87,9 +95,7 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }), upload
                         await connection.query(insertBook_author, [name, fname, lname]
                         )
                     })
-
             }
-
             await connection.commit()
             res.json({ massage: "Success" })
         } catch (err) {

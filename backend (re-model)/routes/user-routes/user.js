@@ -2,7 +2,7 @@ const router = require('express').Router();
 const passport = require('passport');
 const poolData = require('../../config/database');
 const { Register, Login, ExtractToken } = require('../../library/authModule');
-const { MakeOrder } = require('../../library/orderModule');
+const { MakeOrder, UserFetchOrder } = require('../../library/orderModule');
 const { loginSQL } = require('../../library/SqlScript');
 const { validateOrder, validateUserRegister, validateAdminUserLogin } = require('../../library/validateModule');
 
@@ -105,6 +105,22 @@ router.post('/editorder', passport.authenticate('jwt', { session: false }), asyn
         // const order = ;
     }
     
+})
+
+
+router.get('/fetchOrder', passport.authenticate('jwt', { session: false }), async (req, res, next)=> {
+    const jwt_payload = ExtractToken( req.headers.authorization );
+    const id = jwt_payload.sub;
+    console.log(id)
+    if(jwt_payload.role === "customer"){
+        const order = await UserFetchOrder(id)
+        console.log("order result : ");
+        console.log(order);
+        res.json(order);
+    }
+    else {
+        res.status(401).json({status : false, massage: 'Unauthorize'})
+    }
 })
 
 
