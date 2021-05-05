@@ -877,10 +877,12 @@ export default {
     },
     //Update Book to database method (need module axios)
     async updateBook(book) {
+      
+      
       const bookid = this.bookID
-      this.clear()
       const res = await BookApi.updatebook(bookid, book)
       alert(res.data.massage)
+      this.clear()
     },
     //DELETE Book to database method (need module axios)
     async deleteBook(id, index) {
@@ -968,6 +970,7 @@ export default {
       book.type.forEach((val) => {
         this.bookType.push({ name: val })
       })
+      console.log(this.bookID);
     },
     btnEdit() {
       if (!this.$v.$invalid) {
@@ -976,7 +979,7 @@ export default {
           const name = value.name.split(' ')
           author.push({
             author_fname: name[0],
-            author_lname: name[1] === undefined ? '' : name[1],
+            author_lname: name[1] === undefined ||name[1] === null  ? '' : name[1],
           })
         })
 
@@ -986,7 +989,7 @@ export default {
             type_name: value.name,
           })
         })
-
+        
         const JSON_author = JSON.stringify(author)
         const JSON_type = JSON.stringify(type)
 
@@ -999,7 +1002,7 @@ export default {
         formData.append('popular', this.bookpopular ? 1 : 0)
         formData.append('author', JSON_author)
         formData.append('type', JSON_type)
-        if (typeof this.images === 'object') {
+        if (typeof this.images === 'object' && this.images !== null) {
           console.log('New image')
           formData.append('bookImage', this.images[0])
         }
@@ -1014,6 +1017,7 @@ export default {
       this.deleteText = name
       this.deleteID = id
       this.deleteIndex = index
+      
     },
   },
 }

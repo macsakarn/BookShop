@@ -48,7 +48,7 @@ router.get('/popbook', async (req, res, next) => {
         next(err);
     } finally {
         console.log("End Process send author data")
-        connection.release()
+    
     }
 })
 

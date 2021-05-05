@@ -48,7 +48,7 @@
 <script>
 export default {
   async asyncData({ $axios, params }) {
-    const book = await $axios.$get(`/getbook/${params.id}`)
+    const book = await $axios.$get(`/public/fetchBook/${params.id}`)
 
     return { book }
   },

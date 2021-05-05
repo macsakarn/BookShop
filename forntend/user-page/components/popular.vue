@@ -18,7 +18,7 @@
           />
           <div class="py-4">
             <div class="text-sm mb-2 truncate">{{ popbook.book_name }}</div>
-            <p class="text-gray-500 text-xs mb-2">{{ popbook.author_name }}</p>
+            <p class="text-gray-500 text-xs mb-2 truncate">{{ popbook.author_name }}</p>
             <p>{{ popbook.price }}</p>
           </div>
         </div>
@@ -39,12 +39,12 @@ export default {
     status: Boolean,
   },
   async fetch() {
-    const books = await this.$axios.$get('/popbook')
+    const books = await this.$axios.$get('/public/popbook')
     if (this.status) {
-      console.log(books.slice(0, 4))
-      this.books = books.slice(0, 5)
+
+      this.books = books.slice(0, 6)
     } else {
-      this.books = books.slice(5)
+      this.books = books.slice(6)
     }
   },
   data() {

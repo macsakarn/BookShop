@@ -101,8 +101,8 @@
 <script>
 export default {
   async asyncData({ $axios }) {
-    const books = await $axios.$get('/allbook')
-    const sidebar = await $axios.$get('/sidebar')
+    const books = await $axios.$get('/public/fetchAllBooks')
+    const sidebar = await $axios.$get('/public/sidebar')
 
     return { books, sidebar }
   },

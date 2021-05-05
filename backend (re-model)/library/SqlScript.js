@@ -52,7 +52,7 @@ const sidebar = {
                      FROM BOOK,BOOK_AUTHOR,AUTHOR
                      WHERE BOOK.book_id = BOOK_AUTHOR.BOOK_book_id AND BOOK_AUTHOR.AUTHOR_author_id = AUTHOR.author_id AND BOOK.popular = 1
                      GROUP BY BOOK.book_id
-                    limit 10`
+                    limit 12`
 }
 
 module.exports.sidebar = sidebar;
