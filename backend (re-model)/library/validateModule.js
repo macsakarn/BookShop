@@ -21,17 +21,6 @@ function validateOrder ( data ) {
 function validateUserRegister ( data, adata ) {
     console.log("Validating......")
     const v = new validator();
-    // const test = {
-    //     customer_email : "nipas2013@gmail.com",
-    //     customer_fname : "Nipas",
-    //     customer_lname : "Wongnitipat",
-    //     customer_adress : "ABCDEFG",
-    //     customer_tel  : '0927593986',
-    //     account : {
-    //         username : "takai",
-    //         password : "Takai02321560"
-    //     }
-    // }
 
     const schema = {
         email  : { type : "email" },
@@ -54,7 +43,7 @@ function validateUserRegister ( data, adata ) {
     return {customer_result : result, account_result : aResult};
 }
 
-function validateAdminRegister (data) {
+function validateAdminRegister ( data ) {
     console.log("Validating......");
     const v = new validator();
 
@@ -71,6 +60,8 @@ function validateAdminRegister (data) {
 
     return {result : result}
 }
+
+
 
 module.exports.validateOrder = validateOrder;
 module.exports.validateUserRegister = validateUserRegister;
