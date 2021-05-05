@@ -33,12 +33,20 @@
           </div>
           <p
             class="mx-3 cursor-pointer text-gray-100 hover:text-gray-400"
-            @click="$router.push({ name: 'books' })"
+            @click="
+              $router.push({
+                name: 'books',
+              })
+            "
           >
             FIND A BOOKSTORE BROWSE
           </p>
           <div class="w-8 mx-3 cursor-pointer">
-            <NuxtLink :to="{ name: 'login' }">
+            <NuxtLink
+              :to="{
+                name: this.$store.state.auth.loggedIn ? 'account' : 'login',
+              }"
+            >
               <img
                 class="w-full"
                 src="~/assets/USER/nav/account_circle_black_24dp.svg"
@@ -72,11 +80,30 @@
         <li class="text-md text-gray-300">
           <NuxtLink :to="{ name: 'cart' }"> Cart </NuxtLink>
         </li>
-        <li class="text-md text-gray-300">
+        <li
+          class="text-md text-gray-300"
+          v-if="!this.$store.state.auth.loggedIn"
+        >
           <NuxtLink :to="{ name: 'login' }"> Login </NuxtLink>
         </li>
-        <li class="text-md text-gray-300">
+        <li
+          class="text-md text-gray-300"
+          v-if="!this.$store.state.auth.loggedIn"
+        >
           <NuxtLink :to="{ name: 'register' }"> Register </NuxtLink>
+        </li>
+        <li
+          class="text-md text-gray-300"
+          v-if="this.$store.state.auth.loggedIn"
+        >
+          <NuxtLink :to="{ name: 'account' }"> Account </NuxtLink>
+        </li>
+        <li
+          class="text-md text-gray-300"
+          v-if="this.$store.state.auth.loggedIn"
+          @click="$auth.logout()"
+        >
+          <NuxtLink :to="{ name: 'register' }"> Logout </NuxtLink>
         </li>
       </ul>
     </nav>

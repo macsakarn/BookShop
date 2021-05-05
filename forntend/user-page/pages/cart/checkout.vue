@@ -50,6 +50,7 @@
 
 <script>
 export default {
+  middleware: 'auth',
   computed: {
     carts() {
       return this.$store.state.cart.list

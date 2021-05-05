@@ -13,18 +13,25 @@
         <img src="~/assets/USER/profile/01.png" alt="Profile" />
       </div>
       <div class="px-10">
-        <p class="mb-6">Username : <span class="text-gray-600">test</span></p>
+        <p class="mb-6">
+          Username : <span class="text-gray-600">{{ user.username }}</span>
+        </p>
         <div class="flex mb-6">
           <p class="mr-6">
-            First name : <span class="text-gray-600">test</span>
+            First name :
+            <span class="text-gray-600">{{ user.customer_fname }}</span>
           </p>
           <p class="mx-6">
-            Last name : <span class="text-gray-600">test</span>
+            Last name :
+            <span class="text-gray-600">{{ user.customer_lname }}</span>
           </p>
         </div>
-        <p class="mb-6">E-mail : <span class="text-gray-600">test</span></p>
         <p class="mb-6">
-          Phone number : <span class="text-gray-600">test</span>
+          E-mail : <span class="text-gray-600">{{ user.customer_email }}</span>
+        </p>
+        <p class="mb-6">
+          Phone number :
+          <span class="text-gray-600">{{ user.customer_tel }}</span>
         </p>
       </div>
     </div>
@@ -37,16 +44,23 @@
       />
     </div>
     <div class="bg-white mt-10 w-full h-32 p-3">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-      reiciendis nulla optio quis necessitatibus quo deserunt ea quisquam,
-      explicabo pariatur a expedita labore amet temporibus voluptatibus ut iure,
-      vitae unde.
+      {{ user.customer_address }}
     </div>
   </section>
 </template>
 
 <script>
-export default {}
+export default {
+  middleware: 'auth',
+  data() {
+    return {
+      user: {},
+    }
+  },
+  mounted() {
+    this.user = this.$store.state.auth.user
+  },
+}
 </script>
 
 <style></style>
