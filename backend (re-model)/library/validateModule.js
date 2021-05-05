@@ -62,7 +62,7 @@ function validateAdminRegister ( data ) {
 }
 
 
-function validateAdminLogin (data) {
+function validateAdminUserLogin (data) {
     console.log("Validating......");
     const v = new validator();
 
@@ -79,7 +79,8 @@ function validateAdminLogin (data) {
 }
 
 
+
 module.exports.validateOrder = validateOrder;
 module.exports.validateUserRegister = validateUserRegister;
 module.exports.validateAdminRegister = validateAdminRegister;
-module.exports.validateAdminLogin = validateAdminLogin;
+module.exports.validateAdminUserLogin = validateAdminUserLogin;

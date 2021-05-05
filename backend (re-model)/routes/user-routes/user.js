@@ -4,7 +4,7 @@ const poolData = require('../../config/database');
 const { Register, Login, ExtractToken } = require('../../library/authModule');
 const { MakeOrder } = require('../../library/orderModule');
 const { loginSQL } = require('../../library/SqlScript');
-const { validateOrder, validateUserRegister } = require('../../library/validateModule');
+const { validateOrder, validateUserRegister, validateAdminUserLogin } = require('../../library/validateModule');
 
 router.post('/test', async (req, res, next) => {
     console.log(req.body)
@@ -67,17 +67,23 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
     const dataObject = req.body;
-    const login = await Login("customer", dataObject);
+    const valid = validateAdminUserLogin(dataObject);
 
-    console.log(login);
-
-    if (login.status === false) {
-        res.status(401).json({ massage: login.massage });
+    if(valid.result === true) {
+        const login = await Login("customer", dataObject);
+        console.log(login);
+        if (login.status === false) {
+            res.status(401).json({ massage: login.massage });
+        }
+        else {
+            res.send(login);
+        }
     }
     else {
-        res.send(login);
+        console.log("Validate found problem :");
+        console.log(valid);
+        return res.send(valid)
     }
-
 })
 
 

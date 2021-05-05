@@ -2,7 +2,7 @@ const router    =   require('express').Router();
 const { decode } = require('jsonwebtoken');
 const { Register, Login, ExtractToken } = require('../../library/authModule');
 const passport = require('passport');
-const { validateAdminRegister, validateAdminLogin } = require('../../library/validateModule');
+const { validateAdminRegister, validateAdminUserLogin } = require('../../library/validateModule');
 
 
 
@@ -52,7 +52,7 @@ router.post ('/register', async (req, res, next) => {
 
 router.post ('/login', async (req, res, next) => {
     const dataObject = req.body;
-    const valid = validateAdminLogin(dataObject);
+    const valid = validateAdminUserLogin(dataObject);
     
     if (valid.result === true) {
 
