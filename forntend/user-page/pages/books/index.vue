@@ -82,14 +82,24 @@
                 <p class="text-gray-500 text-xs mb-2">
                   {{ book.author_name[0] }}
                 </p>
-                <p>{{ book.price }} Bath</p>
+                <p>{{ book.book_price }} Bath</p>
               </div>
             </div>
             <button
-              @click="addCarts(book)"
+              v-show="book.inCart === 0"
+              @click.once="
+                book.inCart = 1
+                addCarts(book)
+              "
               class="bg-yellow-400 hover:bg-yellow-500 py-2 px-2 rounded-md w-full"
             >
               Add to Cart
+            </button>
+            <button
+              v-show="book.inCart === 1"
+              class="bg-gray-400 py-2 px-2 rounded-md w-full"
+            >
+              In Your Cart
             </button>
           </div>
         </div>
@@ -103,7 +113,7 @@ export default {
   async asyncData({ $axios }) {
     const books = await $axios.$get('/public/fetchAllBooks')
     const sidebar = await $axios.$get('/public/sidebar')
-
+    console.log(books)
     return { books, sidebar }
   },
   computed: {

@@ -55,16 +55,15 @@
             </NuxtLink>
           </div>
           <div class="w-8 mx-3 cursor-pointer cart relative">
-            <NuxtLink :to="{ name: 'cart' }">
-              <img
-                class="w-full"
-                src="~/assets/USER/nav/local_mall_black_24dp.svg"
-                alt="logo"
-              />
-              <span v-show="$store.state.cart.countCart !== 0">{{
-                $store.state.cart.countCart
-              }}</span>
-            </NuxtLink>
+            <img
+              @click="$router.push({ name: 'cart' })"
+              class="w-full"
+              src="~/assets/USER/nav/local_mall_black_24dp.svg"
+              alt="logo"
+            />
+            <span v-show="$store.state.cart.countCart !== 0">{{
+              $store.state.cart.countCart
+            }}</span>
           </div>
         </div>
       </div>

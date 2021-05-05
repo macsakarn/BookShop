@@ -101,7 +101,7 @@
                   {{ order.CUSTOMER_customer_id }}
                 </td>
                 <td class="border px-4 py-2">
-                  {{ order.order_date.split('T')[0] }}
+                  {{ order.order_date }}
                 </td>
                 <td class="border px-4 py-2">{{ order.amount }}</td>
                 <td class="border px-4 py-2 truncate">
@@ -114,7 +114,7 @@
                   <span class="text-red-600" v-else> No </span>
                 </td>
                 <td class="border px-4 py-2">
-                  {{ order.delivery_date.split('T')[0] }}
+                  {{ order.delivery_date }}
                 </td>
                 <td class="border px-4 py-2">{{ order.ADMIN_admin_id }}</td>
                 <td class="border px-4 py-2">
@@ -164,6 +164,7 @@ export default {
   },
   async mounted() {
     const res = await BookApi.getOrders()
+    console.log(res)
     this.orders = res.data.allOrder
   },
   methods: {

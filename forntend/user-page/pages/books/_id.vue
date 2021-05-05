@@ -7,7 +7,9 @@
 
       <div class="w-3/4">
         <p class="text-2xl font-semibold py-3">{{ book.book_name }}</p>
-        <p class="text-2xl font-semibold text-blue-500">{{ book.price }} ฿</p>
+        <p class="text-2xl font-semibold text-blue-500">
+          {{ book.book_price }} ฿
+        </p>
         <p class="py-1">
           Author :
           <span

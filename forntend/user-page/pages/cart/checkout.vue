@@ -4,9 +4,12 @@
       <section class="flex justify-between pb-10">
         <p class="text-2xl font-bold">Shopping Cart</p>
         <div
+          @click="checkout()"
           class="bg-yellow-500 hover:bg-yellow-600 py-3 px-3 rounded-md flex w-auto cursor-pointer my-4 mt-20"
         >
-          <p class="text-white mx-auto">Checkout (Total: 300 Bath)</p>
+          <p class="text-white mx-auto">
+            Checkout (Total: {{ $store.state.cart.total }} Bath)
+          </p>
         </div>
       </section>
       <section>
@@ -17,23 +20,20 @@
               src="~/assets/USER/Profile/edit_black_24dp.svg"
               class="mx-3 cursor-pointer"
               alt="edit"
+              @click="$router.push({ name: 'account' })"
             />
           </div>
         </div>
         <div class="bg-white mt-10 w-full h-32 p-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-          reiciendis nulla optio quis necessitatibus quo deserunt ea quisquam,
-          explicabo pariatur a expedita labore amet temporibus voluptatibus ut
-          iure, vitae unde.
+          {{ $store.state.auth.user.customer_address }}
         </div>
         <div class="flex flex-row-reverse">
-          <NuxtLink :to="{ name: 'cart' }">
-            <div
-              class="bg-yellow-500 hover:bg-yellow-600 py-3 px-3 rounded-md flex w-auto cursor-pointer mx-4 mt-20"
-            >
-              <p class="text-white mx-auto">Checkout</p>
-            </div>
-          </NuxtLink>
+          <div
+            @click="checkout()"
+            class="bg-yellow-500 hover:bg-yellow-600 py-3 px-3 rounded-md flex w-auto cursor-pointer mx-4 mt-20"
+          >
+            <p class="text-white mx-auto">Checkout</p>
+          </div>
 
           <NuxtLink :to="{ name: 'cart' }">
             <div
@@ -51,9 +51,27 @@
 <script>
 export default {
   middleware: 'auth',
-  computed: {
-    carts() {
-      return this.$store.state.cart.list
+  methods: {
+    checkout() {
+      const data = {
+        books: this.$store.state.cart.list,
+        customerId: this.$auth.user.CUSTOMER_customer_id,
+        totalPrice: this.$store.state.cart.total,
+        amount: this.$store.state.cart.countCart,
+      }
+      this.sendData(data)
+    },
+    async sendData(data) {
+      try {
+        const headers = {}
+        headers['Authorization'] = window.$nuxt.$auth.strategy.token.get(
+          'local'
+        )
+        let response = await this.$axios.post('/user/makeorder', data, headers)
+        console.log(response)
+      } catch (err) {
+        console.log(err)
+      }
     },
   },
 }

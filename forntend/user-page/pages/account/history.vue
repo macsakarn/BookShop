@@ -109,6 +109,12 @@ export default {
       model: false,
     }
   },
+  async mounted() {
+    const headers = {}
+    headers['Authorization'] = window.$nuxt.$auth.strategy.token.get('local')
+    const data = await this.$axios.get('/user/fetchOrder', {}, headers)
+    console.log(data)
+  },
 }
 </script>
 
