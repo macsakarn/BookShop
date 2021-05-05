@@ -49,3 +49,15 @@ register
         "username" : "takai",
         "password" : "Takai023215560"
     }
+
+
+register-admin--
+{
+    
+        "fname" : "Nipas",
+        "lname" : "Wongnitipat",
+        "username" : "takai@gmail.com",
+        "password" : 
+        "secretCode" : "ask your boss pls"
+    
+}
