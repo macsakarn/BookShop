@@ -13,12 +13,14 @@
         >
           <img
             width="w-full"
-            src="~/assets/USER/ExBook/01.png"
+            :src="'http://localhost:3000' + popbook.book_image"
             alt="Sunset in the mountains"
           />
           <div class="py-4">
             <div class="text-sm mb-2 truncate">{{ popbook.book_name }}</div>
-            <p class="text-gray-500 text-xs mb-2 truncate">{{ popbook.author_name }}</p>
+            <p class="text-gray-500 text-xs mb-2 truncate">
+              {{ popbook.author_name }}
+            </p>
             <p>{{ popbook.price }}</p>
           </div>
         </div>
@@ -41,7 +43,6 @@ export default {
   async fetch() {
     const books = await this.$axios.$get('/public/popbook')
     if (this.status) {
-
       this.books = books.slice(0, 6)
     } else {
       this.books = books.slice(6)

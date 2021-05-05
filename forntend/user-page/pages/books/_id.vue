@@ -2,14 +2,16 @@
   <div class="container px-16 mx-auto pt-32">
     <main class="flex">
       <div class="w-1/4">
-        <img src="~/assets/USER/ExBook/01.png" alt="book-img" width="250" />
+        <img
+          :src="'http://localhost:3000' + book.book_image"
+          alt="book-img"
+          width="250"
+        />
       </div>
 
       <div class="w-3/4">
         <p class="text-2xl font-semibold py-3">{{ book.book_name }}</p>
-        <p class="text-2xl font-semibold text-blue-500">
-          {{ book.book_price }} ฿
-        </p>
+        <p class="text-2xl font-semibold text-blue-500">{{ book.price }} ฿</p>
         <p class="py-1">
           Author :
           <span
@@ -51,7 +53,7 @@
 export default {
   async asyncData({ $axios, params }) {
     const book = await $axios.$get(`/public/fetchBook/${params.id}`)
-
+    console.log(book)
     return { book }
   },
   mounted() {},
