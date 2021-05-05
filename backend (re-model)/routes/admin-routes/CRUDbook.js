@@ -33,11 +33,8 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }), upload
     await connection.beginTransaction();
     const jwt_payload = ExtractToken(req.headers.authorization);
 
-    if (jwt_payload.role === "I'm admin" && valid === true) {
+    if (jwt_payload.role === "I'm admin") {
         try {
-            
-
-
             const name = req.body.book_name;
             const year = req.body.pb_year;
             const price = req.body.price;

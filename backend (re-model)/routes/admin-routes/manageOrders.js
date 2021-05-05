@@ -49,8 +49,6 @@ router.get('/fetchAllOrder', passport.authenticate('jwt', { session: false }), a
     }
 })
 
-
-
 module.exports = router;
 
 

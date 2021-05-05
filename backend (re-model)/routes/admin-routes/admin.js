@@ -9,8 +9,9 @@ const { validateAdminRegister, validateAdminUserLogin } = require('../../library
 router.get('/protected', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const jwt_payload = ExtractToken( req.headers.authorization );
     console.log("Going to Admin protected route.....");
+    console.log(jwt_payload);
     if (jwt_payload.role === "I'm admin") {
-        const results = { status: true, msg: 'you are authorized', SomeData: { adminId: jwt_payload.sub, adminUsername: jwt_payload.username }};
+        const results = { status: true, msg: 'you are authorized', SomeData: { adminId: jwt_payload.sub, adminUsername: jwt_payload.username, fname : jwt_payload.fname, lname : jwt_payload.lname }};
         console.log("Admin has access to protected routes")
         console.log("Admin Data :");
         console.log(results);

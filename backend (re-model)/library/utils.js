@@ -39,15 +39,16 @@ function issueJWT( user ) {
 }
 
 function issueAdminJWT( user ) {
-
   const _sub = user.admin_id;
   const _username = user.username;
-  const _fname = user.fname;
+  const _fname = user.admin_fname;
+  const _lname = user.admin_lname;
   const expiresIn = '1d';
   const payload = {
     sub : _sub,
     username : _username,
     fname    : _fname,
+    lname    : _lname,
     role     : "I'm admin",
     padlock  : 1560320,
     iat: new Date().getTime()/1000
