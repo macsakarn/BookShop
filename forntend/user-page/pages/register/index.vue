@@ -391,7 +391,7 @@ export default {
     async sendData(userdata) {
       //  const regisUser = await this.$axios.$post('/register', data)
       //  return { regisUser }
-      await this.$axios.post('/register', userdata)
+      await this.$axios.post('/user/register', userdata)
       setTimeout(() => {
         this.$router.push({ name: 'login' })
       }, 1000)
@@ -425,6 +425,11 @@ export default {
         this.sendData(data)
       }
     },
+  },
+  created() {
+    if (this.$store.state.auth.loggedIn) {
+      this.$router.replace({ name: 'index' })
+    }
   },
 }
 </script>

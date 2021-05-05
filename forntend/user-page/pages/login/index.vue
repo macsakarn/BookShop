@@ -121,9 +121,22 @@ export default {
       required,
     },
   },
+  created() {
+    if (this.$store.state.auth.loggedIn) {
+      this.$router.replace({ name: 'index' })
+    }
+  },
   methods: {
-    sendlogin(data) {
-      console.log(data)
+    async sendlogin(data) {
+      try {
+        let response = await this.$auth.loginWith('local', { data: data })
+        console.log(response)
+        $v.$reset
+        this.userLogin = ''
+        this.userPassword = ''
+      } catch (err) {
+        console.log(err)
+      }
     },
     login() {
       this.$v.$touch()
@@ -132,10 +145,7 @@ export default {
           username: this.userLogin,
           password: this.userPassword,
         }
-        this.userLogin = ''
-        this.userPassword = ''
         this.sendlogin(data)
-        this.$router.push({ name: 'index' })
       }
     },
   },

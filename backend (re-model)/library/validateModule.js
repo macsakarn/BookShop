@@ -23,11 +23,11 @@ function validateUserRegister ( data, adata ) {
     const v = new validator();
 
     const schema = {
-        email  : { type : "email" },
-        fname  : { type: "string", min: 3, max: 255 },
-        lname  : { type: "string", min: 3, max: 255 },
-        adress : { type: "string", min: 3, max: 255 },
-        tel    : { type :"string", numeric :true},
+        email   : { type : "email" },
+        fname   : { type: "string", min: 3, max: 255 },
+        lname   : { type: "string", min: 3, max: 255 },
+        address : { type: "string", min: 3, max: 255 },
+        tel     : { type :"string", numeric :true},
     }
 
     const aSchema = {
