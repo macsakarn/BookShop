@@ -2,6 +2,7 @@ const poolData = require("../config/database");
 const { decode } = require('jsonwebtoken');
 const { regisSQL, regisParamsSQL, loginSQL, loginParams } = require("./SqlScript");
 const { issueJWT, genPassword, issueAdminJWT, validPassword } = require("./utils");
+const { validateAdminRegister } = require("./validateModule");
 
 async function Register ( role, data ) {
     const database = await poolData.getConnection();

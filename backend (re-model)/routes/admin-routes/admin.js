@@ -2,6 +2,7 @@ const router    =   require('express').Router();
 const { decode } = require('jsonwebtoken');
 const { Register, Login, ExtractToken } = require('../../library/authModule');
 const passport = require('passport');
+const { validateAdminRegister } = require('../../library/validateModule');
 
 
 
@@ -25,17 +26,27 @@ router.get('/protected', passport.authenticate('jwt', { session: false }), async
 
 router.post ('/register', async (req, res, next) => {
     const dataObject = req.body;
-    const regis = await Register("admin", dataObject);
+    const valid = validateAdminRegister(dataObject)
 
-    console.log(regis);
-
-    if (regis.status===null) {
-        res.status(401).json({massage : "Access denied"})
+    if (valid.result === true) {
+        const regis = await Register("admin", dataObject);
+        console.log(regis);
+        if (regis.status===null) {
+            res.status(401).json({massage : "Access denied"})
+        }
+    
+        else {
+            res.send(regis);
+        }
+    
     }
-
     else {
-        res.send(regis);
+        console.log("Validate found problem :");
+        console.log(valid);
+        return res.send(valid);
     }
+   
+ 
 })
 
 
