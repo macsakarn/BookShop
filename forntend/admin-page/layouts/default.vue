@@ -6,7 +6,10 @@
     >
       <div class="fixed h-full w-2/12">
         <p class="text-center mt-24">
-          Admin : <span class="text-blue-600">{{ username }}</span>
+          Admin :
+          <span class="text-blue-600">{{
+            `${this.$auth.user.fname} ${this.$auth.user.lname}`
+          }}</span>
         </p>
         <ul class="pt-20 text-gray-600">
           <NuxtLink :to="{ name: 'home' }">
@@ -112,9 +115,7 @@
 <script>
 export default {
   data() {
-    return {
-      username: `${this.$auth.user.fname} ${this.$auth.user.lname}`,
-    }
+    return {}
   },
   computed: {
     loggedIn() {

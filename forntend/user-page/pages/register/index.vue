@@ -391,10 +391,14 @@ export default {
     async sendData(userdata) {
       //  const regisUser = await this.$axios.$post('/register', data)
       //  return { regisUser }
-      await this.$axios.post('/user/register', userdata)
-      setTimeout(() => {
-        this.$router.push({ name: 'login' })
-      }, 1000)
+      try {
+        await this.$axios.post('/user/register', userdata)
+        setTimeout(() => {
+          this.$router.push({ name: 'login' })
+        }, 1000)
+      } catch (error) {
+        console.log(error)
+      }
     },
     nextRegister() {
       this.$v.form1.$touch()

@@ -23,7 +23,7 @@
             <p class="text-gray-500 text-xs mb-2 truncate">
               {{ popbook.author_name }}
             </p>
-            <p>{{ popbook.price }}</p>
+            <p>{{ popbook.book_price }}</p>
           </div>
         </div>
         <button

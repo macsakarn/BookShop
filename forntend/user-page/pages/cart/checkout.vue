@@ -68,7 +68,9 @@ export default {
           'local'
         )
         let response = await this.$axios.post('/user/makeorder', data, headers)
-        console.log(response)
+        alert(response.data.massage)
+        this.$store.commit('cart/clear')
+        this.$router.push({ name: 'index' })
       } catch (err) {
         console.log(err)
       }

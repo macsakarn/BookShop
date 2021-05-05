@@ -49,7 +49,7 @@ module.exports.fetchAllBooks = fetchAllBooks;
 const sidebar = {
     author_Script: `SELECT concat(author_fname,\" \",author_lname) author_name FROM AUTHOR LIMIT 10`,
     type_Script: `SELECT type_name FROM BOOK_TYPE LIMIT 10`,
-    pop_Script: `SELECT book_id, book_name, price, book_image, popular, group_concat( DISTINCT(author_fname)," ",author_lname separator ', ') as author_name
+    pop_Script: `SELECT book_id, book_name, price as book_price, book_image, popular, group_concat( DISTINCT(author_fname)," ",author_lname separator ', ') as author_name
                      FROM BOOK,BOOK_AUTHOR,AUTHOR
                      WHERE BOOK.book_id = BOOK_AUTHOR.BOOK_book_id AND BOOK_AUTHOR.AUTHOR_author_id = AUTHOR.author_id AND BOOK.popular = 1
                      GROUP BY BOOK.book_id

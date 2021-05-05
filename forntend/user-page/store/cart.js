@@ -53,5 +53,10 @@ export const mutations = {
             return true
         });
         console.log(state.list);
+    },
+    clear(state) {
+        state.list = []
+        state.countCart = 0
+        state.total = 0
     }
 }

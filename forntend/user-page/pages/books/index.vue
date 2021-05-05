@@ -114,7 +114,6 @@ export default {
   async asyncData({ $axios }) {
     const books = await $axios.$get('/public/fetchAllBooks')
     const sidebar = await $axios.$get('/public/sidebar')
-    console.log(books)
     return { books, sidebar }
   },
   computed: {

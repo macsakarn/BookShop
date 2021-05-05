@@ -163,9 +163,13 @@ export default {
     }
   },
   async mounted() {
-    const res = await BookApi.getOrders()
-    console.log(res)
-    this.orders = res.data.allOrder
+    try {
+      const res = await BookApi.getOrders()
+      console.log(res)
+      this.orders = res.data.allOrder
+    } catch (error) {
+      this.orders = []
+    }
   },
   methods: {
     async beforDetail(order_id) {

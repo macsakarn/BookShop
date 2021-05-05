@@ -48,27 +48,31 @@
     <section class="All-History grid gap-y-5 gap-x-3 grid-cols-3 mt-10">
       <div
         class="History-0 bg-white rounded-xl shadow-md"
-        v-for="(history, index) in 10"
+        v-for="(history, index) in orders"
         :key="index"
       >
         <div class="p-3">
           <div class="Top">
-            <p>Order #11</p>
-            <p class="text-gray-500 text-sm">23 Feb 2021, 18:00 PM</p>
+            <p>Order #{{ history.order_id }}</p>
+            <p class="text-gray-500 text-sm">
+              {{ history.order_date.split('T')[0] }}
+            </p>
           </div>
           <div class="flex justify-between mt-8">
             <div>
-              <p>total : 300฿</p>
+              <p>total : {{ history.total_price }}฿</p>
               <p>
                 Payment
-                <span class="text-green-500">Yes</span>
-                <span class="text-red-500">No</span>
+                <span class="text-green-500" v-if="history.payment_status === 1"
+                  >Yes</span
+                >
+                <span class="text-red-500" v-else>No</span>
               </p>
-              <p class="">Delivery Date: 2020-20-12</p>
+              <p class="">Delivery Date: {{ history.delivery_date }}</p>
             </div>
 
             <button
-              @click="model = true"
+              @click="showDatil()"
               class="bg-yellow-400 hover:bg-yellow-500 py-2 px-2 rounded-md text-white"
             >
               Detail
@@ -107,13 +111,20 @@ export default {
   data() {
     return {
       model: false,
+      orders: [],
     }
   },
   async mounted() {
     const headers = {}
     headers['Authorization'] = window.$nuxt.$auth.strategy.token.get('local')
-    const data = await this.$axios.get('/user/fetchOrder', {}, headers)
-    console.log(data)
+    const orders = await this.$axios.get('/user/fetchOrder', {}, headers)
+    console.log(orders.data.Order)
+    this.orders = orders.data.Order
+  },
+  methods: {
+    showDatil() {
+      this.model = true
+    },
   },
 }
 </script>
