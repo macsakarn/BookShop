@@ -15,7 +15,7 @@
           <div class="my-5 mx-12">
             <button
               class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-              v-on:click="model = false"
+              v-on:click="clear()"
             >
               <span
                 class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"
@@ -26,16 +26,14 @@
             <table class="table-fixed w-full">
               <thead>
                 <tr>
-                  <th class="px-4 py-2 w-3/5">Name</th>
+                  <th class="px-4 py-2 w-4/5">Name</th>
                   <th class="px-4 py-2 w-1/5">Qty</th>
-                  <th class="px-4 py-2 w-1/5">Price</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(i, index) in 10" :key="index">
-                  <td class="border px-4 py-2">mac</td>
-                  <td class="border px-4 py-2">2</td>
-                  <td class="border px-4 py-2">200</td>
+                <tr v-for="(detail, index) in order_detail" :key="index">
+                  <td class="border px-4 py-2">{{ detail.book_name }}</td>
+                  <td class="border px-4 py-2">{{ detail.qty }}</td>
                 </tr>
               </tbody>
             </table>
@@ -72,7 +70,7 @@
             </div>
 
             <button
-              @click="showDatil()"
+              @click="showDatil(index)"
               class="bg-yellow-400 hover:bg-yellow-500 py-2 px-2 rounded-md text-white"
             >
               Detail
@@ -112,6 +110,7 @@ export default {
     return {
       model: false,
       orders: [],
+      order_detail: [],
     }
   },
   async mounted() {
@@ -122,8 +121,22 @@ export default {
     this.orders = orders.data.Order
   },
   methods: {
-    showDatil() {
+    showDatil(index) {
       this.model = true
+      const name = this.orders[index].All_Book_name.split(', ')
+      const qty = this.orders[index].All_item_unit.split(', ')
+
+      console.log(this.order_detail)
+      name.forEach((val, index) => {
+        this.order_detail.push({
+          book_name: val,
+          qty: qty[index],
+        })
+      })
+    },
+    clear() {
+      this.model = false
+      this.order_detail = []
     },
   },
 }
