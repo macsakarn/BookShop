@@ -724,7 +724,7 @@
                 <td class="border px-4 py-2 truncate">
                   {{ book.description }}
                 </td>
-                <td class="border px-4 py-2">{{ book.price }}</td>
+                <td class="border px-4 py-2">{{ book.book_price }}</td>
                 <td class="border px-4 py-2">{{ book.book_amount }}</td>
                 <td class="border px-4 py-2">
                   <span class="text-green-600" v-show="book.popular">
@@ -765,6 +765,7 @@ export default {
   middleware: 'auth',
   async asyncData({ $axios }) {
     const bookAll = await $axios.$get('/public/fetchAllBooks')
+    console.log(bookAll)
     return { bookAll }
   },
   data() {
