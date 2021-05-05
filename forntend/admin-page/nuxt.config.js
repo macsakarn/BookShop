@@ -67,10 +67,14 @@ export default {
           // required: true,
           // type: 'Bearer'
         },
+        user: {
+          property: 'SomeData',
+          // autoFetch: true
+        },
         endpoints: {
           login: { url: '/admin/login', method: 'post' },
           logout: false,
-          user: false
+          user: { url: '/admin/protected', method: 'get' }
         }
       }
     }

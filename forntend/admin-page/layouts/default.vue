@@ -5,7 +5,10 @@
       class="z-30 bg-white text-gray-700 font-semibold w-2/12 relative"
     >
       <div class="fixed h-full w-2/12">
-        <ul class="pt-48 text-gray-600">
+        <p class="text-center mt-24">
+          Admin : <span class="text-blue-600">{{ username }}</span>
+        </p>
+        <ul class="pt-20 text-gray-600">
           <NuxtLink :to="{ name: 'home' }">
             <li class="bth_home text-center my-10 mx-auto cursor-pointer">
               <svg
@@ -110,7 +113,7 @@
 export default {
   data() {
     return {
-      username: 'test',
+      username: 'test sakarn',
     }
   },
   computed: {
