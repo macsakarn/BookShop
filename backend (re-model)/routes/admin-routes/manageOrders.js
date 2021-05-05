@@ -26,6 +26,7 @@ router.get('/fetchOrder/:id', passport.authenticate('jwt', { session: false }), 
     if(jwt_payload.role === "I'm admin"){
         const order = await FetchOrderById(id)
         console.log("order result : ");
+        console.log(order);
         res.json(order);
     }
     else {

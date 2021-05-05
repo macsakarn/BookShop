@@ -87,8 +87,23 @@ const OrderSQL = {
     update_order_delivery   :   `update \`ORDER\`
                                  set delivery_date = ? 
                                  where order_id = ?;`,
-    get_order_by_id         :   `SELECT O.order_id, O.order_date, O.payment_status, O.payment_image, O.delivery_date, O.total_price, O.amount, O.ADMIN_admin_id, O.CUSTOMER_customer_id, group_concat( OB.item_no separator ', ') as All_item_no, group_concat( OB.item_unit separator ', ' ) as All_item_unit, group_concat( OB.BOOK_book_id separator ', ') as All_Book_book_id
-                                FROM \`ORDER\`O JOIN ORDER_BOOK OB ON O.order_id = OB.ORDER_order_id WHERE O.order_id = ? GROUP BY O.order_id`,
+    get_order_by_id         :  ` SELECT O.order_id, O.order_date, O.payment_status, O.payment_image, O.delivery_date, O.total_price, O.amount, O.ADMIN_admin_id, O.CUSTOMER_customer_id,
+                                group_concat( OB.item_no separator ', ') as All_item_no, 
+                                group_concat( OB.item_unit separator ', ' ) as All_item_unit, 
+                                group_concat( OB.BOOK_book_id separator ', ') as All_Book_book_id,
+                                group_concat( book_name separator ', ') as All_Book_name,
+                                C.customer_address as 'address',
+                                concat(customer_fname, ' ', customer_lname, ' ', customer_tel) as 'customer_name'
+                                FROM \`ORDER\` O 
+                                JOIN ORDER_BOOK OB 
+                                ON (O.order_id = OB.ORDER_order_id)
+                                JOIN BOOK B
+                                ON (B.book_id = OB.BOOK_book_id)
+                                JOIN CUSTOMER C
+                                ON (O.CUSTOMER_customer_id = C.customer_id)
+                                WHERE O.order_id = ?
+                                GROUP BY O.order_id`,
+    
     fetchAllOrder           :  `SELECT * FROM \`ORDER\``,
     cus_edit_order          :  `update ORDER
                                 set order_date = CURRENT_DATE, payment_image = ?, 
