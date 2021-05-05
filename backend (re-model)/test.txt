@@ -34,3 +34,30 @@ daily---------
     "delivery_date" : "2021-05-10",
     "order_id" : 1
 }
+
+
+register
+{
+    "customer" : {
+        "email" : "nipas2013@gmail.com",
+        "fname" : "Nipas",
+        "lname" : "Wongnitipat",
+        "adress" : "ABCDEFG",
+        "tel"  : "0927593986"
+    },
+    "account" : {
+        "username" : "takai",
+        "password" : "Takai023215560"
+    }
+
+
+register-admin--
+{
+    
+        "fname" : "Nipas",
+        "lname" : "Wongnitipat",
+        "username" : "takai@gmail.com",
+        "password" : 
+        "secretCode" : "ask your boss pls"
+    
+}
