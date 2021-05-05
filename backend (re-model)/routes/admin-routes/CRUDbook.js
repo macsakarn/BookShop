@@ -23,6 +23,7 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }), upload
     const file = req.file;
     const dataObject = req.body;
     const valid = validateAddBook(dataObject);
+    console.log(valid)
     if (!file) {
         return res.status(400).json({ message: "Please upload a file" });
     }
@@ -33,7 +34,7 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }), upload
     await connection.beginTransaction();
     const jwt_payload = ExtractToken(req.headers.authorization);
 
-    if (jwt_payload.role === "I'm admin") {
+    if (jwt_payload.role === "I'm admin" && valid.result ===true) {
         try {
             const name = req.body.book_name;
             const year = req.body.pb_year;
@@ -48,7 +49,6 @@ router.post('/addBook', passport.authenticate('jwt', { session: false }), upload
 
 
             let findBook = await connection.query('SELECT book_name, pb_year FROM BOOK WHERE book_name=? AND pb_year=?', [name, year])
-            console.log(findBook)
             if (findBook[0].length > 0) {
                 return res.json({ massage: "Duplicate Book" })
             }

@@ -85,10 +85,10 @@ function validateAddBook (data) {
 
     const schema = {
         book_name   :  { type : "string", min: 3, max: 255 },
-        pb_year     :  { type : "number", positive: true, integer: true},
-        price       :  { type : "number", positive: true, integer: true},
-        book_amount :  { type : "number", positive: true, integer: true},
-        description :  { type : "string", min: 3, max: 255 },
+        pb_year     :  { type : "number", positive: true, integer: true, convert: true},
+        price       :  { type : "number", positive: true, integer: true,  convert: true},
+        book_amount :  { type : "number", positive: true, integer: true,  convert: true},
+        description :  { type : "string", min: 3, max: 1000 },
         author      :  { type : "string", min: 3, max: 255},
         type        :  { type : "string", min: 3, max: 255}
     }
