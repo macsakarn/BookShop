@@ -113,7 +113,7 @@
 export default {
   data() {
     return {
-      username: 'test sakarn',
+      username: `${this.$auth.user.fname} ${this.$auth.user.lname}`,
     }
   },
   computed: {

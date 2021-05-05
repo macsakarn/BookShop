@@ -74,7 +74,7 @@
             >
               <img
                 width="w-full"
-                src="~/assets/USER/ExBook/01.png"
+                :src="'http://localhost:3000' + book.book_image"
                 alt="Sunset in the mountains"
               />
               <div class="py-4">
