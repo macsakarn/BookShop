@@ -2,7 +2,7 @@ const router    =   require('express').Router();
 const { decode } = require('jsonwebtoken');
 const { Register, Login, ExtractToken } = require('../../library/authModule');
 const passport = require('passport');
-const { validateAdminRegister } = require('../../library/validateModule');
+const { validateAdminRegister, validateAdminUserLogin } = require('../../library/validateModule');
 
 
 
@@ -52,17 +52,27 @@ router.post ('/register', async (req, res, next) => {
 
 router.post ('/login', async (req, res, next) => {
     const dataObject = req.body;
-    const login  = await Login("admin", dataObject);
+    const valid = validateAdminUserLogin(dataObject);
+    
+    if (valid.result === true) {
 
-    console.log(login);
+        const login  = await Login("admin", dataObject);
+        console.log(login);
 
-    if (login.status===false) {
-        res.status(401).json({massage : "Unauthorize"})
+        if (login.status===false) {
+            res.status(401).json({massage : "Unauthorize"})
+        }
+    
+        else {
+            res.send(login)
+        }
+    
     }
-
     else {
-        res.send(login)
-    }
+        console.log("Validate found problem :");
+        console.log(valid);
+        return res.send(valid);
+    }   
 })
 
 

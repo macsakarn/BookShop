@@ -62,7 +62,25 @@ function validateAdminRegister ( data ) {
 }
 
 
+function validateAdminUserLogin (data) {
+    console.log("Validating......");
+    const v = new validator();
+
+    const schema = {
+        username    : { type : "email" },                                   
+        password    : {type : "string", pattern : "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])", min :8 , max:255 }
+    }
+
+    const result = v.validate(data,schema);
+
+    console.log(`Validate result : ${result}`);
+
+    return {result : result}
+}
+
+
 
 module.exports.validateOrder = validateOrder;
 module.exports.validateUserRegister = validateUserRegister;
 module.exports.validateAdminRegister = validateAdminRegister;
+module.exports.validateAdminUserLogin = validateAdminUserLogin;
