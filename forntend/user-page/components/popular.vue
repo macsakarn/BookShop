@@ -11,11 +11,13 @@
             $router.push({ name: 'books-id', params: { id: popbook.book_id } })
           "
         >
-          <img
-            width="w-full"
-            :src="'http://localhost:3000' + popbook.book_image"
-            alt="Sunset in the mountains"
-          />
+          <div class="w-30 h-50 overflow-hidden block">
+            <img
+              :src="'http://localhost:3000' + popbook.book_image"
+              alt="Sunset in the mountains"
+            />
+          </div>
+
           <div class="py-4">
             <div class="text-sm mb-2 truncate">{{ popbook.book_name }}</div>
             <p class="text-gray-500 text-xs mb-2 truncate">
@@ -61,4 +63,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+img {
+  width: 170px;
+  height: 250px;
+}
+</style>

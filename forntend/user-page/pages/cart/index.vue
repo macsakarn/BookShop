@@ -28,7 +28,7 @@
             <tr v-for="(order, index) in carts" :key="index">
               <td class="px-4 py-2 flex">
                 <img
-                  src="~/assets/USER/ExBook/01.png"
+                  :src="'http://localhost:3000' + order.book_image"
                   alt="book-img"
                   width="100"
                 />
