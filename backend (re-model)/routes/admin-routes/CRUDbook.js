@@ -186,7 +186,6 @@ router.put('/updatebook/:bookid', passport.authenticate('jwt', { session: false 
             const type = JSON.parse(req.body.type)
 
             let findBook = await connection.query('SELECT book_name, pb_year FROM BOOK WHERE book_name=? AND pb_year=?', [name, year])
-            console.log(findBook)
             if (findBook[0].length > 0) {
                 return res.json({ massage: "Duplicate Book" })
             }
