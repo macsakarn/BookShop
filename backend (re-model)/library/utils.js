@@ -8,7 +8,6 @@ const PRIV_KEY = fs.readFileSync(pathToKey, 'utf8')
 
 async function genPassword ( password ) {
     const genHash = await argon.hash( password )
-    
     return genHash
 }
 
@@ -28,7 +27,7 @@ function issueJWT( user ) {
       email : _email,
       tel      : _tel,
       role     : "customer",
-      iat: Date.now()
+      iat: new Date().getTime()/1000
     };
   
     const signedToken = jsonwebtoken.sign(payload, PRIV_KEY, { expiresIn: expiresIn, algorithm: 'RS256' });
@@ -51,7 +50,7 @@ function issueAdminJWT( user ) {
     fname    : _fname,
     role     : "I'm admin",
     padlock  : 1560320,
-    iat: Date.now()
+    iat: new Date().getTime()/1000
   };
 
   const signedToken = jsonwebtoken.sign(payload, PRIV_KEY, { expiresIn: expiresIn, algorithm: 'RS256' });

@@ -18,8 +18,13 @@ const options = {
 
 module.exports =  (passport) => {
     passport.use(new JwtStrategy(options, async function(jwt_payload, done) {
+
+        if (jwt_payload.exp < new Date().getTime()/1000) {
+            console.log("admin has expired Token");
+            return done(null, false)
+        }
     
-        if(jwt_payload.role === "I'm admin" && jwt_payload.padlock - padUnlock === 1500000) {      
+        else if(jwt_payload.role === "I'm admin" && jwt_payload.padlock - padUnlock === 1500000) {      
             
             console.log("admin has auth");
             return done(null, jwt_payload)

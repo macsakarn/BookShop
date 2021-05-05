@@ -51,7 +51,7 @@ function validateAdminRegister ( data ) {
         fname       : { type: "string", min: 3, max: 255 },
         lname       : { type: "string", min: 3, max: 255 },
         username    : { type : "email" },                                   
-        password    : {type : "string", pattern : "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])", min :8 , max:255 }
+        password    : { type : "string", pattern : "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])", min :8 , max:255 }
     }
 
     const result = v.validate(data,schema);
@@ -68,7 +68,7 @@ function validateAdminUserLogin (data) {
 
     const schema = {
         username    : { type : "email" },                                   
-        password    : {type : "string", pattern : "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])", min :8 , max:255 }
+        password    : { type : "string", pattern : "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])", min :8 , max:255 }
     }
 
     const result = v.validate(data,schema);
@@ -95,7 +95,6 @@ function validateAddBook (data) {
 
 
     const result = v.validate(data, schema);
-    // const Author_type_result = v.validate();
     console.log(`Validate result : ${result}`);
 
     return {result : result}

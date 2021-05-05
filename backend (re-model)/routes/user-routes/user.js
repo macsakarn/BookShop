@@ -2,7 +2,7 @@ const router = require('express').Router();
 const passport = require('passport');
 const poolData = require('../../config/database');
 const { Register, Login, ExtractToken } = require('../../library/authModule');
-const { MakeOrder, UserFetchOrder } = require('../../library/orderModule');
+const { MakeOrder, UserFetchOrder, UserDeleteOrder } = require('../../library/orderModule');
 const { loginSQL } = require('../../library/SqlScript');
 const { validateOrder, validateUserRegister, validateAdminUserLogin } = require('../../library/validateModule');
 
@@ -111,7 +111,6 @@ router.post('/editorder', passport.authenticate('jwt', { session: false }), asyn
 router.get('/fetchOrder', passport.authenticate('jwt', { session: false }), async (req, res, next)=> {
     const jwt_payload = ExtractToken( req.headers.authorization );
     const id = jwt_payload.sub;
-    console.log(id)
     if(jwt_payload.role === "customer"){
         const order = await UserFetchOrder(id)
         console.log("order result : ");
@@ -120,6 +119,15 @@ router.get('/fetchOrder', passport.authenticate('jwt', { session: false }), asyn
     }
     else {
         res.status(401).json({status : false, massage: 'Unauthorize'})
+    }
+})
+
+router.delete('/order/delete/:id', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
+    const data = req.body;
+    const jwt_payload = ExtractToken( req.headers.authorization );
+    const id = jwt_payload.sub;
+    if(jwt_payload.role === "customer"){
+        const order = await UserDeleteOrder(data,id)
     }
 })
 

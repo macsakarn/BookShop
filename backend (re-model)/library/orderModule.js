@@ -154,3 +154,26 @@ async function UserFetchOrder (data) {
 }
 
 module.exports.UserFetchOrder = UserFetchOrder;
+
+async function UserDeleteOrder (data, id) {
+    console.log("Begin Delete Order by id process....");
+    const database = await poolData.getConnection();
+    database.beginTransaction();
+    try {
+        const sql = ""
+        const order = await database.query();
+        return {status : true, massage : "Success"}
+    }
+    catch (err) {
+        database.rollback();
+        console.log(err);
+        return {status : false, massage : "Somethings went wrong", error : err};
+    }
+    finally {
+        console.log("End Delete Order by id  process");
+        database.release();
+    }
+}
+
+
+module.exports.UserDeleteOrder = UserDeleteOrder;
