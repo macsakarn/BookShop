@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const passport = require('passport');
 const poolData = require('../../config/database');
+const multer = require('multer')
+const path = require('path');
 const { Register, Login, ExtractToken } = require('../../library/authModule');
-const { MakeOrder, UserFetchOrder, UserDeleteOrder } = require('../../library/orderModule');
+const { MakeOrder, UserFetchOrder, UserDeleteOrder, MakeOrderFromDel } = require('../../library/orderModule');
 const { loginSQL } = require('../../library/SqlScript');
 const { validateOrder, validateUserRegister, validateAdminUserLogin } = require('../../library/validateModule');
 
@@ -97,15 +99,6 @@ router.post('/makeorder', passport.authenticate('jwt', { session: false }), asyn
 
 })
 
-router.post('/editorder', passport.authenticate('jwt', { session: false }), async (req,res, next) => {
-    const dataObject = req.body;
-    const jwt_payload = ExtractToken(req.headers.authorization);
-
-    if (jwt_payload.role === 'customer') {
-        // const order = ;
-    }
-    
-})
 
 
 router.get('/fetchOrder', passport.authenticate('jwt', { session: false }), async (req, res, next)=> {
@@ -122,15 +115,60 @@ router.get('/fetchOrder', passport.authenticate('jwt', { session: false }), asyn
     }
 })
 
-router.delete('/order/delete/:id', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
-    const data = req.body;
+router.delete('/order/delete', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
+    const dataObject = req.body;
     const jwt_payload = ExtractToken( req.headers.authorization );
-    const id = jwt_payload.sub;
     if(jwt_payload.role === "customer"){
-        const order = await UserDeleteOrder(data,id)
+       console.log("User delete order.....");        
+       const result = await UserDeleteOrder(dataObject, jwt_payload.sub);
+       console.log(result);
+       res.json(result);
+    }
+    else {
+        res.status(401).json({status : false, massage: 'Unauthorize'})
     }
 })
 
+var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './static/uploads/invoice') // path to save file
+    },
+    filename: function (req, file, callback) {
+        // set file name
+        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+})
 
+const upload = multer({ storage: storage })
+
+router.put('/invoice', passport.authenticate('jwt', { session: false }), upload.single('invoice_image'), async (req, res, next) => {
+    const jwt_payload = ExtractToken( req.headers.authorization );
+    var file = req.file;
+    var invoice_image = ""
+    if (!file) {
+        return res.status(400).json({ message: "Please upload a file" });
+    }
+    if (jwt_payload.role === "customer") {
+        const invoice_image = file.path.substr(6);
+        const database = poolData.getConnection();
+        await database.beginTransaction();
+        try {
+            await database.query('INSERT INTO ORDER (payment_image) VALUES (?) WHERE order_id = ? AND CUSTOMER_customer_id = ?', [invoice_image,req.body.orderId, jwt_payload.sub])
+            await database.commit()
+        }
+        catch (err) {
+            await connection.rollback();
+            res.json({ massage: "Something Went Wrong !!!" });
+            next(err);
+        }
+        finally {
+            connection.release()
+        }
+    }
+    else {
+        res.status(401).json({status : false, massage: 'Unauthorize'})
+    }
+
+})
 
 module.exports = router;
