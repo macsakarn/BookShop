@@ -2,7 +2,7 @@ const router = require('express').Router();
 const passport = require('passport');
 const poolData = require('../../config/database');
 const { Register, Login, ExtractToken } = require('../../library/authModule');
-const { MakeOrder, UserFetchOrder, UserDeleteOrder } = require('../../library/orderModule');
+const { MakeOrder, UserFetchOrder, UserDeleteOrder, MakeOrderFromDel } = require('../../library/orderModule');
 const { loginSQL } = require('../../library/SqlScript');
 const { validateOrder, validateUserRegister, validateAdminUserLogin } = require('../../library/validateModule');
 
@@ -97,15 +97,6 @@ router.post('/makeorder', passport.authenticate('jwt', { session: false }), asyn
 
 })
 
-router.post('/editorder', passport.authenticate('jwt', { session: false }), async (req,res, next) => {
-    const dataObject = req.body;
-    const jwt_payload = ExtractToken(req.headers.authorization);
-
-    if (jwt_payload.role === 'customer') {
-        // const order = ;
-    }
-    
-})
 
 
 router.get('/fetchOrder', passport.authenticate('jwt', { session: false }), async (req, res, next)=> {
@@ -122,15 +113,23 @@ router.get('/fetchOrder', passport.authenticate('jwt', { session: false }), asyn
     }
 })
 
-router.delete('/order/delete/:id', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
-    const data = req.body;
+router.delete('/order/delete', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
+    const dataObject = req.body;
     const jwt_payload = ExtractToken( req.headers.authorization );
-    const id = jwt_payload.sub;
     if(jwt_payload.role === "customer"){
-        const order = await UserDeleteOrder(data,id)
+       console.log("User delete order.....");        
+       const result = await UserDeleteOrder(dataObject, jwt_payload.sub);
+       console.log(result);
+       res.json(result);
+    }
+    else {
+        res.status(401).json({status : false, massage: 'Unauthorize'})
     }
 })
 
 
+router.post('/invoice', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+    
+})
 
 module.exports = router;

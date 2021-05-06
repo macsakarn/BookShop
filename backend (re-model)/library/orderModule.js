@@ -2,6 +2,38 @@ const poolData = require("../config/database");
 const { OrderSQL, OrderParams } = require("./SqlScript");
 const multer = require('multer');
 
+async function MakeOrderFromDel ( data , sub ) {
+    console.log("Begin make an order process...");
+    const database = await poolData.getConnection();
+    database.beginTransaction(); 
+    try {
+        const OrderId = await database.query(`INSERT INTO \`ORDER\` VALUES (?,CURRENT_DATE , 0, null, null, ?, ?, null, ?);
+        SET @last_id_in_ORDER = LAST_INSERT_ID(); SELECT @last_id_in_ORDER;`, [data.orderId, data.totalPrice, data.amount, data.customerId]);
+        if(OrderId[0][0].insertId){
+            data.books.forEach(async data => {
+                console.log(data);
+                await database.query(OrderSQL.make_order_book, eval (OrderParams.make_order_book) );
+                await database.query(`UPDATE BOOK SET book_amount = book_amount - ? WHERE book_id = ?`, [data.book_amount, data.book_id]);
+            });
+        }
+        await database.commit();
+        console.log("Now order save to database");
+        console.log("Make an order Success, result : true");
+        return {status : true, massage : "Order Success", order_id : OrderId[0][0].insertId};
+    }
+    catch ( err ) {
+        await database.rollback();
+        console.log("Detect some bug");
+        console.log(err);
+        return {status : false, massage : "Something went wrong"}
+    }
+    finally {
+        await database.release();
+        console.log("End make order Process");
+    }
+}
+
+module.exports.MakeOrderFromDel = MakeOrderFromDel;
 
 
 async function MakeOrder ( data , sub ) {
@@ -160,9 +192,24 @@ async function UserDeleteOrder (data, id) {
     const database = await poolData.getConnection();
     database.beginTransaction();
     try {
-        const sql = ""
-        const order = await database.query();
-        return {status : true, massage : "Success"}
+        console.log(id)
+        const find_item_unit = await database.query(`SELECT OB.BOOK_book_id,item_unit,OB.ORDER_order_id FROM ORDER_BOOK OB JOIN \`ORDER\` O 
+        ON OB.ORDER_order_id = O.order_id WHERE CUSTOMER_customer_id = ? AND OB.ORDER_order_id= ?;`, [id, data.orderId]);
+        console.log(find_item_unit[0]);
+        if (find_item_unit[0].length > 0){
+            find_item_unit[0].forEach(async unit => {
+                await database.query(`UPDATE BOOK SET book_amount = book_amount + ? WHERE book_id = ?;`, [unit.item_unit, unit.BOOK_book_id])
+            });
+    
+            await database.query(`SET FOREIGN_KEY_CHECKS=0;
+            DELETE \`ORDER\`,ORDER_BOOK
+            FROM \`ORDER\`, ORDER_BOOK
+            WHERE \`ORDER\`.\`order_id\` = ORDER_BOOK.ORDER_order_id AND \`ORDER\`.order_id = ? AND \`ORDER\`.CUSTOMER_customer_id = ?;
+            SET FOREIGN_KEY_CHECKS=1;`, [find_item_unit[0][0].ORDER_order_id, id]);
+            console.log(find_item_unit[0][0].ORDER_order_id);
+            database.commit();
+            return {status : true, massage : "Success"}
+        }   
     }
     catch (err) {
         database.rollback();
