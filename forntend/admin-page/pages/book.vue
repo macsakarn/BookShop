@@ -197,7 +197,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="flex flex-wrap -mx-3 mb-2">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <label

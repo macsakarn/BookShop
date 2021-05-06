@@ -63,11 +63,7 @@ export default {
     },
     async sendData(data) {
       try {
-        const headers = {}
-        headers['Authorization'] = window.$nuxt.$auth.strategy.token.get(
-          'local'
-        )
-        let response = await this.$axios.post('/user/makeorder', data, headers)
+        let response = await this.$axios.post('/user/makeorder', data)
         alert(response.data.massage)
         this.$store.commit('cart/clear')
         this.$router.push({ name: 'index' })

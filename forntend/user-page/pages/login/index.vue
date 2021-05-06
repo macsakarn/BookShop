@@ -130,8 +130,9 @@ export default {
     async sendlogin(data) {
       try {
         let response = await this.$auth.loginWith('local', { data: data })
+        this.$axios.setToken(this.$auth.strategy.token.get())
         console.log(response)
-        $v.$reset
+        this.$v.$reset
         this.userLogin = ''
         this.userPassword = ''
       } catch (err) {

@@ -107,10 +107,10 @@ const OrderSQL = {
 
 
     user_get_order_by_id: `SELECT O.order_id, O.order_date, O.payment_status, O.payment_image, O.delivery_date, O.total_price, O.amount, O.ADMIN_admin_id, O.CUSTOMER_customer_id,
-                                    group_concat( OB.item_no separator ', ') as All_item_no, 
-                                    group_concat( OB.item_unit separator ', ' ) as All_item_unit, 
-                                    group_concat( OB.BOOK_book_id separator ', ') as All_Book_book_id,
-                                    group_concat( book_name separator ', ') as All_Book_name,
+                                    group_concat( OB.item_no separator '%') as All_item_no, 
+                                    group_concat( OB.item_unit separator '%' ) as All_item_unit, 
+                                    group_concat( OB.BOOK_book_id separator '%') as All_Book_book_id,
+                                    group_concat( book_name separator '%') as All_Book_name,
                                     C.customer_address as 'address',
                                     concat(customer_fname, ' ', customer_lname, ' ', customer_tel) as 'customer_name'
                                     FROM \`ORDER\` O 

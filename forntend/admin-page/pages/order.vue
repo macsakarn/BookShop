@@ -178,8 +178,6 @@ export default {
       // console.log("customer_name : "+ res.data.Order.customer_name);
       // console.log("customer_address : "+ res.data.Order.address);
 
-      console.log()
-
       this.order_detail.customer_name = res.data.Order.customer_name
       this.order_detail.customer_address = res.data.Order.address
 

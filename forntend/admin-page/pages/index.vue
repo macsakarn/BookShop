@@ -324,6 +324,7 @@ export default {
     async sendlogin(data) {
       try {
         let response = await this.$auth.loginWith('local', { data })
+        this.$axios.setToken(this.$auth.strategy.token.get())
         console.log(response)
         if (response.data.status) {
           this.$router.push({ name: 'home' })
