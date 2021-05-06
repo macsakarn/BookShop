@@ -49,7 +49,7 @@ router.post('/register', async (req, res, next) => {
     const dataObject = req.body;
     const valid = validateUserRegister(dataObject.customer, dataObject.account);
 
-    if(valid.customer_result === true && valid.account_result === true){
+    if (valid.customer_result === true && valid.account_result === true) {
         const regis = await Register("customer", dataObject);
         console.log(regis);
         if (regis.status === null) {
@@ -64,14 +64,14 @@ router.post('/register', async (req, res, next) => {
         console.log(valid);
         return res.send(valid)
     }
-   
+
 })
 
 router.post('/login', async (req, res, next) => {
     const dataObject = req.body;
     const valid = validateAdminUserLogin(dataObject);
 
-    if(valid.result === true) {
+    if (valid.result === true) {
         const login = await Login("customer", dataObject);
         console.log(login);
         if (login.status === false) {
@@ -91,7 +91,7 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/makeorder', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const dataObject = req.body;
-    const jwt_payload = ExtractToken( req.headers.authorization );
+    const jwt_payload = ExtractToken(req.headers.authorization);
     if (validateOrder(dataObject) && jwt_payload.role === 'customer') {
         const order = await MakeOrder(dataObject, jwt_payload.sub);
         res.json(order);
@@ -101,37 +101,37 @@ router.post('/makeorder', passport.authenticate('jwt', { session: false }), asyn
 
 
 
-router.get('/fetchOrder', passport.authenticate('jwt', { session: false }), async (req, res, next)=> {
-    const jwt_payload = ExtractToken( req.headers.authorization );
+router.get('/fetchOrder', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+    const jwt_payload = ExtractToken(req.headers.authorization);
     const id = jwt_payload.sub;
-    if(jwt_payload.role === "customer"){
+    if (jwt_payload.role === "customer") {
         const order = await UserFetchOrder(id)
         console.log("order result : ");
         console.log(order);
         res.json(order);
     }
     else {
-        res.status(401).json({status : false, massage: 'Unauthorize'})
+        res.status(401).json({ status: false, massage: 'Unauthorize' })
     }
 })
 
-router.delete('/order/delete', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
+router.delete('/order/delete', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const dataObject = req.body;
-    const jwt_payload = ExtractToken( req.headers.authorization );
-    if(jwt_payload.role === "customer"){
-       console.log("User delete order.....");        
-       const result = await UserDeleteOrder(dataObject, jwt_payload.sub);
-       console.log(result);
-       res.json(result);
+    const jwt_payload = ExtractToken(req.headers.authorization);
+    if (jwt_payload.role === "customer") {
+        console.log("User delete order.....");
+        const result = await UserDeleteOrder(dataObject, jwt_payload.sub);
+        console.log(result);
+        res.json(result);
     }
     else {
-        res.status(401).json({status : false, massage: 'Unauthorize'})
+        res.status(401).json({ status: false, massage: 'Unauthorize' })
     }
 })
 
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
-        callback(null, './static/uploads/invoice') // path to save file
+        callback(null, './static/invoice') // path to save file
     },
     filename: function (req, file, callback) {
         // set file name
@@ -142,7 +142,7 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 router.put('/invoice', passport.authenticate('jwt', { session: false }), upload.single('invoice_image'), async (req, res, next) => {
-    const jwt_payload = ExtractToken( req.headers.authorization );
+    const jwt_payload = ExtractToken(req.headers.authorization);
     var file = req.file;
     var invoice_image = ""
     if (!file) {
@@ -150,23 +150,36 @@ router.put('/invoice', passport.authenticate('jwt', { session: false }), upload.
     }
     if (jwt_payload.role === "customer") {
         const invoice_image = file.path.substr(6);
-        const database = poolData.getConnection();
+        console.log(req.body.orderId);
+        console.log(invoice_image);
+        console.log(jwt_payload.sub);
+        const database = await poolData.getConnection();
         await database.beginTransaction();
+
+
         try {
-            await database.query('INSERT INTO ORDER (payment_image) VALUES (?) WHERE order_id = ? AND CUSTOMER_customer_id = ?', [invoice_image,req.body.orderId, jwt_payload.sub])
+            await database.query(`
+                UPDATE \`ORDER\`
+                SET  payment_image = ?,
+                payment_status = 1
+                WHERE order_id = ? AND CUSTOMER_customer_id = ?`,
+                [invoice_image, req.body.orderId, jwt_payload.sub])
+
             await database.commit()
+            res.json({ massage: "Done image upload" });
         }
         catch (err) {
-            await connection.rollback();
+            await database.rollback();
             res.json({ massage: "Something Went Wrong !!!" });
             next(err);
         }
         finally {
-            connection.release()
+            console.log('end update image order');
+            database.release()
         }
     }
     else {
-        res.status(401).json({status : false, massage: 'Unauthorize'})
+        res.status(401).json({ status: false, massage: 'Unauthorize' })
     }
 
 })

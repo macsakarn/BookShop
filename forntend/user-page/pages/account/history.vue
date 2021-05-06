@@ -152,9 +152,17 @@ export default {
     deleteOrder(id) {
       console.log(id)
     },
-    updateOrder(event) {
-      this.images = event.target.files
-      console.log(this.updateId)
+    async updateOrder(event) {
+      let formData = new FormData()
+      formData.append('invoice_image', event.target.files[0])
+      formData.append('orderId', this.updateId)
+      this.updateId = 0
+      try {
+        let response = await this.$axios.put('/user/invoice', formData)
+        alert(response.data.massage)
+      } catch (err) {
+        console.log(err)
+      }
     },
   },
 }
