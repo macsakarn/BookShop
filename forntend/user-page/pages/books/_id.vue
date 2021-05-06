@@ -11,7 +11,9 @@
 
       <div class="w-3/4">
         <p class="text-2xl font-semibold py-3">{{ book.book_name }}</p>
-        <p class="text-2xl font-semibold text-blue-500">{{ book.price }} ฿</p>
+        <p class="text-2xl font-semibold text-blue-500">
+          {{ book.book_price }} ฿
+        </p>
         <p class="py-1">
           Author :
           <span
@@ -34,6 +36,7 @@
           Year : <span class="text-blue-500">{{ book.pb_year }}</span>
         </p>
         <div
+          @click="$store.commit('cart/add', book)"
           class="bg-yellow-500 hover:bg-yellow-600 py-3 px-3 rounded-md flex w-40 cursor-pointer mt-10"
         >
           <img src="~/assets/USER/cart/shopping_cart_white_24dp.svg" alt="" />
@@ -56,7 +59,6 @@ export default {
     console.log(book)
     return { book }
   },
-  mounted() {},
 }
 </script>
 

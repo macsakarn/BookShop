@@ -29,13 +29,14 @@
                 }"
                 v-model="$v.loginForm.username.$model"
               />
-              <div v-show="$v.loginForm.username.$error">
-                <p
-                  class="text-red-500 text-sm"
-                  v-show="!$v.loginForm.username.required"
-                >
+              <div
+                v-show="$v.loginForm.username.$error"
+                class="text-red-500 text-sm"
+              >
+                <p v-show="!$v.loginForm.username.required">
                   This field is required
                 </p>
+                <p v-show="!$v.loginForm.username.email">E-mail only</p>
               </div>
             </div>
             <div class="mt-8">
@@ -62,6 +63,18 @@
                   v-show="!$v.loginForm.password.required"
                 >
                   This field is required
+                </p>
+                <p
+                  class="text-red-500 text-sm"
+                  v-show="!$v.loginForm.password.minLength"
+                >
+                  Use at least 8 characters
+                </p>
+                <p
+                  class="text-red-500 text-sm"
+                  v-show="!$v.loginForm.password.complex"
+                >
+                  At least 1 UPPER CASE and 1 number
                 </p>
               </div>
             </div>
@@ -288,13 +301,32 @@ export default {
       },
     }
   },
+  created() {
+    if (this.$store.state.auth.loggedIn) {
+      this.$router.replace({ name: 'home' })
+    }
+  },
   validations: {
     loginForm: {
       username: {
         required,
+        email,
       },
       password: {
         required,
+        minLength: minLength(8),
+        complexPassword(value) {
+          if (
+            !(
+              value.match(/[a-z]/) &&
+              value.match(/[A-Z]/) &&
+              value.match(/[0-9]/)
+            )
+          ) {
+            return false
+          }
+          return true
+        },
       },
     },
     registerForm: {
@@ -330,7 +362,7 @@ export default {
           this.$router.push({ name: 'home' })
         }
       } catch (err) {
-        console.log(err)
+        alert("I can't find account")
       }
     },
     async sendRegister(data) {

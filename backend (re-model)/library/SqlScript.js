@@ -71,7 +71,7 @@ const sidebar = {
 module.exports.sidebar = sidebar;
 
 const fetchBookById = {
-    script: `SELECT B.book_id, B.book_name, B.pb_year, B.price, B.book_amount, B.book_image, B.description, B.popular, group_concat( DISTINCT(author_fname)," ",author_lname separator ', ') as author_name, GROUP_CONCAT(DISTINCT(type_name) SEPARATOR ', ') as type
+    script: `SELECT B.book_id, B.book_name, B.pb_year, B.price as book_price, B.book_amount, B.book_image, B.description, B.popular, group_concat( DISTINCT(author_fname)," ",author_lname separator ', ') as author_name, GROUP_CONCAT(DISTINCT(type_name) SEPARATOR ', ') as type
                 FROM BOOK B
                 LEFT JOIN BOOK_AUTHOR BA
                 ON B.book_id = BA.BOOK_book_id 
@@ -89,7 +89,7 @@ const fetchBookById = {
 module.exports.fetchBookById = fetchBookById;
 
 const OrderSQL = {
-    make_order: `INSERT INTO \`ORDER\` VALUES (0,CURRENT_DATE , 0, null, null, ?, ?, null, ?);
+    make_order: `INSERT INTO \`ORDER\` VALUES (0, DATE_FORMAT((CURDATE() + 1), "%Y-%m-%d") , 0, null, null, ?, ?, null, ?);
                                 SET @last_id_in_ORDER = LAST_INSERT_ID();
                                 SELECT @last_id_in_ORDER;
                                  `,
@@ -99,7 +99,7 @@ const OrderSQL = {
                                 where order_id = ?;`,
     update_payment: `update \`ORDER\` set payment_status = ? where order_id = ?`,
     update_order_delivery: `update \`ORDER\`
-                                 set delivery_date = ? 
+                                 set delivery_date = ADDDATE(?, INTERVAL 1 DAY)
                                  where order_id = ?;`,
     get_order_by_id: ` SELECT O.order_id, O.order_date, O.payment_status, O.payment_image, O.delivery_date, O.total_price, O.amount, O.ADMIN_admin_id, O.CUSTOMER_customer_id,
                                 group_concat( OB.item_no separator ', ') as All_item_no, 
@@ -136,9 +136,9 @@ const OrderSQL = {
                                     WHERE O.CUSTOMER_customer_id = ?
                                     GROUP BY O.order_id`,
 
-    fetchAllOrder: `SELECT * FROM \`ORDER\` ORDER BY Admin_admin_id`,
+    fetchAllOrder: `SELECT *, 0 as \`dropdown\` FROM \`ORDER\` ORDER BY Admin_admin_id`,
     cus_edit_order: `update ORDER
-                                set order_date = CURRENT_DATE, payment_image = ?, 
+                                set order_date = DATE_FORMAT((CURDATE() + 1), "%Y-%m-%d"), payment_image = ?, 
                                 ,total_price = ?
                                 where order_id = ?;
                                 `
@@ -162,7 +162,7 @@ const ChartSQL = {
     money: `SELECT SUM(total_price) AS revenue FROM \`ORDER\` WHERE payment_status = 1;`,
     amountBook: `SELECT COUNT(book_id) AS amountBook FROM BOOK;`,
     allOrder: `SELECT COUNT(order_id) AS allOrder FROM \`ORDER\`;`,
-    day_money: `SELECT SUM(total_price) As dailyRevenue FROM \`ORDER\` WHERE order_date = CURRENT_DATE and payment_status=1;`,
+    day_money: `SELECT SUM(total_price) As dailyRevenue FROM \`ORDER\` WHERE order_date = DATE_FORMAT((CURDATE() + 1), "%Y-%m-%d") and payment_status=1;`,
 }
 
 module.exports.ChartSQL = ChartSQL;

@@ -176,7 +176,11 @@
                   {{ order.CUSTOMER_customer_id }}
                 </td>
                 <td class="border px-4 py-2">
-                  {{ order.order_date }}
+                  {{
+                    order.order_date === null
+                      ? order.order_date
+                      : order.order_date.split('T')[0]
+                  }}
                 </td>
                 <td class="border px-4 py-2">{{ order.amount }}</td>
                 <td class="border px-4 py-2 truncate">
@@ -189,7 +193,11 @@
                   <span class="text-red-600" v-else> No </span>
                 </td>
                 <td class="border px-4 py-2">
-                  {{ order.delivery_date }}
+                  {{
+                    order.delivery_date === null
+                      ? order.delivery_date
+                      : order.delivery_date.split('T')[0]
+                  }}
                 </td>
                 <td class="border px-4 py-2">{{ order.ADMIN_admin_id }}</td>
                 <td class="border px-4 py-2">
@@ -201,32 +209,44 @@
                       class="inline mx-3 cursor-pointer"
                       @click="checkInvoice(order)"
                     />
-                    <img
-                      src="~/assets/local_shipping_black_24dp.svg"
-                      alt="delivery order"
-                      class="inline mx-3 cursor-pointer"
-                      @click="testdrop = !testdrop"
-                    />
-                    <transition name="fade">
-                      <div
-                        v-if="testdrop"
-                        class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                      >
-                        <div class="py-1">
-                          <div class="flex">
-                            <input
-                              type="date"
-                              class="text-gray-700 block py-2"
-                            />
-                            <button
-                              class="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-2"
-                            >
-                              Done
-                            </button>
+                    <template
+                      v-if="
+                        order.payment_status !== 0 &&
+                        order.delivery_date === null
+                      "
+                    >
+                      <img
+                        src="~/assets/local_shipping_black_24dp.svg"
+                        alt="delivery order"
+                        class="inline mx-3 cursor-pointer"
+                        @click="
+                          order.dropdown = !order.dropdown
+                          newDate = ''
+                        "
+                      />
+                      <transition name="fade">
+                        <div
+                          v-if="order.dropdown"
+                          class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        >
+                          <div class="py-1">
+                            <div class="flex">
+                              <input
+                                v-model="newDate"
+                                type="date"
+                                class="text-gray-700 block py-2"
+                              />
+                              <button
+                                @click="updateDate(order.order_id)"
+                                class="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-2"
+                              >
+                                Done
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </transition>
+                      </transition>
+                    </template>
 
                     <img
                       src="~/assets/receipt_long_black_24dp.svg"
@@ -249,9 +269,18 @@
 
 <script>
 import * as BookApi from '@/utils/orderApi'
+var dateFormat = require('dateformat')
 export default {
   middleware: 'auth',
+  async asyncData({ $axios }) {
+    var orders = []
+    try {
+      const data = await $axios.$get('/admin/order/fetchAllOrder')
+      orders = data.allOrder
+    } catch (error) {}
 
+    return { orders }
+  },
   data() {
     return {
       orders: [],
@@ -266,21 +295,15 @@ export default {
         id: '',
         price: 0,
       },
+      newDate: '',
       modelConfirm: false,
       testdrop: false,
     }
   },
-  async mounted() {
-    try {
-      const res = await BookApi.getOrders()
-      console.log(res.data.allOrder)
-      this.orders = res.data.allOrder
-    } catch (error) {
-      this.orders = []
-    }
-  },
+
   methods: {
     async beforDetail(order_id) {
+      this.order_detail.detail = []
       const res = await BookApi.getDetail(order_id)
 
       this.order_detail.customer_name = res.data.Order.customer_name
@@ -317,11 +340,25 @@ export default {
       try {
         let response = await this.$axios.put(`admin/order/edit`, data)
 
-        alert(response.massage)
+        alert(response.data.massage)
+        this.$router.go()
       } catch (err) {
         console.log(err)
       }
       this.modelConfirm = false
+    },
+    async updateDate(id) {
+      const data = {
+        choice: 'daily',
+        delivery_date: dateFormat(this.newDate, 'yyyy-mm-dd'),
+        order_id: id,
+      }
+      try {
+        let response = await this.$axios.put(`admin/order/edit`, data)
+        alert(response.data.massage)
+      } catch (err) {
+        console.log(err)
+      }
     },
   },
 }

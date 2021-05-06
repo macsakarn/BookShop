@@ -7,7 +7,7 @@ async function MakeOrderFromDel(data, sub) {
     const database = await poolData.getConnection();
     database.beginTransaction();
     try {
-        const OrderId = await database.query(`INSERT INTO \`ORDER\` VALUES (?,CURRENT_DATE , 0, null, null, ?, ?, null, ?);
+        const OrderId = await database.query(`INSERT INTO \`ORDER\` VALUES (?, DATE_FORMAT((CURDATE() + 1), "%Y-%m-%d"), 0, null, null, ?, ?, null, ?);
         SET @last_id_in_ORDER = LAST_INSERT_ID(); SELECT @last_id_in_ORDER;`, [data.orderId, data.totalPrice, data.amount, data.customerId]);
         if (OrderId[0][0].insertId) {
             data.books.forEach(async data => {
@@ -224,7 +224,7 @@ async function UserDeleteOrder(data, id) {
         }
     }
     catch (err) {
-        database.rollback();
+        await database.rollback();
         console.log(err);
         return { status: false, massage: "Somethings went wrong", error: err };
     }

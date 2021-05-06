@@ -648,7 +648,7 @@
     ></div>
     <section>
       <adminDashBoard class="mb-4 mx-2" />
-      <div class="hero bg-white mx-4">
+      <div class="hero bg-white mx-4 mb-64">
         <div class="top-bar flex justify-between">
           <form class="w-full max-w-sm">
             <div class="flex items-center py-2 px-3">
@@ -658,11 +658,6 @@
                 type="text"
                 placeholder="Search"
                 v-model="search"
-              />
-              <img
-                src="~/assets/ADMIN/Filter.svg"
-                alt=""
-                class="mt-1 cursor-pointer"
               />
             </div>
           </form>
@@ -758,12 +753,11 @@
 
 <script>
 import { required, minValue, minLength } from 'vuelidate/lib/validators'
-import * as BookApi from '@/utils/bookApi'
 
 export default {
   middleware: 'auth',
   async asyncData({ $axios }) {
-    const bookAll = await $axios.$get('/public/fetchAllBooks')
+    const bookAll = await $axios.$get('/admin/fetchAllBooks')
     console.log(bookAll)
     return { bookAll }
   },
@@ -844,9 +838,15 @@ export default {
   },
   computed: {
     books() {
-      const books = this.bookAll.filter((val) =>
-        val.book_name.includes(this.search)
-      )
+      var books = []
+      try {
+        books = this.bookAll.filter((val) =>
+          val.book_name.toLowerCase().includes(this.search.toLowerCase())
+        )
+      } catch (error) {
+        this.$router.go()
+      }
+
       return books
     },
     urlImage() {
@@ -871,23 +871,42 @@ export default {
     //Add Book to database method (need module axios)
     async addBook(book) {
       this.clear()
-      const res = await BookApi.addbook(book)
-      alert(res.data.massage)
-      this.$router.go()
+      try {
+        let response = await this.$axios.post(`/admin/book/addBook`, book)
+        alert(response.data.massage)
+
+        this.$router.go()
+      } catch (err) {
+        console.log(err)
+      }
     },
     //Update Book to database method (need module axios)
     async updateBook(book) {
       const bookid = this.bookID
-      const res = await BookApi.updatebook(bookid, book)
-      alert(res.data.massage)
+      try {
+        let response = await this.$axios.put(
+          `/admin/book/updatebook/${bookid}`,
+          book
+        )
+        alert(response.data.massage)
+
+        this.$router.go()
+      } catch (err) {
+        console.log(err)
+      }
       this.clear()
     },
     //DELETE Book to database method (need module axios)
     async deleteBook(id, index) {
       this.clear()
-      const res = await BookApi.deletebook(id)
-      this.bookAll.splice(index, 1)
-      alert(res.data.massage)
+      try {
+        let response = await this.$axios.delete(`/admin/book/deletebook/${id}`)
+        alert(response.data.massage)
+        this.bookAll.splice(index, 1)
+        this.$router.go()
+      } catch (err) {
+        console.log(err)
+      }
     },
     selectImages(event) {
       this.images = null
@@ -958,7 +977,7 @@ export default {
       this.bookName = book.book_name
       this.bookDate = book.pb_year
       this.bookDescription = book.description
-      this.bookPrice = book.price
+      this.bookPrice = book.book_price
       this.bookAmount = book.book_amount
       this.bookpopular = book.popular
       this.images = book.book_image

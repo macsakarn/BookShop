@@ -21,7 +21,7 @@
             <div class="mt-12">
               <div>
                 <div class="text-sm font-bold text-gray-700 tracking-wide">
-                  Username or email address
+                  Email address
                 </div>
                 <input
                   class="w-full border-2 p-3 rounded outline-none"
@@ -33,13 +33,9 @@
                   }"
                   v-model="$v.userLogin.$model"
                 />
-                <div v-show="$v.userLogin.$error">
-                  <p
-                    class="text-red-500 text-sm"
-                    v-show="!$v.userLogin.required"
-                  >
-                    This field is required
-                  </p>
+                <div v-show="$v.userLogin.$error" class="text-red-500 text-sm">
+                  <p v-show="!$v.userLogin.required">This field is required</p>
+                  <p v-show="!$v.userLogin.email">E-mail only</p>
                 </div>
               </div>
               <div class="mt-8">
@@ -74,6 +70,18 @@
                   >
                     This field is required
                   </p>
+                  <p
+                    class="text-red-500 text-sm"
+                    v-show="!$v.userPassword.minLength"
+                  >
+                    Use at least 8 characters
+                  </p>
+                  <p
+                    class="text-red-500 text-sm"
+                    v-show="!$v.userPassword.complex"
+                  >
+                    At least 1 UPPER CASE and 1 number
+                  </p>
                 </div>
               </div>
               <div class="mt-10">
@@ -104,7 +112,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators'
+import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default {
   data() {
@@ -116,9 +124,23 @@ export default {
   validations: {
     userLogin: {
       required,
+      email,
     },
     userPassword: {
       required,
+      minLength: minLength(8),
+      complexPassword(value) {
+        if (
+          !(
+            value.match(/[a-z]/) &&
+            value.match(/[A-Z]/) &&
+            value.match(/[0-9]/)
+          )
+        ) {
+          return false
+        }
+        return true
+      },
     },
   },
   created() {
@@ -136,6 +158,7 @@ export default {
         this.userLogin = ''
         this.userPassword = ''
       } catch (err) {
+        alert("I can't find account")
         console.log(err)
       }
     },
