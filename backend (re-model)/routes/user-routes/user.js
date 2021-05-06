@@ -145,6 +145,9 @@ router.put('/invoice', passport.authenticate('jwt', { session: false }), upload.
     const jwt_payload = ExtractToken( req.headers.authorization );
     var file = req.file;
     var invoice_image = ""
+    if (!file) {
+        return res.status(400).json({ message: "Please upload a file" });
+    }
     if (jwt_payload.role === "customer") {
         const invoice_image = file.path.substr(6);
         const database = poolData.getConnection();
