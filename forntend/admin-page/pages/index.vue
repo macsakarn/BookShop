@@ -6,7 +6,7 @@
         v-if="!showRegister"
         class="w-1/4 bg-gray-200 rounded-lg shadow-2xl absolute hero"
       >
-        <div class="my-5 mx-10">
+        <form class="my-5 m-10" @submit.prevent>
           <h2
             class="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl xl:text-bold"
           >
@@ -55,6 +55,7 @@
                   'focus:border-purple-500 border-gray-200 ': !$v.loginForm
                     .password.$error,
                 }"
+                @keyup.enter="login"
                 v-model="$v.loginForm.password.$model"
               />
               <div v-show="$v.loginForm.password.$error">
@@ -98,7 +99,7 @@
               >
             </div>
           </div>
-        </div>
+        </form>
       </div>
       <div
         v-else

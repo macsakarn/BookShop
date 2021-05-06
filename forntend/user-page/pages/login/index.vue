@@ -10,7 +10,7 @@
         />
       </div>
       <div class="w-1/2 bg-gray-200 rounded-lg shadow-lg ml-32">
-        <div class="mx-10 my-10">
+        <form class="mx-10 my-10" @submit.prevent>
           <div class="my-5 mx-10">
             <h2
               class="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl xl:text-bold"
@@ -32,6 +32,7 @@
                       .$error,
                   }"
                   v-model="$v.userLogin.$model"
+                  @keyup.enter="login"
                 />
                 <div v-show="$v.userLogin.$error" class="text-red-500 text-sm">
                   <p v-show="!$v.userLogin.required">This field is required</p>
@@ -105,7 +106,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </main>
   </div>

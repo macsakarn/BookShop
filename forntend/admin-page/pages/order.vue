@@ -323,6 +323,7 @@ export default {
         })
       })
       this.model = true
+      console.log(this.order_detail)
     },
     async checkInvoice(o) {
       this.modelConfirm = true
