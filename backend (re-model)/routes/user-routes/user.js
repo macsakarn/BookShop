@@ -92,9 +92,12 @@ router.post('/login', async (req, res, next) => {
 router.post('/makeorder', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const dataObject = req.body;
     const jwt_payload = ExtractToken(req.headers.authorization);
-    if (validateOrder(dataObject) && jwt_payload.role === 'customer') {
+    if (validateOrder(dataObject) === true && jwt_payload.role === 'customer') {
         const order = await MakeOrder(dataObject, jwt_payload.sub);
         res.json(order);
+    }
+    else {
+        res.status("400").json({ massage: "Found ivalid validate" })
     }
 
 })
@@ -115,12 +118,11 @@ router.get('/fetchOrder', passport.authenticate('jwt', { session: false }), asyn
     }
 })
 
-router.delete('/order/delete', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
-    const dataObject = req.body;
+router.delete('/order/delete/:id', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const jwt_payload = ExtractToken(req.headers.authorization);
     if (jwt_payload.role === "customer") {
         console.log("User delete order.....");
-        const result = await UserDeleteOrder(dataObject, jwt_payload.sub);
+        const result = await UserDeleteOrder(req.params.id, jwt_payload.sub);
         console.log(result);
         res.json(result);
     }

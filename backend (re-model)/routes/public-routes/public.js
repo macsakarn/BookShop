@@ -7,6 +7,7 @@ const router = require('express').Router();
 router.get('/fetchAllBooks', async (req, res, next) => {
     console.log("Begin fetchAllBooks Process...");
     const books = await getSomethings(fetchAllBooks.script)
+    // console.log(books);
 
     books[0].forEach(val => {
         const author = val.author_name.split(', ')
@@ -48,7 +49,7 @@ router.get('/popbook', async (req, res, next) => {
         next(err);
     } finally {
         console.log("End Process send author data")
-    
+
     }
 })
 

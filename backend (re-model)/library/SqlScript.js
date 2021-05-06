@@ -39,10 +39,22 @@ const fetchAllBooks = {
     SELECT book_id, book_name, pb_year, price as book_price, book_amount, book_image, description, popular, group_concat( DISTINCT(author_fname)," ",author_lname separator ', ') as author_name, GROUP_CONCAT(DISTINCT(type_name) SEPARATOR ', ') as type
     ,0 as inCart
     FROM BOOK,BOOK_AUTHOR,AUTHOR,BOOK_TYPE,BOOK_BOOK_TYPE
+    WHERE BOOK.book_id = BOOK_AUTHOR.BOOK_book_id AND BOOK_AUTHOR.AUTHOR_author_id = AUTHOR.author_id AND BOOK.book_id = BOOK_BOOK_TYPE.Book_book_id AND BOOK_BOOK_TYPE.BOOK_TYPE_type_id = BOOK_TYPE.type_id AND book_amount > 0
+    GROUP BY BOOK.book_id`,
+    params: null,
+}
+
+const fetchAllBooksAdmin = {
+    script: `
+    SELECT book_id, book_name, pb_year, price as book_price, book_amount, book_image, description, popular, group_concat( DISTINCT(author_fname)," ",author_lname separator ', ') as author_name, GROUP_CONCAT(DISTINCT(type_name) SEPARATOR ', ') as type
+    ,0 as inCart
+    FROM BOOK,BOOK_AUTHOR,AUTHOR,BOOK_TYPE,BOOK_BOOK_TYPE
     WHERE BOOK.book_id = BOOK_AUTHOR.BOOK_book_id AND BOOK_AUTHOR.AUTHOR_author_id = AUTHOR.author_id AND BOOK.book_id = BOOK_BOOK_TYPE.Book_book_id AND BOOK_BOOK_TYPE.BOOK_TYPE_type_id = BOOK_TYPE.type_id
     GROUP BY BOOK.book_id`,
     params: null,
 }
+
+module.exports.fetchAllBooksAdmin = fetchAllBooksAdmin;
 
 module.exports.fetchAllBooks = fetchAllBooks;
 
@@ -85,6 +97,7 @@ const OrderSQL = {
     update_order_admin: `update \`ORDER\`
                                 set ADMIN_admin_id= ? 
                                 where order_id = ?;`,
+    update_payment: `update \`ORDER\` set payment_status = ? where order_id = ?`,
     update_order_delivery: `update \`ORDER\`
                                  set delivery_date = ? 
                                  where order_id = ?;`,
@@ -123,7 +136,7 @@ const OrderSQL = {
                                     WHERE O.CUSTOMER_customer_id = ?
                                     GROUP BY O.order_id`,
 
-    fetchAllOrder: `SELECT * FROM \`ORDER\``,
+    fetchAllOrder: `SELECT * FROM \`ORDER\` ORDER BY Admin_admin_id`,
     cus_edit_order: `update ORDER
                                 set order_date = CURRENT_DATE, payment_image = ?, 
                                 ,total_price = ?
@@ -146,10 +159,10 @@ const OrderParams = {
 module.exports.OrderParams = OrderParams;
 
 const ChartSQL = {
-    money: `SELECT SUM(total_price) AS revenue FROM \`ORDER\`;`,
+    money: `SELECT SUM(total_price) AS revenue FROM \`ORDER\` WHERE payment_status = 1;`,
     amountBook: `SELECT COUNT(book_id) AS amountBook FROM BOOK;`,
     allOrder: `SELECT COUNT(order_id) AS allOrder FROM \`ORDER\`;`,
-    day_money: `SELECT SUM(total_price) As dailyRevenue FROM \`ORDER\` WHERE order_date = CURRENT_DATE;`,
+    day_money: `SELECT SUM(total_price) As dailyRevenue FROM \`ORDER\` WHERE order_date = CURRENT_DATE and payment_status=1;`,
 }
 
 module.exports.ChartSQL = ChartSQL;

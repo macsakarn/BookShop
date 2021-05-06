@@ -73,7 +73,7 @@
             </div>
           </div>
 
-          <div class="flex">
+          <div class="flex" v-if="history.payment_status === 0">
             <div class="overflow-hidden relative w-3/4 mt-4 pr-3">
               <button
                 class="bg-teal-400 hover:bg-teal-500 text-white font-bold py-2 px-4 w-full inline-flex items-center"
@@ -130,6 +130,7 @@ export default {
       model: false,
       order_detail: [],
       updateId: 0,
+      orders: [],
     }
   },
   methods: {
@@ -149,8 +150,13 @@ export default {
       this.model = false
       this.order_detail = []
     },
-    deleteOrder(id) {
-      console.log(id)
+    async deleteOrder(id) {
+      try {
+        let response = await this.$axios.delete(`user/order/delete/${id}`)
+        alert(response.data.massage)
+      } catch (err) {
+        console.log(err)
+      }
     },
     async updateOrder(event) {
       let formData = new FormData()
