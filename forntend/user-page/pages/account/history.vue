@@ -41,7 +41,6 @@
         </div>
       </div>
     </div>
-
     <p class="text-center text-2xl border-b-2 border-gray-400 pb-4">History</p>
     <section class="All-History grid gap-y-5 gap-x-3 grid-cols-3 mt-10">
       <div
@@ -50,52 +49,62 @@
         :key="index"
       >
         <div class="p-3">
-          <div class="Top">
-            <p>Order #{{ history.order_id }}</p>
-            <p class="text-gray-500 text-sm">
-              {{ history.order_date.split('T')[0] }}
-            </p>
-          </div>
-          <div class="flex justify-between mt-8">
-            <div>
-              <p>total : {{ history.total_price }}฿</p>
-              <p>
-                Payment
-                <span class="text-green-500" v-if="history.payment_status === 1"
-                  >Yes</span
-                >
-                <span class="text-red-500" v-else>No</span>
+          <div class="container" @click="showDatil(index)">
+            <div class="Top">
+              <p class="text-xl">Order #{{ history.order_id }}</p>
+              <p class="text-gray-500 text-sm">
+                {{ history.order_date.split('T')[0] }}
               </p>
-              <p class="">Delivery Date: {{ history.delivery_date }}</p>
             </div>
-
-            <button
-              @click="showDatil(index)"
-              class="bg-yellow-400 hover:bg-yellow-500 py-2 px-2 rounded-md text-white"
-            >
-              Detail
-            </button>
+            <div class="flex justify-between mt-4">
+              <div>
+                <p>total : {{ history.total_price }}฿</p>
+                <p>
+                  Payment
+                  <span
+                    class="text-green-500"
+                    v-if="history.payment_status === 1"
+                    >Yes</span
+                  >
+                  <span class="text-red-500" v-else>No</span>
+                </p>
+                <p class="">Delivery Date: {{ history.delivery_date }}</p>
+              </div>
+            </div>
           </div>
-          <div class="overflow-hidden relative w-full mt-4">
-            <button
-              class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 w-full inline-flex items-center"
-            >
-              <svg
-                fill="#FFF"
-                height="18"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
+
+          <div class="flex">
+            <div class="overflow-hidden relative w-3/4 mt-4 pr-3">
+              <button
+                class="bg-teal-400 hover:bg-teal-500 text-white font-bold py-2 px-4 w-full inline-flex items-center"
               >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
-              </svg>
-              <span class="ml-2">Uplord Payment </span>
-            </button>
-            <input
-              class="cursor-pointer absolute block opacity-0 right-0 top-0"
-              type="file"
-            />
+                <svg
+                  fill="#FFF"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+                </svg>
+                <span class="ml-2">Uplord Payment </span>
+              </button>
+              <input
+                @change="updateOrder"
+                @click="updateId = history.order_id"
+                class="cursor-pointer absolute block opacity-0 right-0 top-0"
+                type="file"
+              />
+            </div>
+            <div class="overflow-hidden relative w-1/4 mt-4">
+              <button
+                @click="deleteOrder(history.order_id)"
+                class="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-2 w-full"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -106,26 +115,28 @@
 <script>
 export default {
   middleware: 'auth',
+  async asyncData({ $axios }) {
+    try {
+      const data = await $axios.$get('/user/fetchOrder', {})
+      var orders = data.Order
+    } catch (error) {
+      console.log(error)
+      var orders = []
+    }
+    return { orders }
+  },
   data() {
     return {
       model: false,
-      orders: [],
       order_detail: [],
+      updateId: 0,
     }
-  },
-  async mounted() {
-    const headers = {}
-    headers['Authorization'] = window.$nuxt.$auth.strategy.token.get('local')
-    const orders = await this.$axios.get('/user/fetchOrder', {}, headers)
-    console.log(orders.data.Order)
-    this.orders = orders.data.Order
   },
   methods: {
     showDatil(index) {
       this.model = true
-      const name = this.orders[index].All_Book_name.split(', ')
-      const qty = this.orders[index].All_item_unit.split(', ')
-
+      const name = this.orders[index].All_Book_name.split('%')
+      const qty = this.orders[index].All_item_unit.split('%')
       console.log(this.order_detail)
       name.forEach((val, index) => {
         this.order_detail.push({
@@ -137,6 +148,13 @@ export default {
     clear() {
       this.model = false
       this.order_detail = []
+    },
+    deleteOrder(id) {
+      console.log(id)
+    },
+    updateOrder(event) {
+      this.images = event.target.files
+      console.log(this.updateId)
     },
   },
 }
