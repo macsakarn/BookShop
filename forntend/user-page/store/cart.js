@@ -6,11 +6,28 @@ export const state = () => ({
 
 export const mutations = {
     add(state, book) {
-        book.book_amount = 1
-        state.list.push(book)
-        state.countCart++
-        state.total += book.book_price
-        console.log(state.total);
+        var isDuplicate = false
+        try {
+            const values = state.list.map((item) => item.book_id)
+            isDuplicate = values.some(item => {
+                console.log(`${item} : ${book.book_id}`)
+                return item == book.book_id
+            })
+
+
+        } catch (error) {
+
+        }
+        if (!isDuplicate) {
+            book.book_amount = 1
+            state.list.push(book)
+            state.countCart++
+            state.total += book.book_price
+        } else {
+            alert('Book is Duplicate')
+        }
+
+
     },
     delete(state, index) {
         console.log(state.list[index].book_amount);

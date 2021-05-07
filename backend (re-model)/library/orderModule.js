@@ -41,18 +41,28 @@ async function MakeOrder(data, sub) {
     const database = await poolData.getConnection();
     database.beginTransaction();
     try {
-        const OrderId = await database.query(OrderSQL.make_order, eval(OrderParams.make_order));
-        if (OrderId[0][0].insertId) {
-            data.books.forEach(async data => {
-                console.log(data);
-                await database.query(OrderSQL.make_order_book, eval(OrderParams.make_order_book));
-                await database.query(`UPDATE BOOK SET book_amount = book_amount - ? WHERE book_id = ?`, [data.book_amount, data.book_id]);
-            });
+        const values = data.books.map((item) => item.book_id)
+        const isDuplicate = values.some(item => {
+            return item == item.book_id
+        })
+        if (isDuplicate === true) {
+            return { status: false, massage: "Something went wrong in Order May be have a duplicate book in order" }
         }
-        await database.commit();
-        console.log("Now order save to database");
-        console.log("Make an order Success, result : true");
-        return { status: true, massage: "Order Success", order_id: OrderId[0][0].insertId };
+        else {
+            const OrderId = await database.query(OrderSQL.make_order, eval(OrderParams.make_order));
+            if (OrderId[0][0].insertId) {
+                data.books.forEach(async data => {
+                    console.log(data);
+                    await database.query(OrderSQL.make_order_book, eval(OrderParams.make_order_book));
+                    await database.query(`UPDATE BOOK SET book_amount = book_amount - ? WHERE book_id = ?`, [data.book_amount, data.book_id]);
+                });
+            }
+            await database.commit();
+            console.log("Now order save to database");
+            console.log("Make an order Success, result : true");
+            return { status: true, massage: "Order Success", order_id: OrderId[0][0].insertId };
+        }
+
     }
     catch (err) {
         await database.rollback();

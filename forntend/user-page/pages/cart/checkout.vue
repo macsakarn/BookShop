@@ -59,14 +59,19 @@ export default {
         totalPrice: this.$store.state.cart.total,
         amount: this.$store.state.cart.countCart,
       }
+      console.log(data)
       this.sendData(data)
     },
     async sendData(data) {
       try {
         let response = await this.$axios.post('/user/makeorder', data)
         alert(response.data.massage)
-        this.$store.commit('cart/clear')
-        this.$router.push({ name: 'index' })
+        console.log(response)
+
+        if (response.data.status) {
+          this.$router.push({ name: 'index' })
+          this.$store.commit('cart/clear')
+        }
       } catch (err) {
         console.log(err)
       }

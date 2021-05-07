@@ -154,6 +154,7 @@ export default {
       try {
         let response = await this.$axios.delete(`user/order/delete/${id}`)
         alert(response.data.massage)
+        this.$router.go()
       } catch (err) {
         console.log(err)
       }
@@ -166,6 +167,7 @@ export default {
       try {
         let response = await this.$axios.put('/user/invoice', formData)
         alert(response.data.massage)
+        this.$router.go()
       } catch (err) {
         console.log(err)
       }

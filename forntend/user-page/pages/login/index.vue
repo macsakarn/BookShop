@@ -155,7 +155,7 @@ export default {
         let response = await this.$auth.loginWith('local', { data: data })
         this.$axios.setToken(this.$auth.strategy.token.get())
         console.log(response)
-        this.$v.$reset
+        this.$v.$reset()
         this.userLogin = ''
         this.userPassword = ''
       } catch (err) {
