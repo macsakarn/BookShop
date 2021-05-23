@@ -41,11 +41,11 @@ async function MakeOrder(data, sub) {
     const database = await poolData.getConnection();
     database.beginTransaction();
     try {
-        const values = data.books.map((item) => item.book_id)
-        const isDuplicate = values.some(item => {
-            return item == item.book_id
-        })
-        if (isDuplicate === true) {
+        const values = data.books.map((item) => { return item.book_id });
+        function check(arr) {
+            return new Set(arr).size !== values.length
+        }
+        if (check(values) === true) {
             return { status: false, massage: "Something went wrong in Order May be have a duplicate book in order" }
         }
         else {

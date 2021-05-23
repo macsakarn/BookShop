@@ -47,8 +47,6 @@ router.post('/register', async (req, res, next) => {
         console.log(valid);
         return res.send(valid);
     }
-
-
 })
 
 

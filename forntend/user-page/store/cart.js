@@ -1,7 +1,7 @@
 export const state = () => ({
     list: [],
     countCart: 0,
-    total: 0,
+    total: 0.00,
 })
 
 export const mutations = {
